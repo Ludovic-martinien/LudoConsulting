@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { SiteShell } from "@/components/site-shell";
 import "./globals.css";
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
     template: "%s | Ludo_Consulting",
   },
   description: "Développement informatique, intelligence artificielle, formation, cybersécurité, création graphique et accompagnement digital au Gabon.",
-  icons: { icon: [{ url: "/brand/ludo-mark.svg", type: "image/svg+xml" }, { url: "/icon.svg", type: "image/svg+xml" }], apple: "/brand/ludo-mark.svg" },
+  manifest: "/manifest.webmanifest",
+  icons: { icon: [{ url: "/brand/ludo-consulting.svg", type: "image/svg+xml" }, { url: "/icon.svg", type: "image/svg+xml" }], apple: "/icons/apple-touch-icon.png" },
   openGraph: {
     title: "Ludo_Consulting — Innover · Développer · Réussir",
     description: "Votre partenaire pour vos projets numériques, votre formation et votre réussite professionnelle.",
@@ -20,6 +21,10 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: { card: "summary_large_image" },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0b1d3a",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

@@ -395,7 +395,7 @@ export async function ensureEdulinkProject() {
   }
 
   await db.update(profiles).set({
-    logoUrl: "/brand/ludo-mark.svg",
+    logoUrl: "/brand/ludo-consulting.svg",
     profileImageUrl: "/images/responsable.webp",
   }).where(eq(profiles.id, 1));
   globalForSeed.__ludoEdulinkSeeded = true;
