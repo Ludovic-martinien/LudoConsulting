@@ -83,6 +83,28 @@ Ouvrir ensuite `/admin/login`. Les tentatives de connexion sont limitées. Les s
 
 Le modèle contient les rôles `admin`, `editor` et `sales`, et les routes vérifient les rôles côté serveur. Cette version s'authentifie avec un seul compte propriétaire configuré par environnement; une interface d'invitation et d'authentification multi-utilisateur n'est pas incluse. Ne pas ajouter d'autres comptes avant d'avoir choisi un mécanisme d'identité adapté.
 
+## Espace membre et connexion Google
+
+Les visiteurs peuvent créer un compte depuis l'en-tête ou le bandeau « Espace membre » de l'accueil, puis se connecter :
+- **E-mail + mot de passe** : fonctionne immédiatement, sans service externe. Mots de passe hachés en scrypt, sessions signées (cookie `ludo_member_session`, 30 jours), limitation des tentatives.
+- **Bouton Google** : nécessite des identifiants OAuth créés par le propriétaire du site (voir ci-dessous). Tant qu'ils sont absents, le bouton affiche un message l'indiquant et l'inscription e-mail reste disponible.
+
+### Activer la connexion Google (5 minutes)
+
+1. Ouvrir [Google Cloud Console](https://console.cloud.google.com/) → créer ou choisir un projet → **API et services → Écran d'autorisation OAuth** : choisir « Externe », renseigner nom de l'application, e-mail d'assistance et e-mail développeur, puis publier (ou ajouter des utilisateurs test).
+2. **API et services → Identifiants → Créer des identifiants → ID client OAuth** : type « Application Web ».
+3. Dans **URI de redirection autorisés**, ajouter exactement (une ligne par environnement) :
+   - `https://VOTRE-DOMAINE/api/auth/google/callback` (production)
+   - l'URL de prévisualisation `https://....e2b.app/api/auth/google/callback` (bac à sable)
+   - `http://localhost:3000/api/auth/google/callback` (développement local)
+4. Copier l'**ID client** et le **Secret client** dans l'environnement du site :
+   - `GOOGLE_CLIENT_ID=...apps.googleusercontent.com`
+   - `GOOGLE_CLIENT_SECRET=...`
+5. Redéployer / redémarrer. Vérifier `GET /api/auth/providers` : `"google": true`.
+6. Tester : cliquer « Continuer avec Google », choisir un compte, vérifier le retour sur l'accueil avec le profil connecté.
+
+Notes : les comptes Google sont créés dans la table `users` (`provider = 'google'`, sans mot de passe). Si un visiteur s'était déjà inscrit avec le même e-mail, son compte existant est relié à Google au lieu d'être dupliqué. Le paramètre anti-CSRF `state` est signé et limité à 10 minutes.
+
 ## Migrations et déploiement Vercel
 
 Le schéma est décrit dans `src/db/schema.ts`. Pour générer des migrations versionnées après une évolution du schéma :

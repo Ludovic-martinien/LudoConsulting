@@ -7,6 +7,7 @@ import { useState } from "react";
 import { navigation, siteInfo } from "@/lib/site";
 import { LanguageToggle, useLanguage } from "@/components/language-provider";
 import { BrandLockup } from "@/components/brand";
+import { AuthButtons } from "@/components/member-auth";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -23,13 +24,14 @@ export function SiteHeader() {
               {text(item.fr, item.en)}
             </Link>
           ))}
-          <div className="mobile-nav-actions"><LanguageToggle /></div>
+          <div className="mobile-nav-actions"><LanguageToggle /><AuthButtons /></div>
           <Link href="/quote" className="button button-primary nav-mobile-cta" onClick={() => setMenuOpen(false)}>
             {text("Parler d’un projet", "Discuss a project")} <ArrowUpRight size={16} />
           </Link>
         </nav>
         <div className="nav-actions">
           <LanguageToggle compact />
+          <AuthButtons />
           <Link href="/quote" className="button button-primary nav-cta">
             {text("Parler d’un projet", "Discuss a project")} <ArrowUpRight size={16} />
           </Link>
