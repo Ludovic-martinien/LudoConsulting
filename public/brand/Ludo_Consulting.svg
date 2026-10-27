@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" role="img" aria-labelledby="lc-title lc-desc">
+  <title id="lc-title">Ludo_Consulting — Ingénieur logiciel et cybersécurité</title>
+  <desc id="lc-desc">Emblème circulaire bleu marine et or : monogramme LC en circuits imprimés, nuage, ordinateur, bouclier verrouillé, téléphone et flèche de croissance.</desc>
+  <defs>
+    <linearGradient id="lc-navy" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a4f9c"/>
+      <stop offset=".5" stop-color="#0b1d3a"/>
+      <stop offset="1" stop-color="#060f24"/>
+    </linearGradient>
+    <linearGradient id="lc-gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f9efc8"/>
+      <stop offset=".32" stop-color="#e2c275"/>
+      <stop offset=".62" stop-color="#b6893d"/>
+      <stop offset=".84" stop-color="#efd99e"/>
+      <stop offset="1" stop-color="#a97a2e"/>
+    </linearGradient>
+    <linearGradient id="lc-blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8cc7ff"/>
+      <stop offset=".45" stop-color="#2170e6"/>
+      <stop offset="1" stop-color="#0b2b66"/>
+    </linearGradient>
+    <linearGradient id="lc-silver" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".45" stop-color="#c9d8ef"/>
+      <stop offset=".75" stop-color="#8ea6c8"/>
+      <stop offset="1" stop-color="#e8f0fb"/>
+    </linearGradient>
+    <radialGradient id="lc-paper" cx=".42" cy=".32" r=".8">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".65" stop-color="#f2f7ff"/>
+      <stop offset="1" stop-color="#d9e6f9"/>
+    </radialGradient>
+    <path id="lc-arc-top" d="M 31 256 A 225 225 0 0 1 481 256" fill="none"/>
+    <path id="lc-arc-bottom" d="M 31 256 A 225 225 0 0 0 481 256" fill="none"/>
+    <path id="lc-arc-phone" d="M 106 256 A 150 150 0 0 0 406 256" fill="none"/>
+  </defs>
+
+  <circle cx="256" cy="256" r="250" fill="url(#lc-navy)"/>
+  <circle cx="256" cy="256" r="250" fill="none" stroke="url(#lc-gold)" stroke-width="3"/>
+  <circle cx="256" cy="256" r="240" fill="none" stroke="url(#lc-gold)" stroke-width="1.5" opacity=".7"/>
+  <circle cx="256" cy="256" r="225" fill="none" stroke="url(#lc-gold)" stroke-width="34"/>
+
+  <text fill="#0b1d3a" font-family="Arial, 'DejaVu Sans', 'Segoe UI', sans-serif" font-size="30" font-weight="800" letter-spacing="3">
+    <textPath xlink:href="#lc-arc-top" href="#lc-arc-top" startOffset="50%" text-anchor="middle">LUDO CONSULTING</textPath>
+  </text>
+  <text x="31" y="256" transform="rotate(-90 31 256)" text-anchor="middle" dominant-baseline="central" fill="#0b1d3a" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" letter-spacing="2">★ RG</text>
+  <text x="481" y="256" transform="rotate(90 481 256)" text-anchor="middle" dominant-baseline="central" fill="#0b1d3a" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" letter-spacing="2">RG ★</text>
+  <text fill="#0b1d3a" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="18.5" font-weight="800" letter-spacing="1.2">
+    <textPath xlink:href="#lc-arc-bottom" href="#lc-arc-bottom" startOffset="50%" text-anchor="middle">INGÉNIEUR LOGICIEL &amp; CYBERSÉCURITÉ</textPath>
+  </text>
+
+  <circle cx="256" cy="256" r="200" fill="url(#lc-paper)" stroke="url(#lc-gold)" stroke-width="5"/>
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#0b1d3a" stroke-width="1.5" opacity=".25"/>
+
+  <g fill="none" stroke="#2170e6" stroke-width="2.4" stroke-linecap="round" opacity=".8">
+    <path d="M 72 210 H 150 M 72 245 H 132 M 72 280 H 146 M 72 315 H 132"/>
+  </g>
+  <g fill="#c6a04f">
+    <circle cx="72" cy="210" r="4"/><circle cx="72" cy="245" r="4"/><circle cx="72" cy="280" r="4"/><circle cx="72" cy="315" r="4"/>
+  </g>
+
+  <path d="M 168 152 V 348 H 282" fill="none" stroke="#0b1d3a" stroke-width="44" stroke-linecap="round" stroke-linejoin="round" opacity=".18"/>
+  <path d="M 168 152 V 348 H 282" fill="none" stroke="url(#lc-blue)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 168 152 V 348 H 282" fill="none" stroke="#dcebff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/>
+  <g fill="#dcebff">
+    <circle cx="186" cy="200" r="5"/><circle cx="186" cy="252" r="5"/><circle cx="186" cy="304" r="5"/><circle cx="236" cy="330" r="5"/>
+  </g>
+
+  <path d="M 245 158 C 335 148 394 196 394 258 C 394 320 330 366 246 356" fill="none" stroke="url(#lc-silver)" stroke-width="32" stroke-linecap="round"/>
+  <path d="M 245 158 C 335 148 394 196 394 258 C 394 320 330 366 246 356" fill="none" stroke="#0b2b66" stroke-width="32" stroke-linecap="round" opacity=".12"/>
+  <g fill="#17458c">
+    <circle cx="300" cy="160" r="5"/><circle cx="352" cy="188" r="5"/><circle cx="378" cy="248" r="5"/><circle cx="352" cy="316" r="5"/><circle cx="296" cy="350" r="5"/>
+  </g>
+
+  <g>
+    <path d="M 305 208 L 342 221 V 254 C 342 282 326 300 305 309 C 284 300 268 282 268 254 V 221 Z" fill="#0b1d3a" stroke="url(#lc-gold)" stroke-width="3.5"/>
+    <rect x="293" y="250" width="24" height="19" rx="4" fill="#f6f9ff"/>
+    <path d="M 298 250 V 244 A 7 7 0 0 1 312 244 V 250" fill="none" stroke="#f6f9ff" stroke-width="3.2"/>
+    <circle cx="305" cy="259" r="2.6" fill="#17458c"/>
+  </g>
+
+  <g>
+    <path d="M 222 108 a 16 16 0 0 1 30 -6 a 13 13 0 0 1 17 12 a 12 12 0 0 1 -4 24 h -37 a 15 15 0 0 1 -6 -30 z" fill="url(#lc-blue)" stroke="#dcebff" stroke-width="2"/>
+    <path d="M 245 130 V 110 M 237 117 L 245 109 L 253 117" fill="none" stroke="#ffffff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g>
+    <rect x="336" y="92" width="62" height="42" rx="5" fill="#0b1d3a" stroke="url(#lc-gold)" stroke-width="2.5"/>
+    <text x="367" y="119" text-anchor="middle" font-family="'Courier New', monospace" font-size="14" font-weight="700" fill="#dcebff">&lt;/&gt;</text>
+    <path d="M 330 134 H 404 L 410 141 H 324 Z" fill="url(#lc-silver)"/>
+  </g>
+
+  <g>
+    <rect x="360" y="292" width="46" height="80" rx="8" fill="#0b1d3a" stroke="url(#lc-gold)" stroke-width="2.5"/>
+    <rect x="366" y="300" width="34" height="56" rx="3" fill="#12294f"/>
+    <text x="383" y="331" text-anchor="middle" font-family="'Courier New', monospace" font-size="13" font-weight="700" fill="#dcebff">&lt;/&gt;</text>
+    <circle cx="383" cy="364" r="2.4" fill="#dcebff"/>
+  </g>
+
+  <g>
+    <path d="M 292 388 C 360 362 410 312 422 240" fill="none" stroke="url(#lc-blue)" stroke-width="12" stroke-linecap="round"/>
+    <path d="M 408 230 L 428 220 L 420 250 Z" fill="url(#lc-blue)"/>
+  </g>
+
+  <text fill="#17458c" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="13" font-weight="700" letter-spacing="0.3">
+    <textPath xlink:href="#lc-arc-phone" href="#lc-arc-phone" startOffset="50%" text-anchor="middle">Tél : +241 62 641 120 / +241 77 022 306</textPath>
+  </text>
+</svg>

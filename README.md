@@ -34,6 +34,8 @@ Les images jointes à une conversation ne sont pas accessibles comme fichiers du
 
 Les fichiers sont stockés dans la table `uploaded_images` et servis par `/api/media/[kind]` avec un en-tête `X-Content-Type-Options: nosniff`. Les SVG ne sont pas acceptés en téléversement (risque d'exécution de script) : pour un logo vectoriel, placer le fichier dans `public/brand/projects/` et référencer son chemin dans le code.
 
+**Logo officiel du site** : `public/brand/Ludo_Consulting.svg` — recréation vectorielle fidèle de l'emblème officiel (anneau bleu marine et or, monogramme LC en circuits, nuage, ordinateur, bouclier verrouillé, téléphone, flèche de croissance, textes circulaires et numéros de téléphone). Utilisé dans l'en-tête, le pied de page, la connexion et comme favicon. Les déclinaisons PNG (`-192`, `-512`, `-180`, `-maskable-512`) sont générées depuis ce SVG et servent aussi d'icônes PWA. Pour installer le fichier officiel exact sans changer le code, remplacez simplement ce fichier en conservant son nom, puis régénérez les PNG.
+
 ### Point de nom à confirmer
 
 Le brief mentionne « **SateGabon** », tandis que le logo officiel fourni affiche « **SafeGabon** » (avec la signature « Sécurisez ce qui compte »). La présentation suit le logo fourni et affiche donc **SafeGabon**. Le nom définitif doit être confirmé avant diffusion ; un seul remplacement est alors nécessaire dans `src/lib/deck.ts` et dans le libellé du média correspondant.
@@ -102,6 +104,25 @@ l'indique honnêtement sur le site) :
 Limites assumées : aucun e-mail de vérification n'est envoyé sans service SMTP configuré ;
 l'e-mail des comptes Google est marqué vérifié (attesté par Google), celui des comptes
 e-mail ne l'est pas.
+
+## Application installable (PWA)
+
+Le site est une Progressive Web App : `src/app/manifest.ts` expose `/manifest.webmanifest`
+(nom, icônes 192/512 + maskable, couleurs, affichage `standalone`) et `public/sw.js`
+assure l'installabilité avec un cache limité aux fichiers statiques versionnés
+(`/_next/static/`, URLs hachées et immuables). **Aucune page ni aucun appel API n'est
+mis en cache** : aucun risque de contenu périmé.
+
+Sur le navigateur, une bannière **« Installer l'application Ludo_Consulting ? »**
+apparaît automatiquement quand l'installation est possible (événement
+`beforeinstallprompt`, Chrome/Edge Android et desktop). Le bouton déclenche
+l'installation native ; un refus mémorise le choix 7 jours. Sur iPhone (Safari ne
+proposant pas d'installation automatique), la bannière affiche la marche à suivre :
+Partager → « Sur l'écran d'accueil ». Une fois installée, l'application ne propose
+plus la bannière (`display-mode: standalone` détecté).
+
+Prérequis réels : HTTPS (actif en production), `sw.js` servi sans cache
+(`Cache-Control: no-store` configuré dans `next.config.ts`) et icônes 192/512 valides.
 
 ## Compte administrateur
 

@@ -4,6 +4,11 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        // Le service worker doit toujours être frais pour que ses mises à jour se propagent.
+        source: "/sw.js",
+        headers: [{ key: "Cache-Control", value: "public, max-age=0, must-revalidate" }],
+      },
+      {
         source: "/:path*",
         headers: [
           { key: "X-Content-Type-Options", value: "nosniff" },
