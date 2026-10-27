@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, UserRound, X } from "lucide-react";
 import { useState } from "react";
 import { navigation, siteInfo } from "@/lib/site";
 import { LanguageToggle, useLanguage } from "@/components/language-provider";
@@ -10,7 +10,7 @@ import { useMember } from "@/components/member-provider";
 import { BrandLockup } from "@/components/brand";
 
 function MemberChip() {
-  const { member, loading } = useMember();
+  const { member, loading, openModal } = useMember();
   const { text } = useLanguage();
   if (loading) return <span className="member-chip is-loading" aria-hidden="true" />;
   if (member) {
@@ -21,12 +21,23 @@ function MemberChip() {
       </Link>
     );
   }
-  return <Link href="/#espace-membre" className="member-login">{text("Se connecter", "Sign in")}</Link>;
+  return (
+    <button
+      type="button"
+      className="member-icon-button"
+      onClick={openModal}
+      title={text("Se connecter / S'inscrire", "Sign in / Sign up")}
+      aria-label={text("Se connecter / S'inscrire", "Sign in / Sign up")}
+    >
+      <UserRound size={18} />
+    </button>
+  );
 }
 
 export function SiteHeader() {
   const pathname = usePathname();
   const { text } = useLanguage();
+  const { openModal } = useMember();
   const [menuOpen, setMenuOpen] = useState(false);
   if (pathname.startsWith("/admin") || pathname.startsWith("/presentation")) return null;
   return (
@@ -39,7 +50,7 @@ export function SiteHeader() {
               {text(item.fr, item.en)}
             </Link>
           ))}
-          <Link href="/#espace-membre" className="nav-link" onClick={() => setMenuOpen(false)}>{text("Espace membre", "Member area")}</Link>
+          <button type="button" className="nav-link nav-link-button" onClick={() => { setMenuOpen(false); openModal(); }}>{text("Espace membre", "Member area")}</button>
           <div className="mobile-nav-actions"><LanguageToggle /></div>
           <Link href="/quote" className="button button-primary nav-mobile-cta" onClick={() => setMenuOpen(false)}>
             {text("Parler d’un projet", "Discuss a project")} <ArrowUpRight size={16} />

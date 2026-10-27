@@ -837,3 +837,33 @@ picture { display: contents; }
   .member-name { display: none; }
   .account-card { padding: 21px; }
 }
+
+/* Bouton icône membre */
+.member-icon-button { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--green); cursor: pointer; transition: background .2s ease, color .2s ease, transform .2s ease; }
+.member-icon-button:hover { background: var(--green); border-color: var(--green); color: #fff; transform: translateY(-1px); }
+.nav-link-button { background: none; border: 0; cursor: pointer; text-align: left; font: inherit; }
+
+/* Fenêtre modale Connexion / Inscription */
+.modal-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(9, 25, 20, .62); backdrop-filter: blur(6px); display: grid; place-items: center; padding: 18px; animation: modal-fade .22s ease; }
+.modal-dialog { position: relative; width: min(100%, 470px); max-height: 92vh; overflow: auto; background: #fff; border-radius: 20px; padding: 30px 28px 28px; box-shadow: 0 40px 90px rgba(0,0,0,.4); animation: modal-pop .25s ease; }
+.modal-dialog h2 { margin: 0; font-size: 22px; letter-spacing: -.03em; color: var(--ink); }
+.modal-sub { margin: 6px 0 18px; color: #78857d; font-size: 12px; line-height: 1.6; }
+.modal-close { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; border: 1px solid #e3e9e2; background: #fff; color: #5c6f64; cursor: pointer; }
+.modal-close:hover { background: #f1f5f0; }
+.member-card.modal-card { padding: 0; box-shadow: none; background: transparent; border-radius: 0; }
+.member-card.modal-card .form-field { margin-bottom: 13px; }
+.member-card.modal-card .form-field > span { display: block; color: #526259; font-size: 11px; font-weight: 700; margin-bottom: 7px; }
+.member-card.modal-card .form-field input { width: 100%; border: 1px solid #dfe6df; border-radius: 10px; background: #fbfcfa; padding: 12px 13px; outline: none; color: var(--ink); font-size: 12px; }
+.member-card.modal-card .form-field input:focus { border-color: #82a77c; box-shadow: 0 0 0 3px rgba(130,167,124,.14); }
+@keyframes modal-fade { from { opacity: 0; } }
+@keyframes modal-pop { from { opacity: 0; transform: translateY(14px) scale(.98); } }
+
+/* Historique des connexions */
+.account-logins { margin-top: 20px; }
+.account-logins h3 { margin: 0 0 10px; font-size: 14px; color: var(--ink); }
+.login-events { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.login-events li { display: flex; justify-content: space-between; gap: 10px; font-size: 11px; color: #64746a; background: #f6f9f5; border: 1px solid #e7ede6; border-radius: 9px; padding: 8px 11px; }
+
+@media (max-width: 680px) {
+  .modal-dialog { padding: 24px 18px; }
+}

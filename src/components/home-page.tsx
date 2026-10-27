@@ -23,7 +23,7 @@ const processSteps = [
   { fr: "Assistance & évolution", en: "Support & evolution", copyFr: "Selon le contrat, nous pouvons vous accompagner dans la suite.", copyEn: "Further support can be arranged according to the agreement." },
 ];
 
-export function HomePage({ services, projects, skills, profilePhoto, profileName, profileTitle, googleReady }: { services: HomeService[]; projects: HomeProject[]; skills: HomeSkill[]; profilePhoto: string | null; profileName: string; profileTitle: string; googleReady: boolean }) {
+export function HomePage({ services, projects, skills, profilePhoto, profileName, profileTitle }: { services: HomeService[]; projects: HomeProject[]; skills: HomeSkill[]; profilePhoto: string | null; profileName: string; profileTitle: string }) {
   const { text, locale } = useLanguage();
   return (
     <main>
@@ -66,7 +66,7 @@ export function HomePage({ services, projects, skills, profilePhoto, profileName
 
       <ResponsibleSection photo={profilePhoto} fullName={profileName} professionalTitle={profileTitle} />
 
-      <MemberSection googleReady={googleReady} />
+      <MemberSection />
 
       <section className="section services-section"><div className="section-inner"><div className="section-heading"><span className="eyebrow">{text("Ce que nous faisons", "What we do")}</span><h2 className="section-title">{text("Des services concrets pour avancer dans le numérique.", "Practical services to move forward with digital.")}</h2><p className="section-copy">{text("Du développement à la formation, nous vous aidons à choisir la bonne prochaine étape.", "From development to training, we help you choose the right next step.")}</p></div><div className="services-grid">{services.map((service) => <ServiceCard key={service.slug} service={service} />)}</div><div className="services-bottom"><p className="price-disclaimer">{text(serviceQuoteMessage.fr, serviceQuoteMessage.en)}</p><Link href="/pricing" className="text-link">{text("Consulter les tarifs", "See pricing")} <ArrowRight size={15} /></Link></div></div></section>
 

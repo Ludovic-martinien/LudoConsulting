@@ -303,6 +303,14 @@ export const memberSessions = pgTable("member_sessions", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 }, (table) => [index("member_sessions_user_idx").on(table.userId)]);
 
+export const memberLoginEvents = pgTable("member_login_events", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => memberUsers.id, { onDelete: "cascade" }),
+  method: varchar("method", { length: 20 }).notNull(),
+  userAgent: varchar("user_agent", { length: 200 }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [index("member_login_events_user_idx").on(table.userId, table.createdAt)]);
+
 export const testimonials = pgTable("testimonials", {
   id: serial("id").primaryKey(),
   author: varchar("author", { length: 180 }).notNull(),

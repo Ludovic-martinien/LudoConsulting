@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { memberUsers } from "@/db/schema";
 import { cleanText, publicRateLimit, sameOrigin, validEmail } from "@/lib/request-guard";
-import { createMemberSession, hashPassword, isSecureRequest, memberCookieOptions } from "@/lib/member-auth";
+import { createMemberSession, hashPassword, isSecureRequest, logMemberEvent, memberCookieOptions } from "@/lib/member-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -32,6 +32,7 @@ export async function POST(request: Request) {
       return Response.json({ error: "Un compte existe déjà avec cette adresse e-mail. Connectez-vous plutôt." }, { status: 409 });
     }
     const { token } = await createMemberSession(userId);
+    await logMemberEvent(userId, "register", request);
     const response = NextResponse.json({ ok: true, member: { id: userId, name, email, image: null } }, { status: 201 });
     response.cookies.set("ludo_member_session", token, memberCookieOptions(isSecureRequest(request)));
     return response;

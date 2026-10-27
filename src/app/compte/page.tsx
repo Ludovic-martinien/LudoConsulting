@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { PageHero } from "@/components/page-hero";
 import { AccountClient } from "@/components/account-client";
-import { getMemberSession } from "@/lib/member-auth";
+import { getMemberSession, getRecentLogins } from "@/lib/member-auth";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -17,6 +17,7 @@ export default async function ComptePage({ searchParams }: Props) {
   if (!session) redirect("/#espace-membre");
   const query = await searchParams;
   const { user } = session;
+  const logins = await getRecentLogins(user.id);
   return (
     <main>
       <PageHero
@@ -38,6 +39,7 @@ export default async function ComptePage({ searchParams }: Props) {
             hasPassword={user.hasPassword}
             createdAt={user.createdAt.toISOString()}
             welcomed={query.bienvenue === "1"}
+            logins={logins.map((item) => ({ method: item.method, createdAt: item.createdAt.toISOString() }))}
           />
         </div>
       </section>

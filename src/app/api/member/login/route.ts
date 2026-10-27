@@ -4,7 +4,7 @@ import { db } from "@/db";
 import { memberUsers } from "@/db/schema";
 import { verifyAdminPassword } from "@/lib/auth";
 import { cleanText, publicRateLimit, sameOrigin, validEmail } from "@/lib/request-guard";
-import { createMemberSession, isSecureRequest, memberCookieOptions } from "@/lib/member-auth";
+import { createMemberSession, isSecureRequest, logMemberEvent, memberCookieOptions } from "@/lib/member-auth";
 
 export const dynamic = "force-dynamic";
 const INVALID = "Adresse e-mail ou mot de passe incorrect.";
@@ -24,6 +24,7 @@ export async function POST(request: Request) {
       return Response.json({ error: INVALID }, { status: 401 });
     }
     const { token } = await createMemberSession(user.id);
+    await logMemberEvent(user.id, "password", request);
     const response = NextResponse.json({ ok: true, member: { id: user.id, name: user.name, email: user.email, image: user.image } });
     response.cookies.set("ludo_member_session", token, memberCookieOptions(isSecureRequest(request)));
     return response;

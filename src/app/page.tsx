@@ -15,7 +15,6 @@ export default async function IndexPage() {
     getProfilePhoto(),
   ]);
   const profile = profileRows[0];
-  const googleReady = Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
   return <HomePage
     services={services}
     projects={projects}
@@ -23,6 +22,5 @@ export default async function IndexPage() {
     profilePhoto={profilePhoto}
     profileName={profile?.fullName ?? "M. Mve Zogo Martinien Ludovic"}
     profileTitle={profile?.professionalTitle ?? "Développeur web et mobile · Concepteur de solutions informatiques"}
-    googleReady={googleReady}
   />;
 }

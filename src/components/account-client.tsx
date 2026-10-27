@@ -6,6 +6,8 @@ import { LogOut, ShieldCheck, Trash2 } from "lucide-react";
 import { useLanguage } from "@/components/language-provider";
 import { useMember } from "@/components/member-provider";
 
+type LoginEvent = { method: string; createdAt: string };
+
 type Props = {
   id: number;
   name: string;
@@ -15,9 +17,16 @@ type Props = {
   hasPassword: boolean;
   createdAt: string;
   welcomed: boolean;
+  logins: LoginEvent[];
 };
 
-export function AccountClient({ name, email, image, googleLinked, hasPassword, createdAt, welcomed }: Props) {
+function loginMethodLabel(method: string, text: (fr: string, en: string) => string) {
+  if (method === "google") return "Google";
+  if (method === "register") return text("Inscription", "Sign-up");
+  return text("Mot de passe", "Password");
+}
+
+export function AccountClient({ name, email, image, googleLinked, hasPassword, createdAt, welcomed, logins }: Props) {
   const { text } = useLanguage();
   const { refresh } = useMember();
   const router = useRouter();
@@ -67,6 +76,19 @@ export function AccountClient({ name, email, image, googleLinked, hasPassword, c
         <span className="status-label">{text("Membre depuis le", "Member since")} {new Intl.DateTimeFormat(text("fr-FR", "en-GB"), { dateStyle: "medium" }).format(new Date(createdAt))}</span>
       </div>
       <p className="form-disclaimer">{text("Votre profil sert uniquement à pré-remplir vos demandes. Vos données restent privées et ne sont jamais publiées.", "Your profile is only used to pre-fill your requests. Your data stays private and is never published.")}</p>
+      {logins.length > 0 && (
+        <div className="account-logins">
+          <h3>{text("Dernières connexions", "Recent sign-ins")}</h3>
+          <ul className="login-events">
+            {logins.map((item, index) => (
+              <li key={`${item.createdAt}-${index}`}>
+                <span>{loginMethodLabel(item.method, text)}</span>
+                <span>{new Intl.DateTimeFormat(text("fr-FR", "en-GB"), { dateStyle: "medium", timeStyle: "short" }).format(new Date(item.createdAt))}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       <div className="account-actions">
         <button type="button" className="button button-outline-dark button-small" onClick={logout} disabled={busy}><LogOut size={14} /> {text("Se déconnecter", "Sign out")}</button>
         <button type="button" className="button button-danger button-small" onClick={removeAccount} disabled={busy}><Trash2 size={14} /> {text("Supprimer mon compte", "Delete my account")}</button>

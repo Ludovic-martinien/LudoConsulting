@@ -1,9 +1,9 @@
 import "server-only";
 import { createHash, randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { db } from "@/db";
-import { memberSessions, memberUsers } from "@/db/schema";
+import { memberLoginEvents, memberSessions, memberUsers } from "@/db/schema";
 
 export const MEMBER_COOKIE = "ludo_member_session";
 const OAUTH_STATE_COOKIE = "ludo_oauth_state";
@@ -192,4 +192,27 @@ export async function destroyMemberSession() {
 export async function getOAuthState() {
   const store = await cookies();
   return store.get(OAUTH_STATE_COOKIE)?.value ?? null;
+}
+
+export type LoginMethod = "register" | "password" | "google";
+
+/** Journal non bloquant des connexions (transparence et sécurité du compte). */
+export async function logMemberEvent(userId: number, method: LoginMethod, request: Request) {
+  try {
+    await db.insert(memberLoginEvents).values({
+      userId,
+      method,
+      userAgent: request.headers.get("user-agent")?.slice(0, 200) ?? null,
+    });
+  } catch {
+    /* Le journal ne doit jamais bloquer une connexion. */
+  }
+}
+
+export async function getRecentLogins(userId: number, limit = 5) {
+  return db.select({
+    method: memberLoginEvents.method,
+    createdAt: memberLoginEvents.createdAt,
+  }).from(memberLoginEvents).where(eq(memberLoginEvents.userId, userId))
+    .orderBy(desc(memberLoginEvents.createdAt)).limit(limit);
 }

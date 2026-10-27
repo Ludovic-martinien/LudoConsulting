@@ -10,6 +10,7 @@ import {
   getOrigin,
   googleOAuthConfig,
   isSecureRequest,
+  logMemberEvent,
   memberCookieOptions,
   safeCompare,
 } from "@/lib/member-auth";
@@ -68,6 +69,7 @@ export async function GET(request: Request) {
     if (!user) return failure(absoluteOrigin);
 
     const { token } = await createMemberSession(user.id);
+    await logMemberEvent(user.id, "google", request);
     const response = NextResponse.redirect(new URL("/compte", absoluteOrigin));
     response.cookies.set("ludo_oauth_state", "", { httpOnly: true, path: "/", maxAge: 0 });
     response.cookies.set("ludo_member_session", token, memberCookieOptions(isSecureRequest(request)));

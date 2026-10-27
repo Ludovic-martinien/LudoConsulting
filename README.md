@@ -65,9 +65,15 @@ L'espace membre (`/#espace-membre`, page `/compte`) permet aux visiteurs de cré
 par e-mail + mot de passe (empreinte scrypt, 10 caractères minimum) ou de se connecter
 avec Google (flux OAuth 2.0 officiel : code d'autorisation, jeton échangé côté serveur,
 profil lu via `userinfo`). Les sessions membres (30 jours, cookie `HttpOnly`, `SameSite=Lax`)
-sont stockées dans `member_sessions`, les profils dans `member_users`. La suppression du
-compte (`Mon compte → Supprimer`) efface le profil et ses sessions. La politique de
-confidentialité (`/privacy`) décrit ces traitements.
+sont stockées dans `member_sessions`, les profils dans `member_users`, et chaque
+connexion (inscription, mot de passe, Google) est consignée dans `member_login_events`
+— visible par le membre sur `/compte` (« Dernières connexions »). La suppression du
+compte (`Mon compte → Supprimer`) efface le profil, ses sessions et son historique
+(suppression en cascade). La politique de confidentialité (`/privacy`) décrit ces traitements.
+
+L'en-tête affiche un simple bouton icône : un clic ouvre une fenêtre modale
+Connexion / Inscription (fermeture par croix, clic extérieur ou touche Échap, focus
+automatique), réutilisant les mêmes formulaires que la section `/#espace-membre`.
 
 Activation de Google (5 minutes, sans quoi seul l'e-mail fonctionne et un message
 l'indique honnêtement sur le site) :
