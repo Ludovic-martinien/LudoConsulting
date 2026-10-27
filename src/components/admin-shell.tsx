@@ -14,6 +14,7 @@ const links = [
   { href: "/admin/projects", label: "Projets", roles: ["admin", "editor"] },
   { href: "/admin/articles", label: "Articles", roles: ["admin", "editor"] },
   { href: "/admin/inbox", label: "Demandes reçues", roles: ["admin", "sales"] },
+  { href: "/admin/members", label: "Membres", roles: ["admin"] },
 ] as const;
 
 export function AdminShell({ children, email, role }: { children: ReactNode; email: string; role: AdminRole }) {

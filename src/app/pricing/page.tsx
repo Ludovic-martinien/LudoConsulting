@@ -3,12 +3,14 @@ import { db } from "@/db";
 import { servicePackages, servicePrices, services } from "@/db/schema";
 import { ensureSeedData } from "@/lib/seed";
 import { PricingPage } from "@/components/pricing-page";
+import { requireMemberPage } from "@/lib/member-page";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Tarifs et formules", description: "Tarifs confirmés des formations bureautiques, des services académiques et de la cybersécurité." };
 
 export default async function PricingRoute() {
   await ensureSeedData();
+  await requireMemberPage();
   const [training] = await db.select().from(services).where(and(eq(services.slug, "formation-informatique"), eq(services.isPublished, true))).limit(1);
   const [academic] = await db.select().from(services).where(and(eq(services.slug, "documents-professionnels-academiques"), eq(services.isPublished, true))).limit(1);
   const [cyber] = await db.select().from(services).where(and(eq(services.slug, "cybersecurite-reseaux"), eq(services.isPublished, true))).limit(1);

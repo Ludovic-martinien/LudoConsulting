@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Bot, Code2, GraduationCap, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/components/language-provider";
+import { useMember } from "@/components/member-provider";
 import { siteInfo, serviceQuoteMessage } from "@/lib/site";
 import { ProjectCard, ServiceCard } from "@/components/content-cards";
 import { MemberSection } from "@/components/member-section";
@@ -25,6 +26,7 @@ const processSteps = [
 
 export function HomePage({ services, projects, skills, profilePhoto, profileName, profileTitle }: { services: HomeService[]; projects: HomeProject[]; skills: HomeSkill[]; profilePhoto: string | null; profileName: string; profileTitle: string }) {
   const { text, locale } = useLanguage();
+  const { member } = useMember();
   return (
     <main>
       <section className="hero">
@@ -77,7 +79,7 @@ export function HomePage({ services, projects, skills, profilePhoto, profileName
       <section className="section" style={{ paddingBottom: 80 }}><div className="section-inner"><div className="section-heading"><span className="eyebrow">{text("Expertises", "Expertise")}</span><h2 className="section-title">{text("Des savoir-faire au croisement des outils et des usages.", "Skills where tools meet real-world use.")}</h2></div><div className="skills-strip">{skills.map((skill) => <span className="skill-chip" key={skill.nameFr}>{text(skill.nameFr, skill.nameEn)}</span>)}</div><div style={{ marginTop: 24 }}><Link className="text-link" href="/skills">{text("Découvrir les compétences", "Explore skills")} <ArrowRight size={15} /></Link></div></div></section>
 
       <section className="cta-band"><div className="cta-inner"><div><span className="eyebrow">{text("Parlons de votre projet", "Let's talk about your project")}</span><h2>{text("Vous avez une idée ? Construisons la suite ensemble.", "Have an idea? Let's build what comes next.")}</h2><p>{text("Présentez-nous votre besoin. Nous prendrons le temps d'en discuter et de proposer une approche adaptée.", "Tell us what you need. We will take time to discuss it and suggest an approach that fits.")}</p></div><Link href="/quote" className="button">{text("Démarrer un projet", "Start a project")} <ArrowUpRight size={16} /></Link></div></section>
-      <a className="floating-whatsapp" href={siteInfo.whatsappCatalog} aria-label={text("Ouvrir le catalogue WhatsApp de Ludo_Consulting", "Open the Ludo_Consulting WhatsApp catalogue")} target="_blank" rel="noreferrer"><MessageCircle size={21} /><span>{text("Catalogue WhatsApp", "WhatsApp catalogue")}</span></a>
+      {member && <a className="floating-whatsapp" href={siteInfo.whatsappCatalog} aria-label={text("Ouvrir le catalogue WhatsApp de Ludo_Consulting", "Open the Ludo_Consulting WhatsApp catalogue")} target="_blank" rel="noreferrer"><MessageCircle size={21} /><span>{text("Catalogue WhatsApp", "WhatsApp catalogue")}</span></a>}
     </main>
   );
 }

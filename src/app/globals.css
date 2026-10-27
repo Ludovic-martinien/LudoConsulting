@@ -871,3 +871,28 @@ picture { display: contents; }
   .modal-head { padding: 22px 18px 0; }
   .modal-body { padding: 0 18px 22px; }
 }
+
+/* Navbar stable : aucune superposition, aucun retour à la ligne */
+.primary-nav { flex-wrap: nowrap; min-width: 0; }
+.nav-link { white-space: nowrap; flex: 0 0 auto; }
+.nav-link-button { font-size: 12px; color: #52615b; font-weight: 600; }
+.nav-link-button:hover { color: var(--green); }
+.member-chip, .member-icon-button { flex: 0 0 auto; }
+.nav-actions { flex: 0 0 auto; }
+
+/* Édition du profil membre */
+.profile-edit { margin-top: 20px; border-top: 1px solid #edf1ec; padding-top: 18px; display: grid; gap: 14px; }
+.profile-edit-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.profile-edit-row > div { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.profile-edit-row strong { font-size: 12px; color: var(--ink); }
+.profile-edit-row span { font-size: 11px; color: #78857d; }
+.profile-edit-form { display: grid; gap: 10px; }
+.profile-edit-form .admin-input { margin: 0; }
+
+@media (max-width: 1100px) {
+  .nav-wrap { gap: 14px; }
+  .primary-nav { gap: 11px; }
+  .nav-link, .nav-link-button { font-size: 10.5px; }
+  .nav-actions { gap: 12px; }
+  .nav-actions .button-primary { padding: 0 14px; font-size: 12px; }
+}

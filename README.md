@@ -75,6 +75,19 @@ L'en-tête affiche un simple bouton icône : un clic ouvre une fenêtre modale
 Connexion / Inscription (fermeture par croix, clic extérieur ou touche Échap, focus
 automatique), réutilisant les mêmes formulaires que la section `/#espace-membre`.
 
+**Rubriques réservées aux membres** : Services, Réalisations, Tarifs, Formations et le
+bouton WhatsApp flottant ne s'affichent que pour les membres connectés — dans la
+navigation comme sur les pages (redirection vers `/#espace-membre` sinon, vérifiée
+côté serveur). Elles sont exclues du sitemap tant que ce mode est actif. La barre de
+navigation garde une mise en page stable (`nowrap`, aucun chevauchement) quel que soit
+l'état de connexion, sur toutes les tailles d'écran.
+
+**Profil membre** (`/compte`) : le membre modifie son nom affiché, ajoute ou change
+son mot de passe (l'ancien est exigé s'il existe), consulte ses dernières connexions
+et supprime son compte. **Administration → Membres** (rôle `admin` uniquement) :
+liste complète (moyens de connexion, sessions actives, dernière activité, historique)
+et suppression de comptes, avec journalisation des actions.
+
 Activation de Google (5 minutes, sans quoi seul l'e-mail fonctionne et un message
 l'indique honnêtement sur le site) :
 

@@ -9,6 +9,9 @@ import { LanguageToggle, useLanguage } from "@/components/language-provider";
 import { useMember } from "@/components/member-provider";
 import { BrandLockup } from "@/components/brand";
 
+/** Rubriques réservées aux membres connectés. */
+const MEMBER_ONLY_PATHS = ["/services", "/portfolio", "/pricing", "/training"];
+
 function MemberChip() {
   const { member, loading, openModal } = useMember();
   const { text } = useLanguage();
@@ -37,20 +40,27 @@ function MemberChip() {
 export function SiteHeader() {
   const pathname = usePathname();
   const { text } = useLanguage();
-  const { openModal } = useMember();
+  const { member, openModal } = useMember();
   const [menuOpen, setMenuOpen] = useState(false);
   if (pathname.startsWith("/admin") || pathname.startsWith("/presentation")) return null;
+  const visibleNav = navigation.filter(
+    (item) => member || !MEMBER_ONLY_PATHS.includes(item.href),
+  );
   return (
     <header className="site-header">
       <div className="nav-wrap">
         <BrandLockup motto onClick={() => setMenuOpen(false)} />
         <nav className={`primary-nav${menuOpen ? " is-open" : ""}`} aria-label={text("Navigation principale", "Main navigation")}>
-          {navigation.map((item) => (
+          {visibleNav.map((item) => (
             <Link key={item.href} href={item.href} className={pathname === item.href ? "nav-link is-current" : "nav-link"} onClick={() => setMenuOpen(false)}>
               {text(item.fr, item.en)}
             </Link>
           ))}
-          <button type="button" className="nav-link nav-link-button" onClick={() => { setMenuOpen(false); openModal(); }}>{text("Espace membre", "Member area")}</button>
+          {member ? (
+            <Link href="/compte" className="nav-link" onClick={() => setMenuOpen(false)}>{text("Mon compte", "My account")}</Link>
+          ) : (
+            <button type="button" className="nav-link nav-link-button" onClick={() => { setMenuOpen(false); openModal(); }}>{text("Espace membre", "Member area")}</button>
+          )}
           <div className="mobile-nav-actions"><LanguageToggle /></div>
           <Link href="/quote" className="button button-primary nav-mobile-cta" onClick={() => setMenuOpen(false)}>
             {text("Parler d’un projet", "Discuss a project")} <ArrowUpRight size={16} />
