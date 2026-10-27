@@ -7,7 +7,7 @@ import { siteInfo, serviceQuoteMessage } from "@/lib/site";
 import { ProjectCard, ServiceCard } from "@/components/content-cards";
 import { ResponsibleSection } from "@/components/responsible-section";
 import { MediaImage } from "@/components/media-image";
-import { openAuth } from "@/components/member-auth";
+import { MemberOnly, openAuth } from "@/components/member-auth";
 
 type HomeService = { titleFr: string; titleEn: string; descriptionFr: string; descriptionEn: string; slug: string; icon: string; priceLabelFr: string; priceLabelEn: string };
 type HomeProject = { titleFr: string; titleEn: string; slug: string; shortDescriptionFr: string; shortDescriptionEn: string; status: string; technologies: string[]; categoryFr: string; categoryEn: string; coverImageUrl: string | null };
@@ -77,7 +77,7 @@ export function HomePage({ services, projects, skills, profilePhoto, profileName
       <section className="member-band"><div className="member-inner"><div><span className="eyebrow">{text("Espace membre", "Member area")}</span><h2>{text("Créez votre compte en une minute.", "Create your account in one minute.")}</h2><p>{text("Inscrivez-vous avec Google ou votre e-mail pour suivre vos demandes de devis et rester en contact avec Ludo_Consulting.", "Sign up with Google or your email to track your quote requests and stay in touch with Ludo_Consulting.")}</p></div><div className="member-actions"><button type="button" className="button button-primary" onClick={() => openAuth("signup")}>{text("Créer un compte", "Create an account")} <ArrowUpRight size={16} /></button><button type="button" className="button button-outline" onClick={() => openAuth("login")}>{text("Se connecter", "Sign in")}</button></div></div></section>
 
       <section className="cta-band"><div className="cta-inner"><div><span className="eyebrow">{text("Parlons de votre projet", "Let's talk about your project")}</span><h2>{text("Vous avez une idée ? Construisons la suite ensemble.", "Have an idea? Let's build what comes next.")}</h2><p>{text("Présentez-nous votre besoin. Nous prendrons le temps d'en discuter et de proposer une approche adaptée.", "Tell us what you need. We will take time to discuss it and suggest an approach that fits.")}</p></div><Link href="/quote" className="button">{text("Démarrer un projet", "Start a project")} <ArrowUpRight size={16} /></Link></div></section>
-      <a className="floating-whatsapp" href={siteInfo.whatsappCatalog} aria-label={text("Ouvrir le catalogue WhatsApp de Ludo_Consulting", "Open the Ludo_Consulting WhatsApp catalogue")} target="_blank" rel="noreferrer"><MessageCircle size={21} /><span>{text("Catalogue WhatsApp", "WhatsApp catalogue")}</span></a>
+      <MemberOnly><a className="floating-whatsapp" href={siteInfo.whatsappCatalog} aria-label={text("Ouvrir le catalogue WhatsApp de Ludo_Consulting", "Open the Ludo_Consulting WhatsApp catalogue")} target="_blank" rel="noreferrer"><MessageCircle size={21} /><span>{text("Catalogue WhatsApp", "WhatsApp catalogue")}</span></a></MemberOnly>
     </main>
   );
 }

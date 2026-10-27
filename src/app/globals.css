@@ -856,3 +856,59 @@ picture { display: contents; }
   .auth-grid-2 { grid-template-columns: 1fr; }
   .auth-modal { padding: 26px 20px 22px; }
 }
+
+/* ---------- Navigation stable + profil membre ---------- */
+.nav-actions .auth-buttons { min-width: 168px; justify-content: flex-end; flex: 0 0 auto; }
+.nav-link { white-space: nowrap; }
+.primary-nav { flex-wrap: nowrap; }
+
+/* Burger dès 1100px : aucune superposition possible sur tablette et mobile */
+@media (max-width: 1100px) {
+  .nav-actions .language-toggle, .nav-cta, .nav-actions .auth-buttons { display: none; }
+  .mobile-menu-button { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid #e1e9df; border-radius: 12px; color: var(--green); background: #fff; cursor: pointer; }
+  .primary-nav { position: absolute; top: 82px; left: 0; right: 0; display: none; flex-direction: column; align-items: stretch; gap: 0; padding: 14px 24px 22px; background: var(--paper); border-bottom: 1px solid var(--line); box-shadow: 0 20px 25px rgba(16,50,39,.08); z-index: 40; }
+  .primary-nav.is-open { display: flex; }
+  .primary-nav .nav-link { padding: 13px 3px; border-bottom: 1px solid #e8ece7; font-size: 13px; }
+  .mobile-nav-actions { display: block; padding: 13px 0; }
+  .nav-mobile-cta { display: inline-flex; width: 100%; margin-top: 5px; }
+}
+@media (max-width: 860px) {
+  .primary-nav { top: 72px; }
+}
+
+/* ---------- Page profil ---------- */
+.profile-wrap { max-width: 920px; margin: 0 auto; padding: 44px 28px 80px; }
+.profile-loading, .profile-locked { text-align: center; padding: 70px 20px; display: grid; gap: 14px; justify-items: center; }
+.profile-loading p, .profile-locked p { color: #5c7267; font-size: 13.5px; max-width: 420px; line-height: 1.65; margin: 0; }
+.profile-locked h1 { margin: 0; font-size: clamp(22px, 3.4vw, 30px); letter-spacing: -.03em; }
+.profile-locked-icon { width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center; background: linear-gradient(135deg, #14524a, #1c6b45); color: #d7f56a; }
+.profile-head-card { display: flex; align-items: center; gap: 18px; padding: 24px; border: 1px solid #e2eadf; border-radius: 20px; background: #fff; box-shadow: 0 14px 30px rgba(16,50,39,.06); margin-bottom: 22px; }
+.profile-avatar { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, #14524a, #1c6b45); color: #d7f56a; font-size: 24px; font-weight: 800; overflow: hidden; flex: 0 0 auto; }
+.profile-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.profile-head-card .eyebrow { margin: 0; }
+.profile-head-card h1 { margin: 6px 0 6px; font-size: clamp(22px, 3.2vw, 30px); letter-spacing: -.03em; }
+.profile-meta { margin: 0; color: #5c7267; font-size: 12.5px; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.profile-dot { width: 4px; height: 4px; border-radius: 50%; background: #9db3a6; }
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.profile-card { border: 1px solid #e2eadf; border-radius: 18px; background: #fff; padding: 24px; box-shadow: 0 14px 30px rgba(16,50,39,.05); }
+.profile-card h2 { margin: 0 0 16px; font-size: 16px; display: flex; align-items: center; gap: 9px; color: #16342a; }
+.profile-card h2 svg { color: #1c6b45; }
+.profile-current { font-size: 12.5px; color: #5c7267; margin: 0 0 12px; }
+.profile-hint { font-size: 12px; color: #7d9086; line-height: 1.6; margin: 0 0 12px; }
+.profile-card .auth-form { margin-top: 4px; }
+.auth-success { margin: 0; padding: 10px 13px; border-radius: 10px; background: #e9f6ec; color: #1d6b3b; font-size: 12.5px; line-height: 1.5; }
+.profile-danger { border-color: #f0c9c9; background: #fffafa; }
+.profile-danger h2 svg { color: #b33737; }
+.profile-delete-btn { background: #b33737; color: #fff; width: 100%; justify-content: center; margin-top: 12px; }
+.profile-delete-btn:hover { background: #962c2c; }
+.profile-delete-btn:disabled { opacity: .55; cursor: not-allowed; }
+.auth-password-label { display: grid; gap: 6px; font-size: 12.5px; font-weight: 650; color: #38514a; margin-bottom: 12px; }
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 860px) {
+  .profile-wrap { padding: 30px 18px 60px; }
+  .profile-grid { grid-template-columns: 1fr; }
+  .profile-head-card { flex-direction: column; text-align: center; }
+  .profile-meta { justify-content: center; }
+}

@@ -1,17 +1,28 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Eye, EyeOff, LogIn, LogOut, User, UserPlus, X } from "lucide-react";
 import { useLanguage } from "@/components/language-provider";
+import { refreshMemberState, setMemberState, useMember } from "@/components/member-store";
 
-type Member = { id: number; name: string; email: string; phone: string | null; avatar: string | null };
 type Mode = "login" | "signup";
 
 export const AUTH_EVENT = "ludo:open-auth";
 
 export function openAuth(mode: Mode = "login") {
   window.dispatchEvent(new CustomEvent(AUTH_EVENT, { detail: { mode } }));
+}
+
+/** N'affiche son contenu qu'aux visiteurs connectés (membre ou admin). */
+export function MemberOnly({ children }: { children: React.ReactNode }) {
+  const { loaded, user, admin } = useMember();
+  useEffect(() => {
+    refreshMemberState();
+  }, []);
+  if (!loaded || (!user && !admin)) return null;
+  return <>{children}</>;
 }
 
 function GoogleMark() {
@@ -27,24 +38,14 @@ function GoogleMark() {
 
 export function AuthButtons({ modalOwner = true }: { modalOwner?: boolean }) {
   const { text } = useLanguage();
-  const [user, setUser] = useState<Member | null>(null);
+  const { user } = useMember();
   const [modal, setModal] = useState<{ open: boolean; mode: Mode }>({ open: false, mode: "login" });
   const [toast, setToast] = useState("");
   const [mounted, setMounted] = useState(false);
 
-  const refresh = useCallback(async () => {
-    try {
-      const response = await fetch("/api/user/me", { credentials: "same-origin" });
-      const data = (await response.json()) as { user: Member | null };
-      setUser(data.user);
-    } catch {
-      setUser(null);
-    }
-  }, []);
-
   useEffect(() => {
     setMounted(true);
-    refresh();
+    refreshMemberState();
     if (!modalOwner) return;
     const onOpen = (event: Event) => {
       const mode = (event as CustomEvent<{ mode?: Mode }>).detail?.mode;
@@ -63,7 +64,7 @@ export function AuthButtons({ modalOwner = true }: { modalOwner?: boolean }) {
       setModal({ open: true, mode: "login" });
       setToast(text("La connexion Google a échoué. Réessayez ou utilisez votre e-mail.", "Google sign-in failed. Try again or use your email."));
     } else if (memberFlag === "welcome") {
-      refresh();
+      refreshMemberState();
       setToast(text("Bienvenue ! Vous êtes connecté.", "Welcome! You are signed in."));
     }
     if (authFlag || memberFlag) {
@@ -73,7 +74,7 @@ export function AuthButtons({ modalOwner = true }: { modalOwner?: boolean }) {
       window.history.replaceState(null, "", url.pathname + url.search);
     }
     return () => window.removeEventListener(AUTH_EVENT, onOpen);
-  }, [refresh, text, modalOwner]);
+  }, [text, modalOwner]);
 
   useEffect(() => {
     if (!toast) return;
@@ -83,15 +84,8 @@ export function AuthButtons({ modalOwner = true }: { modalOwner?: boolean }) {
 
   async function logout() {
     await fetch("/api/user/logout", { method: "POST", credentials: "same-origin" }).catch(() => undefined);
-    setUser(null);
-    window.dispatchEvent(new CustomEvent("ludo:member-changed"));
+    setMemberState({ user: null });
   }
-
-  useEffect(() => {
-    const onChanged = () => refresh();
-    window.addEventListener("ludo:member-changed", onChanged);
-    return () => window.removeEventListener("ludo:member-changed", onChanged);
-  }, [refresh]);
 
   function openLogin() {
     if (modalOwner) setModal({ open: true, mode: "login" });
@@ -109,7 +103,7 @@ export function AuthButtons({ modalOwner = true }: { modalOwner?: boolean }) {
             ) : (
               <span className="auth-avatar-fallback" aria-hidden="true">{user.name.trim().charAt(0).toUpperCase() || "•"}</span>
             )}
-            <span className="auth-user-name">{user.name.split(" ")[0]}</span>
+            <Link href="/profil" className="auth-user-name" title={text("Mon profil", "My profile")}>{user.name.split(" ")[0]}</Link>
             <button type="button" className="auth-logout" onClick={logout} aria-label={text("Se déconnecter", "Sign out")} title={text("Se déconnecter", "Sign out")}>
               <LogOut size={15} />
             </button>
@@ -138,8 +132,7 @@ export function AuthButtons({ modalOwner = true }: { modalOwner?: boolean }) {
                 onMode={setModal}
                 onClose={() => setModal((m) => ({ ...m, open: false }))}
                 onDone={() => {
-                  refresh();
-                  window.dispatchEvent(new CustomEvent("ludo:member-changed"));
+                  refreshMemberState();
                   setModal((m) => ({ ...m, open: false }));
                 }}
               />

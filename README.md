@@ -87,6 +87,8 @@ Le modèle contient les rôles `admin`, `editor` et `sales`, et les routes véri
 
 Les visiteurs peuvent créer un compte depuis l'en-tête ou le bandeau « Espace membre » de l'accueil, puis se connecter :
 - **E-mail + mot de passe** : fonctionne immédiatement, sans service externe. Mots de passe hachés en scrypt, sessions signées (cookie `ludo_member_session`, 30 jours), limitation des tentatives.
+- **Contenus réservés** : la navigation Services, Réalisations, Formations et Tarifs ainsi que le bouton WhatsApp ne s'affichent qu'aux visiteurs connectés (membre ou admin). Les autres pages restent publiques pour le référencement.
+- **Page profil** (`/profil`) : chaque membre y modifie son nom, son téléphone, son e-mail (avec confirmation par mot de passe actuel), son mot de passe, et peut supprimer son compte (confirmation exigée). Table `users`, colonnes `phone` et `terms_accepted_at`.
 - **Bouton Google** : nécessite des identifiants OAuth créés par le propriétaire du site (voir ci-dessous). Tant qu'ils sont absents, le bouton affiche un message l'indiquant et l'inscription e-mail reste disponible.
 
 ### Activer la connexion Google (5 minutes)
