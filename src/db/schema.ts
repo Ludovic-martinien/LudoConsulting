@@ -283,6 +283,26 @@ export const activityLogs = pgTable("activity_logs", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 }, (table) => [index("activity_logs_created_idx").on(table.createdAt)]);
 
+export const memberUsers = pgTable("member_users", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 180 }).notNull(),
+  email: varchar("email", { length: 254 }).notNull().unique(),
+  emailVerified: boolean("email_verified").notNull().default(false),
+  image: text("image"),
+  passwordHash: text("password_hash"),
+  googleId: varchar("google_id", { length: 120 }).unique(),
+  consent: boolean("consent").notNull().default(false),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [index("member_users_email_idx").on(table.email)]);
+
+export const memberSessions = pgTable("member_sessions", {
+  tokenHash: varchar("token_hash", { length: 64 }).primaryKey(),
+  userId: integer("user_id").notNull().references(() => memberUsers.id, { onDelete: "cascade" }),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [index("member_sessions_user_idx").on(table.userId)]);
+
 export const testimonials = pgTable("testimonials", {
   id: serial("id").primaryKey(),
   author: varchar("author", { length: 180 }).notNull(),

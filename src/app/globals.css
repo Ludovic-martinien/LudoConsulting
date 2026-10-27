@@ -781,3 +781,59 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 /* Image universelle : le <picture> ne doit pas casser les mises en page */
 picture { display: contents; }
+
+/* ---------- Espace membre ---------- */
+.member-section { background: #0c302d; color: #eef7f1; }
+.member-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 58px; align-items: center; }
+.member-section .eyebrow { color: #b9d6a9; }
+.member-section .eyebrow::before { background: var(--lime); }
+.member-section .section-title { color: #f2f9ee; }
+.member-section .section-copy { color: #c3d6c9; }
+.member-points { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 10px; }
+.member-points li { display: flex; align-items: flex-start; gap: 9px; color: #dbeadf; font-size: 12px; line-height: 1.55; }
+.member-points li::before { content: "✓"; flex: 0 0 auto; width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%; background: rgba(215,245,106,.16); color: var(--lime); font-size: 11px; font-weight: 800; }
+.member-card { background: #fff; color: var(--ink); border-radius: 20px; padding: 29px; box-shadow: 0 30px 60px rgba(0,0,0,.3); }
+.member-card .form-field { margin-bottom: 13px; }
+.member-card .form-field > span { display: block; color: #526259; font-size: 11px; font-weight: 700; margin-bottom: 7px; }
+.member-card .form-field input { width: 100%; border: 1px solid #dfe6df; border-radius: 10px; background: #fbfcfa; padding: 12px 13px; outline: none; color: var(--ink); font-size: 12px; }
+.member-card .form-field input:focus { border-color: #82a77c; box-shadow: 0 0 0 3px rgba(130,167,124,.14); }
+.google-button { width: 100%; background: #fff !important; color: #1f2a24 !important; border: 1px solid #d8e0d9 !important; box-shadow: 0 2px 8px rgba(15,49,40,.06) !important; }
+.google-button:hover { background: #f6f9f5 !important; }
+.google-pending { display: flex; gap: 12px; align-items: flex-start; padding: 15px; border: 1px dashed #cfdcd2; border-radius: 12px; background: #f7faf6; }
+.google-pending p { margin: 0; font-size: 11px; line-height: 1.6; color: #63766a; }
+.member-divider { display: flex; align-items: center; gap: 12px; margin: 19px 0 15px; color: #9aa8a0; font-size: 11px; }
+.member-divider::before, .member-divider::after { content: ""; flex: 1; height: 1px; background: #e6ece5; }
+.member-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 5px; border-radius: 12px; background: #eef3ec; margin-bottom: 18px; }
+.member-tabs button { border: 0; border-radius: 8px; background: transparent; color: #68786e; padding: 10px; cursor: pointer; font-size: 12px; font-weight: 700; }
+.member-tabs button.is-active { background: #fff; color: var(--green); box-shadow: 0 2px 8px rgba(15,49,40,.08); }
+.member-submit { width: 100%; margin-top: 4px; }
+.member-welcome { text-align: center; padding: 8px 0; }
+.member-welcome h3 { margin: 14px 0 4px; font-size: 21px; letter-spacing: -.03em; }
+.member-welcome p { margin: 0 0 20px; color: #78857d; font-size: 12px; }
+.member-welcome-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.member-avatar-large { width: 72px; height: 72px; margin: 0 auto; display: grid; place-items: center; border-radius: 50%; overflow: hidden; background: var(--green); color: #fff; font-size: 28px; font-weight: 750; }
+.member-avatar-large img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Puce membre dans l'en-tête */
+.member-chip { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px 5px 5px; border: 1px solid var(--line); border-radius: 40px; background: #fff; font-size: 11px; font-weight: 700; color: var(--green-dark); }
+.member-chip img, .member-avatar { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; display: grid; place-items: center; background: var(--green); color: #fff; font-size: 12px; font-weight: 800; }
+.member-chip.is-loading { width: 90px; height: 32px; background: #eef2ed; border-color: transparent; }
+.member-login { font-size: 12px; font-weight: 700; color: var(--green); white-space: nowrap; }
+.member-login:hover { text-decoration: underline; }
+
+/* Page Mon compte */
+.account-card { padding: 29px; background: #fff; border: 1px solid #e5ebe4; border-radius: 20px; box-shadow: 0 18px 40px rgba(15,49,40,.035); }
+.account-head { display: flex; align-items: center; gap: 16px; }
+.account-head h2 { margin: 0; font-size: 22px; letter-spacing: -.03em; }
+.account-head p { margin: 4px 0 0; color: #78857d; font-size: 12px; }
+.account-badges { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 6px; }
+.account-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+.button-danger { border-color: #e5b8ac !important; color: #a83c28 !important; background: #fff !important; }
+.button-danger:hover { background: #fdf0ec !important; }
+
+@media (max-width: 860px) {
+  .member-grid { grid-template-columns: 1fr; gap: 28px; }
+  .member-card { padding: 21px; }
+  .member-name { display: none; }
+  .account-card { padding: 21px; }
+}

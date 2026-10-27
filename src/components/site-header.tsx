@@ -6,7 +6,23 @@ import { ArrowUpRight, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { navigation, siteInfo } from "@/lib/site";
 import { LanguageToggle, useLanguage } from "@/components/language-provider";
+import { useMember } from "@/components/member-provider";
 import { BrandLockup } from "@/components/brand";
+
+function MemberChip() {
+  const { member, loading } = useMember();
+  const { text } = useLanguage();
+  if (loading) return <span className="member-chip is-loading" aria-hidden="true" />;
+  if (member) {
+    return (
+      <Link href="/compte" className="member-chip" aria-label={text("Mon compte", "My account")}>
+        {member.image ? <img src={member.image} alt="" /> : <span className="member-avatar">{member.name.charAt(0).toUpperCase()}</span>}
+        <span className="member-name">{member.name.split(" ")[0]}</span>
+      </Link>
+    );
+  }
+  return <Link href="/#espace-membre" className="member-login">{text("Se connecter", "Sign in")}</Link>;
+}
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -23,12 +39,14 @@ export function SiteHeader() {
               {text(item.fr, item.en)}
             </Link>
           ))}
+          <Link href="/#espace-membre" className="nav-link" onClick={() => setMenuOpen(false)}>{text("Espace membre", "Member area")}</Link>
           <div className="mobile-nav-actions"><LanguageToggle /></div>
           <Link href="/quote" className="button button-primary nav-mobile-cta" onClick={() => setMenuOpen(false)}>
             {text("Parler d’un projet", "Discuss a project")} <ArrowUpRight size={16} />
           </Link>
         </nav>
         <div className="nav-actions">
+          <MemberChip />
           <LanguageToggle compact />
           <Link href="/quote" className="button button-primary nav-cta">
             {text("Parler d’un projet", "Discuss a project")} <ArrowUpRight size={16} />

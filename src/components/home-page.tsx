@@ -5,6 +5,7 @@ import { ArrowRight, ArrowUpRight, Bot, Code2, GraduationCap, MessageCircle } fr
 import { useLanguage } from "@/components/language-provider";
 import { siteInfo, serviceQuoteMessage } from "@/lib/site";
 import { ProjectCard, ServiceCard } from "@/components/content-cards";
+import { MemberSection } from "@/components/member-section";
 import { ResponsibleSection } from "@/components/responsible-section";
 import { MediaImage } from "@/components/media-image";
 
@@ -22,7 +23,7 @@ const processSteps = [
   { fr: "Assistance & évolution", en: "Support & evolution", copyFr: "Selon le contrat, nous pouvons vous accompagner dans la suite.", copyEn: "Further support can be arranged according to the agreement." },
 ];
 
-export function HomePage({ services, projects, skills, profilePhoto, profileName, profileTitle }: { services: HomeService[]; projects: HomeProject[]; skills: HomeSkill[]; profilePhoto: string | null; profileName: string; profileTitle: string }) {
+export function HomePage({ services, projects, skills, profilePhoto, profileName, profileTitle, googleReady }: { services: HomeService[]; projects: HomeProject[]; skills: HomeSkill[]; profilePhoto: string | null; profileName: string; profileTitle: string; googleReady: boolean }) {
   const { text, locale } = useLanguage();
   return (
     <main>
@@ -64,6 +65,8 @@ export function HomePage({ services, projects, skills, profilePhoto, profileName
       <section className="section"><div className="section-inner intro-grid"><div><span className="eyebrow">{text("À propos de Ludo_Consulting", "About Ludo_Consulting")}</span><h2 className="section-title">{text("Un partenaire numérique, du premier échange à la mise en œuvre.", "A digital partner, from the first conversation to delivery.")}</h2><p className="section-copy">{text("Nous aidons chacun à transformer une idée en solution utile, à développer ses compétences et à mieux utiliser le numérique au quotidien.", "We help turn ideas into useful solutions, grow practical skills and make better use of digital tools every day.")}</p><div style={{ marginTop: 24 }}><Link className="text-link" href="/about">{text("En savoir plus sur notre approche", "Learn more about our approach")} <ArrowRight size={15} /></Link></div></div><div className="intro-side"><div className="intro-quote">{text("« Une technologie réussie est d’abord une technologie qui répond à un vrai besoin. »", "“Technology works best when it solves a real need.”")}<small>{text("Notre manière de travailler", "How we work")}</small></div><div className="intro-stats"><div className="intro-stat"><strong>{services.length.toString().padStart(2, "0")}</strong><span>{text("domaines de services", "service areas")}</span></div><div className="intro-stat"><strong>FR / EN</strong><span>{text("une expérience bilingue", "a bilingual experience")}</span></div><div className="intro-stat"><strong>{projects.length.toString().padStart(2, "0")}</strong><span>{text("projets présentés", "projects presented")}</span></div></div></div></div></section>
 
       <ResponsibleSection photo={profilePhoto} fullName={profileName} professionalTitle={profileTitle} />
+
+      <MemberSection googleReady={googleReady} />
 
       <section className="section services-section"><div className="section-inner"><div className="section-heading"><span className="eyebrow">{text("Ce que nous faisons", "What we do")}</span><h2 className="section-title">{text("Des services concrets pour avancer dans le numérique.", "Practical services to move forward with digital.")}</h2><p className="section-copy">{text("Du développement à la formation, nous vous aidons à choisir la bonne prochaine étape.", "From development to training, we help you choose the right next step.")}</p></div><div className="services-grid">{services.map((service) => <ServiceCard key={service.slug} service={service} />)}</div><div className="services-bottom"><p className="price-disclaimer">{text(serviceQuoteMessage.fr, serviceQuoteMessage.en)}</p><Link href="/pricing" className="text-link">{text("Consulter les tarifs", "See pricing")} <ArrowRight size={15} /></Link></div></div></section>
 

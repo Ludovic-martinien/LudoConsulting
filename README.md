@@ -59,6 +59,31 @@ npm run dev
 
 Les données initiales sont insérées une seule fois de manière transactionnelle au premier accès public. Les formulaires ne créent pas de données de démonstration.
 
+## Comptes membres et connexion Google
+
+L'espace membre (`/#espace-membre`, page `/compte`) permet aux visiteurs de créer un compte
+par e-mail + mot de passe (empreinte scrypt, 10 caractères minimum) ou de se connecter
+avec Google (flux OAuth 2.0 officiel : code d'autorisation, jeton échangé côté serveur,
+profil lu via `userinfo`). Les sessions membres (30 jours, cookie `HttpOnly`, `SameSite=Lax`)
+sont stockées dans `member_sessions`, les profils dans `member_users`. La suppression du
+compte (`Mon compte → Supprimer`) efface le profil et ses sessions. La politique de
+confidentialité (`/privacy`) décrit ces traitements.
+
+Activation de Google (5 minutes, sans quoi seul l'e-mail fonctionne et un message
+l'indique honnêtement sur le site) :
+
+1. Console Google Cloud → nouveau projet → Écran de consentement OAuth (externe) → publier.
+2. Identifiants → Créer des identifiants → ID client OAuth → Application Web.
+3. URI de redirection autorisée : `https://VOTRE-DOMAINE/api/member/google/callback`
+   (en prévisualisation sandbox, ajoutez l'URL exacte fournie à chaque redémarrage,
+   car elle change : la redirection est déduite de la requête).
+4. Renseignez `GOOGLE_CLIENT_ID` et `GOOGLE_CLIENT_SECRET` dans l'environnement
+   (voir `.env.example`). Ne les exposez jamais avec `NEXT_PUBLIC_`.
+
+Limites assumées : aucun e-mail de vérification n'est envoyé sans service SMTP configuré ;
+l'e-mail des comptes Google est marqué vérifié (attesté par Google), celui des comptes
+e-mail ne l'est pas.
+
 ## Compte administrateur
 
 L'authentification n'utilise pas de compte par défaut, de mot de passe en clair ni de valeur codée dans le dépôt. Avant la mise en service, définir dans le gestionnaire de secrets de l'environnement :
