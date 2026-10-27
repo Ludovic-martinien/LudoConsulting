@@ -24,7 +24,7 @@ export function SiteHeader() {
               {text(item.fr, item.en)}
             </Link>
           ))}
-          <div className="mobile-nav-actions"><LanguageToggle /><AuthButtons /></div>
+          <div className="mobile-nav-actions"><LanguageToggle /><AuthButtons modalOwner={false} /></div>
           <Link href="/quote" className="button button-primary nav-mobile-cta" onClick={() => setMenuOpen(false)}>
             {text("Parler d’un projet", "Discuss a project")} <ArrowUpRight size={16} />
           </Link>

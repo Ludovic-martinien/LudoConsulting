@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Eye, EyeOff, LogIn, LogOut, User, UserPlus, X } from "lucide-react";
 import { useLanguage } from "@/components/language-provider";
 
@@ -24,11 +25,12 @@ function GoogleMark() {
   );
 }
 
-export function AuthButtons() {
+export function AuthButtons({ modalOwner = true }: { modalOwner?: boolean }) {
   const { text } = useLanguage();
   const [user, setUser] = useState<Member | null>(null);
   const [modal, setModal] = useState<{ open: boolean; mode: Mode }>({ open: false, mode: "login" });
   const [toast, setToast] = useState("");
+  const [mounted, setMounted] = useState(false);
 
   const refresh = useCallback(async () => {
     try {
@@ -41,7 +43,9 @@ export function AuthButtons() {
   }, []);
 
   useEffect(() => {
+    setMounted(true);
     refresh();
+    if (!modalOwner) return;
     const onOpen = (event: Event) => {
       const mode = (event as CustomEvent<{ mode?: Mode }>).detail?.mode;
       setModal({ open: true, mode: mode === "signup" ? "signup" : "login" });
@@ -69,7 +73,7 @@ export function AuthButtons() {
       window.history.replaceState(null, "", url.pathname + url.search);
     }
     return () => window.removeEventListener(AUTH_EVENT, onOpen);
-  }, [refresh, text]);
+  }, [refresh, text, modalOwner]);
 
   useEffect(() => {
     if (!toast) return;
@@ -80,6 +84,18 @@ export function AuthButtons() {
   async function logout() {
     await fetch("/api/user/logout", { method: "POST", credentials: "same-origin" }).catch(() => undefined);
     setUser(null);
+    window.dispatchEvent(new CustomEvent("ludo:member-changed"));
+  }
+
+  useEffect(() => {
+    const onChanged = () => refresh();
+    window.addEventListener("ludo:member-changed", onChanged);
+    return () => window.removeEventListener("ludo:member-changed", onChanged);
+  }, [refresh]);
+
+  function openLogin() {
+    if (modalOwner) setModal({ open: true, mode: "login" });
+    else openAuth("login");
   }
 
   return (
@@ -102,7 +118,7 @@ export function AuthButtons() {
           <button
             type="button"
             className="auth-icon-btn"
-            onClick={() => setModal({ open: true, mode: "login" })}
+            onClick={openLogin}
             aria-label={text("Se connecter / S'inscrire", "Sign in / Sign up")}
             title={text("Se connecter / S'inscrire", "Sign in / Sign up")}
           >
@@ -110,19 +126,27 @@ export function AuthButtons() {
           </button>
         )}
       </div>
-      {toast ? (
-        <div className="auth-toast" role="status">{toast}</div>
-      ) : null}
-      <AuthModal
-        open={modal.open}
-        mode={modal.mode}
-        onMode={setModal}
-        onClose={() => setModal((m) => ({ ...m, open: false }))}
-        onDone={() => {
-          refresh();
-          setModal((m) => ({ ...m, open: false }));
-        }}
-      />
+      {modalOwner && mounted && (modal.open || toast)
+        ? createPortal(
+            <>
+              {toast ? (
+                <div className="auth-toast" role="status">{toast}</div>
+              ) : null}
+              <AuthModal
+                open={modal.open}
+                mode={modal.mode}
+                onMode={setModal}
+                onClose={() => setModal((m) => ({ ...m, open: false }))}
+                onDone={() => {
+                  refresh();
+                  window.dispatchEvent(new CustomEvent("ludo:member-changed"));
+                  setModal((m) => ({ ...m, open: false }));
+                }}
+              />
+            </>,
+            document.body,
+          )
+        : null}
     </>
   );
 }
@@ -206,7 +230,12 @@ function AuthModal({
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = previousOverflow;
+    };
   }, [open, onClose]);
 
   if (!open) return null;
