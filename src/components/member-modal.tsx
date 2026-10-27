@@ -11,7 +11,7 @@ export function MemberModal() {
   const { isModalOpen, closeModal, member } = useMember();
   const { text } = useLanguage();
   const router = useRouter();
-  const dialogRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!isModalOpen) return;
@@ -22,7 +22,7 @@ export function MemberModal() {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const timer = window.setTimeout(() => {
-      dialogRef.current?.querySelector("input")?.focus();
+      bodyRef.current?.querySelector("input")?.focus();
     }, 80);
     return () => {
       document.removeEventListener("keydown", onKey);
@@ -36,7 +36,6 @@ export function MemberModal() {
   return (
     <div className="modal-overlay" onClick={closeModal}>
       <div
-        ref={dialogRef}
         className="modal-dialog"
         role="dialog"
         aria-modal="true"
@@ -46,15 +45,19 @@ export function MemberModal() {
         <button type="button" className="modal-close" onClick={closeModal} aria-label={text("Fermer", "Close")}>
           <X size={19} />
         </button>
-        <h2 id="member-modal-title">{text("Connexion / Inscription", "Sign in / Sign up")}</h2>
-        <p className="modal-sub">{text("Connectez-vous avec Google ou utilisez votre adresse e-mail. Vos informations restent privées.", "Sign in with Google or use your email address. Your information stays private.")}</p>
-        <div className="member-card modal-card">
-          <MemberAuthForms
-            onAuthenticated={() => {
-              closeModal();
-              router.push("/compte");
-            }}
-          />
+        <div className="modal-head">
+          <h2 id="member-modal-title">{text("Connexion / Inscription", "Sign in / Sign up")}</h2>
+          <p className="modal-sub">{text("Connectez-vous avec Google ou utilisez votre adresse e-mail. Vos informations restent privées.", "Sign in with Google or use your email address. Your information stays private.")}</p>
+        </div>
+        <div ref={bodyRef} className="modal-body">
+          <div className="member-card modal-card">
+            <MemberAuthForms
+              onAuthenticated={() => {
+                closeModal();
+                router.push("/compte");
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>

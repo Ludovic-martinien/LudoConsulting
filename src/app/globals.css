@@ -843,11 +843,13 @@ picture { display: contents; }
 .member-icon-button:hover { background: var(--green); border-color: var(--green); color: #fff; transform: translateY(-1px); }
 .nav-link-button { background: none; border: 0; cursor: pointer; text-align: left; font: inherit; }
 
-/* Fenêtre modale Connexion / Inscription */
-.modal-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(9, 25, 20, .62); backdrop-filter: blur(6px); display: grid; place-items: center; padding: 18px; animation: modal-fade .22s ease; }
-.modal-dialog { position: relative; width: min(100%, 470px); max-height: 92vh; overflow: auto; background: #fff; border-radius: 20px; padding: 30px 28px 28px; box-shadow: 0 40px 90px rgba(0,0,0,.4); animation: modal-pop .25s ease; }
-.modal-dialog h2 { margin: 0; font-size: 22px; letter-spacing: -.03em; color: var(--ink); }
-.modal-sub { margin: 6px 0 18px; color: #78857d; font-size: 12px; line-height: 1.6; }
+/* Fenêtre modale Connexion / Inscription — centrée, structure fixe */
+.modal-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(9, 25, 20, .62); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); display: flex; padding: 18px; overflow-y: auto; overscroll-behavior: contain; animation: modal-fade .22s ease; }
+.modal-dialog { margin: auto; position: relative; width: min(100%, 470px); max-height: calc(100vh - 36px); max-height: calc(100dvh - 36px); overflow: hidden; display: flex; flex-direction: column; background: #fff; border-radius: 20px; box-shadow: 0 40px 90px rgba(0,0,0,.4); animation: modal-pop .25s ease; }
+.modal-head { padding: 28px 28px 0; background: #fff; flex: 0 0 auto; }
+.modal-head h2 { margin: 0; padding-right: 36px; font-size: 22px; letter-spacing: -.03em; color: var(--ink); }
+.modal-sub { margin: 6px 0 16px; color: #78857d; font-size: 12px; line-height: 1.6; }
+.modal-body { padding: 0 28px 28px; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
 .modal-close { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; border: 1px solid #e3e9e2; background: #fff; color: #5c6f64; cursor: pointer; }
 .modal-close:hover { background: #f1f5f0; }
 .member-card.modal-card { padding: 0; box-shadow: none; background: transparent; border-radius: 0; }
@@ -865,5 +867,7 @@ picture { display: contents; }
 .login-events li { display: flex; justify-content: space-between; gap: 10px; font-size: 11px; color: #64746a; background: #f6f9f5; border: 1px solid #e7ede6; border-radius: 9px; padding: 8px 11px; }
 
 @media (max-width: 680px) {
-  .modal-dialog { padding: 24px 18px; }
+  .modal-overlay { padding: 12px; }
+  .modal-head { padding: 22px 18px 0; }
+  .modal-body { padding: 0 18px 22px; }
 }
