@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   if (!sameOrigin(request)) return Response.json({ error: "Requête refusée." }, { status: 403 });
   const limit = publicRateLimit(request, "member-login", 8, 15 * 60 * 1000);
   if (!limit.allowed) return Response.json({ error: "Trop de tentatives. Réessayez plus tard." }, { status: 429, headers: { "Retry-After": String(limit.retryAfter) } });
-  if (!memberSecretAvailable()) return Response.json({ error: "Le service de connexion n'est pas configuré. Contactez l'administrateur du site." }, { status: 503 });
+  if (!(await memberSecretAvailable())) return Response.json({ error: "Le service de connexion n'est pas configuré. Contactez l'administrateur du site." }, { status: 503 });
   try {
     const body = (await request.json()) as Record<string, unknown>;
     const email = cleanText(body.email, 254).toLowerCase();
@@ -24,9 +24,9 @@ export async function POST(request: Request) {
     await db.update(users).set({ lastLoginAt: new Date() }).where(eq(users.id, user.id));
     const response = NextResponse.json({
       ok: true,
-      user: { id: user.id, name: user.name, email: user.email, avatar: user.avatarUrl },
+      user: { id: user.id, name: user.name, email: user.email, phone: user.phone, avatar: user.avatarUrl },
     });
-    response.cookies.set(MEMBER_COOKIE, createMemberToken(user), memberCookieOptions(process.env.NODE_ENV === "production"));
+    response.cookies.set(MEMBER_COOKIE, await createMemberToken(user), memberCookieOptions(process.env.NODE_ENV === "production"));
     return response;
   } catch {
     return Response.json({ error: "La connexion n'a pas pu être effectuée." }, { status: 500 });

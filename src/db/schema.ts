@@ -298,11 +298,13 @@ export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 180 }).notNull(),
   email: varchar("email", { length: 254 }).notNull().unique(),
+  phone: varchar("phone", { length: 30 }),
   passwordHash: text("password_hash"),
   provider: varchar("provider", { length: 20 }).notNull().default("email"),
   googleId: varchar("google_id", { length: 120 }).unique(),
   avatarUrl: text("avatar_url"),
   tokenVersion: integer("token_version").notNull().default(0),
+  termsAcceptedAt: timestamp("terms_accepted_at", { withTimezone: true }),
   lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });

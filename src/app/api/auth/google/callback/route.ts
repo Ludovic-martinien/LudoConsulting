@@ -28,7 +28,7 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   if (url.searchParams.get("error")) return fail("cancelled");
   const code = url.searchParams.get("code");
-  if (!code || !verifyGoogleState(url.searchParams.get("state"))) return fail("error");
+  if (!code || !(await verifyGoogleState(url.searchParams.get("state")))) return fail("error");
   try {
     const profile = await exchangeGoogleCode(code, googleRedirectUri(request));
     let [user] = await db.select().from(users).where(eq(users.googleId, profile.sub)).limit(1);
@@ -50,7 +50,7 @@ export async function GET(request: Request) {
     if (!user) return fail("error");
     home.searchParams.set("member", "welcome");
     const response = NextResponse.redirect(home, 302);
-    response.cookies.set(MEMBER_COOKIE, createMemberToken(user), memberCookieOptions(process.env.NODE_ENV === "production"));
+    response.cookies.set(MEMBER_COOKIE, await createMemberToken(user), memberCookieOptions(process.env.NODE_ENV === "production"));
     return response;
   } catch {
     return fail("error");

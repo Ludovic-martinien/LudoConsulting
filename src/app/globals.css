@@ -833,3 +833,26 @@ picture { display: contents; }
   .auth-user-chip { max-width: 150px; }
   .member-inner { padding: 34px 20px; }
 }
+
+/* ---------- Espace membre : bouton icône + fenêtre structurée ---------- */
+.auth-icon-btn { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid rgba(128,160,140,.45); background: transparent; color: inherit; cursor: pointer; transition: background .15s, border-color .15s, transform .15s; }
+.auth-icon-btn:hover { background: rgba(60,140,100,.14); border-color: #3c8c64; transform: translateY(-1px); }
+.auth-modal-head { display: flex; align-items: center; gap: 13px; margin-bottom: 2px; }
+.auth-modal-icon { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(135deg, #14524a, #1c6b45); color: #d7f56a; flex: 0 0 auto; }
+.auth-modal-head h2 { margin: 0; }
+.auth-modal-head .auth-sub { margin: 3px 0 0; }
+.auth-section-title { margin: 14px 0 0; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #3c8c64; }
+.auth-section-title:first-child { margin-top: 0; }
+.auth-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+.auth-password-wrap { position: relative; display: block; }
+.auth-password-wrap input { padding-right: 42px; }
+.auth-eye { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; display: grid; place-items: center; border: none; border-radius: 8px; background: transparent; color: #7d9086; cursor: pointer; }
+.auth-eye:hover { background: #eef3ec; color: #38514a; }
+.auth-check { display: flex !important; flex-direction: row !important; align-items: flex-start; gap: 10px; cursor: pointer; }
+.auth-check input { width: 17px; height: 17px; margin-top: 2px; flex: 0 0 auto; accent-color: #1c6b45; cursor: pointer; }
+.auth-check span { font-weight: 500 !important; font-size: 12.5px !important; line-height: 1.55; color: #4d6257 !important; }
+
+@media (max-width: 860px) {
+  .auth-grid-2 { grid-template-columns: 1fr; }
+  .auth-modal { padding: 26px 20px 22px; }
+}

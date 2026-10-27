@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { LogOut, X } from "lucide-react";
+import { Eye, EyeOff, LogIn, LogOut, User, UserPlus, X } from "lucide-react";
 import { useLanguage } from "@/components/language-provider";
 
-type Member = { id: number; name: string; email: string; avatar: string | null };
+type Member = { id: number; name: string; email: string; phone: string | null; avatar: string | null };
 type Mode = "login" | "signup";
 
 export const AUTH_EVENT = "ludo:open-auth";
@@ -99,14 +99,15 @@ export function AuthButtons() {
             </button>
           </span>
         ) : (
-          <>
-            <button type="button" className="auth-link" onClick={() => setModal({ open: true, mode: "login" })}>
-              {text("Se connecter", "Sign in")}
-            </button>
-            <button type="button" className="button button-primary auth-cta" onClick={() => setModal({ open: true, mode: "signup" })}>
-              {text("S'inscrire", "Sign up")}
-            </button>
-          </>
+          <button
+            type="button"
+            className="auth-icon-btn"
+            onClick={() => setModal({ open: true, mode: "login" })}
+            aria-label={text("Se connecter / S'inscrire", "Sign in / Sign up")}
+            title={text("Se connecter / S'inscrire", "Sign in / Sign up")}
+          >
+            <User size={19} />
+          </button>
         )}
       </div>
       {toast ? (
@@ -126,6 +127,49 @@ export function AuthButtons() {
   );
 }
 
+function PasswordField({
+  label,
+  value,
+  onChange,
+  autoComplete,
+  placeholder,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  autoComplete: string;
+  placeholder: string;
+}) {
+  const [visible, setVisible] = useState(false);
+  const { text } = useLanguage();
+  return (
+    <label>
+      <span>{label}</span>
+      <span className="auth-password-wrap">
+        <input
+          type={visible ? "text" : "password"}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          required
+          minLength={8}
+          maxLength={256}
+          autoComplete={autoComplete}
+          placeholder={placeholder}
+        />
+        <button
+          type="button"
+          className="auth-eye"
+          onClick={() => setVisible((v) => !v)}
+          aria-label={visible ? text("Masquer le mot de passe", "Hide password") : text("Afficher le mot de passe", "Show password")}
+          title={visible ? text("Masquer le mot de passe", "Hide password") : text("Afficher le mot de passe", "Show password")}
+        >
+          {visible ? <EyeOff size={16} /> : <Eye size={16} />}
+        </button>
+      </span>
+    </label>
+  );
+}
+
 function AuthModal({
   open,
   mode,
@@ -142,7 +186,10 @@ function AuthModal({
   const { text } = useLanguage();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [terms, setTerms] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [googleAvailable, setGoogleAvailable] = useState<boolean | null>(null);
@@ -164,8 +211,23 @@ function AuthModal({
 
   if (!open) return null;
 
+  function switchMode(next: Mode) {
+    setError("");
+    onMode({ open: true, mode: next });
+  }
+
   async function submit(event: React.FormEvent) {
     event.preventDefault();
+    if (mode === "signup") {
+      if (password !== confirm) {
+        setError(text("Les deux mots de passe ne correspondent pas.", "Both passwords do not match."));
+        return;
+      }
+      if (!terms) {
+        setError(text("Veuillez accepter l'utilisation de vos données pour créer votre compte.", "Please accept the use of your data to create your account."));
+        return;
+      }
+    }
     setBusy(true);
     setError("");
     try {
@@ -173,7 +235,7 @@ function AuthModal({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name, email, phone, password, terms }),
       });
       const data = (await response.json()) as { error?: string };
       if (!response.ok) {
@@ -183,7 +245,10 @@ function AuthModal({
       }
       setName("");
       setEmail("");
+      setPhone("");
       setPassword("");
+      setConfirm("");
+      setTerms(false);
       setBusy(false);
       onDone();
     } catch {
@@ -198,17 +263,25 @@ function AuthModal({
         <button type="button" className="auth-close" onClick={onClose} aria-label={text("Fermer", "Close")}>
           <X size={18} />
         </button>
-        <h2>{text("Espace membre", "Member area")}</h2>
-        <p className="auth-sub">
-          {mode === "signup"
-            ? text("Créez votre compte pour suivre vos demandes et rester en contact.", "Create your account to track your requests and stay in touch.")
-            : text("Connectez-vous pour retrouver votre espace.", "Sign in to access your space.")}
-        </p>
+        <div className="auth-modal-head">
+          <span className="auth-modal-icon" aria-hidden="true">
+            {mode === "signup" ? <UserPlus size={20} /> : <LogIn size={20} />}
+          </span>
+          <div>
+            <h2>{mode === "signup" ? text("Créer un compte", "Create an account") : text("Bon retour !", "Welcome back!")}</h2>
+            <p className="auth-sub">
+              {mode === "signup"
+                ? text("Rejoignez l'espace membre Ludo_Consulting.", "Join the Ludo_Consulting member area.")
+                : text("Connectez-vous pour retrouver votre espace.", "Sign in to access your space.")}
+            </p>
+          </div>
+        </div>
+
         <div className="auth-tabs" role="tablist">
-          <button type="button" role="tab" aria-selected={mode === "login"} className={mode === "login" ? "is-active" : ""} onClick={() => onMode({ open: true, mode: "login" })}>
+          <button type="button" role="tab" aria-selected={mode === "login"} className={mode === "login" ? "is-active" : ""} onClick={() => switchMode("login")}>
             {text("Connexion", "Sign in")}
           </button>
-          <button type="button" role="tab" aria-selected={mode === "signup"} className={mode === "signup" ? "is-active" : ""} onClick={() => onMode({ open: true, mode: "signup" })}>
+          <button type="button" role="tab" aria-selected={mode === "signup"} className={mode === "signup" ? "is-active" : ""} onClick={() => switchMode("signup")}>
             {text("Inscription", "Sign up")}
           </button>
         </div>
@@ -226,23 +299,44 @@ function AuthModal({
           <p className="auth-note">{text("Connexion Google bientôt disponible : utilisez votre e-mail pour le moment.", "Google sign-in coming soon — please use your email for now.")}</p>
         )}
 
-        <div className="auth-divider"><span>{text("ou", "or")}</span></div>
+        <div className="auth-divider"><span>{text("ou avec votre e-mail", "or with your email")}</span></div>
 
         <form onSubmit={submit} className="auth-form">
           {mode === "signup" ? (
-            <label>
-              <span>{text("Nom complet", "Full name")}</span>
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)} required minLength={2} maxLength={180} autoComplete="name" placeholder={text("Ex. : Aïcha Nguema", "E.g.: Aïcha Nguema")} />
-            </label>
-          ) : null}
-          <label>
-            <span>{text("Adresse e-mail", "Email address")}</span>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required maxLength={254} autoComplete="email" placeholder="vous@exemple.com" />
-          </label>
-          <label>
-            <span>{text("Mot de passe", "Password")}</span>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8} maxLength={256} autoComplete={mode === "signup" ? "new-password" : "current-password"} placeholder={text("8 caractères minimum", "8 characters minimum")} />
-          </label>
+            <>
+              <p className="auth-section-title">{text("1 · Votre identité", "1 · Your identity")}</p>
+              <label>
+                <span>{text("Nom complet", "Full name")}</span>
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} required minLength={2} maxLength={180} autoComplete="name" placeholder={text("Ex. : Aïcha Nguema", "E.g.: Aïcha Nguema")} />
+              </label>
+              <p className="auth-section-title">{text("2 · Vos coordonnées", "2 · Your contact details")}</p>
+              <label>
+                <span>{text("Adresse e-mail", "Email address")}</span>
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required maxLength={254} autoComplete="email" placeholder="vous@exemple.com" />
+              </label>
+              <label>
+                <span>{text("Téléphone (facultatif)", "Phone (optional)")}</span>
+                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} maxLength={30} autoComplete="tel" placeholder="+241 …" />
+              </label>
+              <p className="auth-section-title">{text("3 · Sécurité du compte", "3 · Account security")}</p>
+              <div className="auth-grid-2">
+                <PasswordField label={text("Mot de passe", "Password")} value={password} onChange={setPassword} autoComplete="new-password" placeholder={text("8 caractères min.", "8 chars min.")} />
+                <PasswordField label={text("Confirmer", "Confirm")} value={confirm} onChange={setConfirm} autoComplete="new-password" placeholder={text("Répétez-le", "Repeat it")} />
+              </div>
+              <label className="auth-check">
+                <input type="checkbox" checked={terms} onChange={(e) => setTerms(e.target.checked)} required />
+                <span>{text("J'accepte que mes données soient utilisées pour gérer mon compte membre.", "I agree that my data will be used to manage my member account.")}</span>
+              </label>
+            </>
+          ) : (
+            <>
+              <label>
+                <span>{text("Adresse e-mail", "Email address")}</span>
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required maxLength={254} autoComplete="email" placeholder="vous@exemple.com" />
+              </label>
+              <PasswordField label={text("Mot de passe", "Password")} value={password} onChange={setPassword} autoComplete="current-password" placeholder="••••••••" />
+            </>
+          )}
           {error ? (
             <p className="auth-error" role="alert">{error}</p>
           ) : null}

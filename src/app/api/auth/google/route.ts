@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     redirect_uri: redirectUri,
     response_type: "code",
     scope: "openid email profile",
-    state: googleStateToken(),
+    state: await googleStateToken(),
     access_type: "online",
     prompt: "select_account",
   });
