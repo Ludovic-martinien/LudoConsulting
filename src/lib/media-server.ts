@@ -10,6 +10,16 @@ export async function getMediaVersions() {
 }
 
 export async function getProfilePhoto() {
+  // Priorité à la photo téléversée en base (fonctionne aussi sur hébergement
+  // en lecture seule comme Vercel, où l'écriture dans public/ est impossible),
+  // avec repli sur le fichier statique versionné.
+  try {
+    const [uploaded] = await db.select({ updatedAt: uploadedImages.updatedAt }).from(uploadedImages)
+      .where(eq(uploadedImages.kind, "profile-photo")).orderBy(desc(uploadedImages.updatedAt)).limit(1);
+    if (uploaded) return mediaUrl("profile-photo", uploaded.updatedAt);
+  } catch {
+    /* Base injoignable : repli statique ci-dessous. */
+  }
   return "/images/responsable.webp";
 }
 
