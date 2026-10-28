@@ -4,6 +4,7 @@ import { db } from "@/db";
 import { memberSessions, memberUsers } from "@/db/schema";
 import { verifyAdminPassword } from "@/lib/auth";
 import { getMemberSession, hashPassword } from "@/lib/member-auth";
+import { logEvent } from "@/lib/activity";
 import { cleanText, publicRateLimit, sameOrigin } from "@/lib/request-guard";
 
 export const dynamic = "force-dynamic";
@@ -36,6 +37,7 @@ export async function PATCH(request: Request) {
       updates.passwordHash = hashPassword(password);
     }
     if (Object.keys(updates).length === 0) return Response.json({ error: "Aucune modification à enregistrer." }, { status: 400 });
+    await logEvent({ actor: session.user.email, actorType: "member", action: "member.profile_update", entityType: "member_user", entityId: String(session.user.id) });
     const [updated] = await db.update(memberUsers).set({ ...updates, updatedAt: new Date() })
       .where(eq(memberUsers.id, user.id)).returning({
         id: memberUsers.id, name: memberUsers.name, email: memberUsers.email, image: memberUsers.image,
@@ -50,6 +52,7 @@ export async function DELETE(request: Request) {
   if (!sameOrigin(request)) return Response.json({ error: "Requête refusée." }, { status: 403 });
   const session = await getMemberSession();
   if (!session) return Response.json({ error: "Authentification requise." }, { status: 401 });
+  await logEvent({ actor: session.user.email, actorType: "member", action: "member.deleted", entityType: "member_user", entityId: String(session.user.id) });
   await db.delete(memberSessions).where(eq(memberSessions.userId, session.user.id));
   await db.delete(memberUsers).where(eq(memberUsers.id, session.user.id));
   const response = NextResponse.json({ ok: true });

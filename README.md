@@ -127,6 +127,39 @@ plus la bannière (`display-mode: standalone` détecté).
 Prérequis réels : HTTPS (actif en production), `sw.js` servi sans cache
 (`Cache-Control: no-store` configuré dans `next.config.ts`) et icônes 192/512 valides.
 
+## Administration : connexion unifiée, profil, statistiques et journal
+
+**Connexion unifiée** : le formulaire membre (`/#espace-membre`, onglets Connexion /
+Inscription) accepte aussi les identifiants administrateur : le rôle est détecté
+côté serveur et un admin est redirigé vers `/admin`, un membre vers `/compte`. Le
+formulaire dédié `/admin/login` reste disponible. L'adresse e-mail administrateur est
+réservée (aucun compte membre ne peut l'utiliser).
+
+**Tableau de bord** (`/admin`) : cartes temps réel (membres, sessions actives,
+inscriptions, connexions, demandes, actions journalisées, staff) avec deltas calculés
+contre la période précédente, courbes 7j/30j/12m, anneau des rôles, activité par type,
+comparaison de périodes, tableaux récents. Actualisation manuelle + auto toutes les 60 s.
+Aucune donnée de démonstration.
+
+**Journal d'activité** (`/admin/activity`) : `admin.login/logout`, échecs de connexion
+(sans mot de passe), inscriptions/connexions/déconnexions membres, formulaires reçus,
+modifications de profil, suppressions, actions contenus — avec acteur, objet, résultat,
+filtres et pagination. Les administrateurs ne peuvent pas l'effacer depuis l'interface.
+
+**Rôles** (`/admin/roles`) : détectés depuis `admin_users` + `member_users`, effectifs,
+matrice des permissions réellement appliquées côté serveur, activation/suspension et
+changement de rôle (jamais sur son propre compte, chaque action journalisée).
+
+**Mon profil** (`/admin/profil`) : nom affiché modifiable ; e-mail et rôle verrouillés
+(le mot de passe reste géré par `ADMIN_PASSWORD_HASH`, voir ci-dessous).
+
+**Déconnexion** : confirmation, session invalidée et journalisée, retour à l'accueil
+public `/`. Les pages `/admin/*` envoient `Cache-Control: no-store` : le bouton Retour
+ne rouvre jamais une session fermée.
+
+**Notifications et recherche** : la cloche affiche les demandes au statut « nouveau »,
+la recherche globale interroge membres, devis et messages.
+
 ## Compte administrateur
 
 L'authentification n'utilise pas de compte par défaut, de mot de passe en clair ni de valeur codée dans le dépôt. Avant la mise en service, définir dans le gestionnaire de secrets de l'environnement :

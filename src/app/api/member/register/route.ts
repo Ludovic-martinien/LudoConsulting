@@ -4,6 +4,7 @@ import { db } from "@/db";
 import { memberUsers } from "@/db/schema";
 import { cleanText, publicRateLimit, sameOrigin, validEmail } from "@/lib/request-guard";
 import { createMemberSession, hashPassword, isSecureRequest, logMemberEvent, memberCookieOptions } from "@/lib/member-auth";
+import { logEvent } from "@/lib/activity";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +19,9 @@ export async function POST(request: Request) {
     const email = cleanText(body.email, 254).toLowerCase();
     const password = typeof body.password === "string" ? body.password.slice(0, 256) : "";
     if (name.length < 2 || !validEmail(email)) return Response.json({ error: "Vérifiez votre nom et votre adresse e-mail." }, { status: 400 });
+    if (process.env.ADMIN_EMAIL?.trim().toLowerCase() && email === process.env.ADMIN_EMAIL.trim().toLowerCase()) {
+      return Response.json({ error: "Cette adresse est réservée à l'administration. Utilisez le formulaire de connexion." }, { status: 409 });
+    }
     if (password.length < 10) return Response.json({ error: "Choisissez un mot de passe d'au moins 10 caractères." }, { status: 400 });
     if (body.consent !== true) return Response.json({ error: "Votre consentement est requis pour créer un compte." }, { status: 400 });
     const [existing] = await db.select({ id: memberUsers.id }).from(memberUsers).where(eq(memberUsers.email, email)).limit(1);
@@ -33,6 +37,7 @@ export async function POST(request: Request) {
     }
     const { token } = await createMemberSession(userId);
     await logMemberEvent(userId, "register", request);
+    await logEvent({ actor: email, actorType: "member", action: "member.register", entityType: "member_user", entityId: String(userId) });
     const response = NextResponse.json({ ok: true, member: { id: userId, name, email, image: null } }, { status: 201 });
     response.cookies.set("ludo_member_session", token, memberCookieOptions(isSecureRequest(request)));
     return response;

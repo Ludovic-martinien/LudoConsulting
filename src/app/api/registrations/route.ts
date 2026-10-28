@@ -1,5 +1,6 @@
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db";
+import { logEvent } from "@/lib/activity";
 import { registrations, servicePackages } from "@/db/schema";
 import { cleanText, publicRateLimit, sameOrigin, validEmail } from "@/lib/request-guard";
 
@@ -23,6 +24,7 @@ export async function POST(request: Request) {
       if (!pkg) return Response.json({ error: "La formule sélectionnée n’est pas disponible." }, { status: 400 });
     }
     const [saved] = await db.insert(registrations).values({ name, email, phone, packageId, message: message || null, consent: true, status: "new" }).returning({ id: registrations.id });
+    await logEvent({ actor: email, actorType: "anonymous", action: "form.received", entityType: "registration", entityId: String(saved.id) });
     return Response.json({ ok: true, id: saved.id }, { status: 201 });
   } catch {
     return Response.json({ error: "La demande n’a pas pu être enregistrée. Réessayez plus tard." }, { status: 500 });

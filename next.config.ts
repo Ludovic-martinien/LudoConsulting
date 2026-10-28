@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
         headers: [{ key: "Cache-Control", value: "public, max-age=0, must-revalidate" }],
       },
       {
+        // L'administration ne doit jamais être conservée en cache (bouton Retour, proxies) :
+        // chaque accès est réévalué côté serveur et redirige sans session valide.
+        source: "/admin/:path*",
+        headers: [{ key: "Cache-Control", value: "no-store, must-revalidate" }],
+      },
+      {
         source: "/:path*",
         headers: [
           { key: "X-Content-Type-Options", value: "nosniff" },

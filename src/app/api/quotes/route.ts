@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db";
+import { logEvent } from "@/lib/activity";
 import { quoteRequests, services } from "@/db/schema";
 import { cleanText, publicRateLimit, sameOrigin, validEmail } from "@/lib/request-guard";
 
@@ -27,6 +28,7 @@ export async function POST(request: Request) {
     if (!service) return Response.json({ error: "Le service sélectionné n’est pas disponible." }, { status: 400 });
     const referenceNumber = `LC-${new Date().getFullYear()}-${randomUUID().slice(0, 8).toUpperCase()}`;
     const [saved] = await db.insert(quoteRequests).values({ referenceNumber, name, email, phone, company: company || null, serviceId: service.id, serviceSlug: service.slug, description, budget: budget || null, desiredDeadline: desiredDeadline || null, consent: true, status: "new" }).returning({ referenceNumber: quoteRequests.referenceNumber });
+    await logEvent({ actor: email, actorType: "anonymous", action: "form.received", entityType: "quote_request", entityId: saved.referenceNumber, details: { service: serviceSlug } });
     return Response.json({ ok: true, reference: saved.referenceNumber }, { status: 201 });
   } catch {
     return Response.json({ error: "La demande n’a pas pu être enregistrée. Réessayez plus tard." }, { status: 500 });

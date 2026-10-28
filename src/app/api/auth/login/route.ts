@@ -5,6 +5,7 @@ import { activityLogs, adminUsers } from "@/db/schema";
 import { createSessionToken, sessionCookieOptions, verifyAdminPassword, type AdminRole } from "@/lib/auth";
 import { cleanText, publicRateLimit, sameOrigin } from "@/lib/request-guard";
 import { ensureSeedData } from "@/lib/seed";
+import { logEvent } from "@/lib/activity";
 
 export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
@@ -20,7 +21,10 @@ export async function POST(request: Request) {
     const body = await request.json() as Record<string, unknown>;
     const email = cleanText(body.email, 254).toLowerCase();
     const password = typeof body.password === "string" ? body.password.slice(0, 256) : "";
-    if (email !== configuredEmail || !verifyAdminPassword(password, passwordHash)) return Response.json({ error: "Adresse e-mail ou mot de passe incorrect." }, { status: 401 });
+    if (email !== configuredEmail || !verifyAdminPassword(password, passwordHash)) {
+      await logEvent({ actor: email, actorType: "anonymous", action: "admin.login_failed", result: "failure" });
+      return Response.json({ error: "Adresse e-mail ou mot de passe incorrect." }, { status: 401 });
+    }
     await ensureSeedData();
     await db.insert(adminUsers).values({ email: configuredEmail, role: "admin", isActive: true }).onConflictDoNothing();
     const [user] = await db.select().from(adminUsers).where(eq(adminUsers.email, configuredEmail)).limit(1);

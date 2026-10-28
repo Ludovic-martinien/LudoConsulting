@@ -267,6 +267,7 @@ export const siteSettings = pgTable("site_settings", {
 export const adminUsers = pgTable("admin_users", {
   id: serial("id").primaryKey(),
   email: varchar("email", { length: 254 }).notNull().unique(),
+  name: varchar("name", { length: 180 }),
   role: varchar("role", { length: 40 }).notNull().default("admin"),
   isActive: boolean("is_active").notNull().default(true),
   lastLoginAt: timestamp("last_login_at", { withTimezone: true }),

@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { contactMessages } from "@/db/schema";
 import { cleanText, publicRateLimit, sameOrigin, validEmail } from "@/lib/request-guard";
+import { logEvent } from "@/lib/activity";
 
 export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
@@ -19,6 +20,7 @@ export async function POST(request: Request) {
       return Response.json({ error: "Vérifiez les champs obligatoires et votre consentement." }, { status: 400 });
     }
     const [saved] = await db.insert(contactMessages).values({ name, email, phone: phone || null, subject, message, consent: true, status: "new" }).returning({ id: contactMessages.id });
+    await logEvent({ actor: email, actorType: "anonymous", action: "form.received", entityType: "contact_message", entityId: String(saved.id), details: { subject } });
     return Response.json({ ok: true, id: saved.id }, { status: 201 });
   } catch {
     return Response.json({ error: "Le message n’a pas pu être enregistré. Réessayez plus tard." }, { status: 500 });

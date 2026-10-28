@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState, type FormEvent } from "react";
 import { ArrowUpRight, LoaderCircle, UserRound } from "lucide-react";
 import { useLanguage } from "@/components/language-provider";
@@ -24,6 +25,7 @@ function TrapField() {
 export function MemberAuthForms({ onAuthenticated }: { onAuthenticated: () => void }) {
   const { text } = useLanguage();
   const { googleReady, refresh } = useMember();
+  const router = useRouter();
   const [tab, setTab] = useState<"login" | "register">("login");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -50,8 +52,12 @@ export function MemberAuthForms({ onAuthenticated }: { onAuthenticated: () => vo
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const result = await response.json() as { error?: string };
+      const result = await response.json() as { error?: string; redirect?: string };
       if (!response.ok) throw new Error(result.error || text("Une erreur est survenue.", "Something went wrong."));
+      if (result.redirect) {
+        router.push(result.redirect);
+        return;
+      }
       await refresh();
       onAuthenticated();
     } catch (cause) {
