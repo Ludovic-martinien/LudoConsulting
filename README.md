@@ -80,9 +80,12 @@ automatique), réutilisant les mêmes formulaires que la section `/#espace-membr
 **Rubriques réservées aux membres** : Services, Réalisations, Tarifs, Formations et le
 bouton WhatsApp flottant ne s'affichent que pour les membres connectés — dans la
 navigation comme sur les pages (redirection vers `/#espace-membre` sinon, vérifiée
-côté serveur). Elles sont exclues du sitemap tant que ce mode est actif. La barre de
-navigation garde une mise en page stable (`nowrap`, aucun chevauchement) quel que soit
-l'état de connexion, sur toutes les tailles d'écran.
+côté serveur). Sur l'accueil, les grilles Services et Réalisations sont remplacées par
+des teasers verrouillés invitant à se connecter, et la page `/presentation` est
+également réservée aux membres. Elles sont exclues du sitemap tant que ce mode est actif.
+La barre de navigation garde une mise en page stable (`nowrap`, aucun chevauchement)
+quel que soit l'état de connexion, sur toutes les tailles d'écran. Le pied de page
+suit la même règle pour sa colonne Explorer.
 
 **Profil membre** (`/compte`) : le membre modifie son nom affiché, ajoute ou change
 son mot de passe (l'ancien est exigé s'il existe), consulte ses dernières connexions

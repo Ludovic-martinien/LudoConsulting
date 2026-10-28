@@ -7,6 +7,9 @@ import { useLanguage } from "@/components/language-provider";
 import { useMember } from "@/components/member-provider";
 
 type LoginEvent = { method: string; createdAt: string };
+type QuoteRow = { referenceNumber: string; serviceFr: string; serviceEn: string; status: string; createdAt: string };
+type MessageRow = { subject: string; status: string; createdAt: string };
+type TrainingRow = { planFr: string; planEn: string; status: string; createdAt: string };
 
 type Props = {
   id: number;
@@ -18,7 +21,29 @@ type Props = {
   createdAt: string;
   welcomed: boolean;
   logins: LoginEvent[];
+  quotes: QuoteRow[];
+  messages: MessageRow[];
+  trainings: TrainingRow[];
 };
+
+function requestStatusLabel(status: string, text: (fr: string, en: string) => string) {
+  const labels: Record<string, { fr: string; en: string }> = {
+    new: { fr: "Nouveau", en: "New" },
+    processing: { fr: "En cours de traitement", en: "In progress" },
+    waiting: { fr: "En attente d'informations", en: "Awaiting information" },
+    quote_preparation: { fr: "Devis à préparer", en: "Quote to prepare" },
+    replied: { fr: "Répondu", en: "Replied" },
+    accepted: { fr: "Accepté", en: "Accepted" },
+    declined: { fr: "Refusé", en: "Declined" },
+    closed: { fr: "Clôturé", en: "Closed" },
+  };
+  const label = labels[status];
+  return label ? text(label.fr, label.en) : status;
+}
+
+function formatShortDate(value: string, text: (fr: string, en: string) => string) {
+  return new Intl.DateTimeFormat(text("fr-FR", "en-GB"), { dateStyle: "medium" }).format(new Date(value));
+}
 
 function loginMethodLabel(method: string, text: (fr: string, en: string) => string) {
   if (method === "google") return "Google";
@@ -26,7 +51,7 @@ function loginMethodLabel(method: string, text: (fr: string, en: string) => stri
   return text("Mot de passe", "Password");
 }
 
-export function AccountClient({ name, email, image, googleLinked, hasPassword, createdAt, welcomed, logins }: Props) {
+export function AccountClient({ name, email, image, googleLinked, hasPassword, createdAt, welcomed, logins, quotes, messages, trainings }: Props) {
   const { text } = useLanguage();
   const { refresh } = useMember();
   const router = useRouter();
@@ -162,6 +187,58 @@ export function AccountClient({ name, email, image, googleLinked, hasPassword, c
               <button type="button" className="button button-outline-dark button-small" onClick={() => setEditingPassword(false)} disabled={busy}>{text("Annuler", "Cancel")}</button>
             </div>
           </form>
+        )}
+      </div>
+      <div className="account-requests">
+        <h3>{text("Mes demandes", "My requests")}</h3>
+        <p className="form-disclaimer">{text("Retrouvez ici vos demandes de devis, vos messages et vos inscriptions, avec leur statut de traitement.", "Find your quote requests, messages and registrations here, with their processing status.")}</p>
+        {quotes.length === 0 && messages.length === 0 && trainings.length === 0 ? (
+          <div className="empty-state" style={{ padding: "22px 16px" }}>
+            <h3>{text("Aucune demande pour le moment", "No requests yet")}</h3>
+            <p>{text("Vos prochaines demandes apparaîtront ici automatiquement.", "Your future requests will appear here automatically.")}</p>
+          </div>
+        ) : (
+          <>
+            {quotes.length > 0 && (
+              <>
+                <h4 className="request-group-title">{text("Devis demandés", "Requested quotes")}</h4>
+                <div className="admin-table-wrap"><table className="admin-table">
+                  <thead><tr><th>{text("Référence", "Reference")}</th><th>{text("Service", "Service")}</th><th>{text("Statut", "Status")}</th><th>{text("Date", "Date")}</th></tr></thead>
+                  <tbody>
+                    {quotes.map((item) => (
+                      <tr key={item.referenceNumber}><td><strong>{item.referenceNumber}</strong></td><td>{text(item.serviceFr, item.serviceEn)}</td><td><span className="status-label">{requestStatusLabel(item.status, text)}</span></td><td>{formatShortDate(item.createdAt, text)}</td></tr>
+                    ))}
+                  </tbody>
+                </table></div>
+              </>
+            )}
+            {trainings.length > 0 && (
+              <>
+                <h4 className="request-group-title">{text("Formations", "Training")}</h4>
+                <div className="admin-table-wrap"><table className="admin-table">
+                  <thead><tr><th>{text("Formule", "Plan")}</th><th>{text("Statut", "Status")}</th><th>{text("Date", "Date")}</th></tr></thead>
+                  <tbody>
+                    {trainings.map((item, index) => (
+                      <tr key={`${item.createdAt}-${index}`}><td>{text(item.planFr, item.planEn)}</td><td><span className="status-label">{requestStatusLabel(item.status, text)}</span></td><td>{formatShortDate(item.createdAt, text)}</td></tr>
+                    ))}
+                  </tbody>
+                </table></div>
+              </>
+            )}
+            {messages.length > 0 && (
+              <>
+                <h4 className="request-group-title">{text("Messages envoyés", "Sent messages")}</h4>
+                <div className="admin-table-wrap"><table className="admin-table">
+                  <thead><tr><th>{text("Objet", "Subject")}</th><th>{text("Statut", "Status")}</th><th>{text("Date", "Date")}</th></tr></thead>
+                  <tbody>
+                    {messages.map((item, index) => (
+                      <tr key={`${item.createdAt}-${index}`}><td>{item.subject}</td><td><span className="status-label">{requestStatusLabel(item.status, text)}</span></td><td>{formatShortDate(item.createdAt, text)}</td></tr>
+                    ))}
+                  </tbody>
+                </table></div>
+              </>
+            )}
+          </>
         )}
       </div>
       <div className="account-actions">

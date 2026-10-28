@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PresentationDeck } from "@/components/presentation/deck";
 import { getProjectLogoUrls } from "@/lib/media-server";
+import { requireMemberPage } from "@/lib/member-page";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function PresentationPage() {
+  await requireMemberPage();
   const logos = await getProjectLogoUrls();
   return <PresentationDeck logos={logos} />;
 }
