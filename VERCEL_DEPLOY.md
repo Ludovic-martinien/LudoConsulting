@@ -25,17 +25,13 @@ Vérifiez sur github.com que les fichiers sont présents et que `.env` est **abs
 1. Créez un compte sur https://neon.com → nouveau projet (région la plus proche, ex. EU).
 2. Ouvrez l'onglet **Connection Details**, activez le mode **Pooled connection** (recommandé pour serverless/Vercel).
 3. Copiez la chaîne `DATABASE_URL` (format `postgresql://...pooler...`).
-4. Initialisez le schéma depuis votre machine (Node.js + dépendances installées) :
-   ```bash
-   DATABASE_URL="<COLLEZ-LA-CHAINE-POOLED>" npx drizzle-kit push
-   ```
+4. **Rien d'autre à faire pour la base** : le fichier `vercel.json` du projet exécute automatiquement `npx drizzle-kit migrate` avant chaque build, ce qui crée les 23 tables (vérifié sur base vide).
 5. Les contenus de référence (services, profil, liens sociaux, projets) se créent automatiquement à la première visite grâce à `ensureSeedData`.
 
 ## 3. Importer dans Vercel
 
 1. Sur https://vercel.com/ludovic-martinien → **Add New → Project** → **Import** le dépôt `LudoConsulting`.
-2. Framework détecté automatiquement : **Next.js**. Laissez les réglages par défaut :
-   - Build Command : `next build`
+2. Framework détecté automatiquement : **Next.js**. La commande de build personnalisée `vercel.json` (`npx drizzle-kit migrate && npm run build`) est reprise automatiquement : les tables sont créées avant la compilation. Laissez le reste par défaut :
    - Output Directory : (défaut Next.js)
    - Install Command : `npm install`
 3. **Avant de déployer**, renseignez les variables d'environnement (**Settings → Environment Variables**, scopes Production + Preview) :

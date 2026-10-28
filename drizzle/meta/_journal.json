@@ -8,6 +8,13 @@
       "when": 1792975002286,
       "tag": "0000_serious_slyde",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793227669022,
+      "tag": "0001_full_schema",
+      "breakpoints": true
     }
   ]
 }
