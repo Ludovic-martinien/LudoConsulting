@@ -58,7 +58,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .rail-dot { width: 5px; height: 5px; border-radius: 50%; background: #72aa61; }
 
 .site-footer { padding: 67px max(28px, calc((100vw - 1184px) / 2)) 24px; background: #0c302d; color: #ecf4ed; }
-.footer-top { display: grid; grid-template-columns: 1.55fr .7fr 1fr; gap: 70px; padding-bottom: 53px; }
+.footer-top { display: grid; grid-template-columns: 1.5fr .65fr 1fr .75fr; gap: 56px; padding-bottom: 53px; }
 .footer-brand .brand-mark { color: var(--green); background: var(--lime); }
 .footer-brand .brand-mark i { background: var(--green); }
 .footer-brand .brand-wordmark { color: #f4f7ee; }

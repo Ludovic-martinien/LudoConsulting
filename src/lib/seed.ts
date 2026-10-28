@@ -11,6 +11,7 @@ import {
   servicePrices,
   services,
   siteSettings,
+  socialLinks,
   skills,
   technologies,
 } from "@/db/schema";
@@ -392,6 +393,24 @@ export async function ensureEdulinkProject() {
       features: [...gestion.features, { fr: "Rôles envisagés : secrétaire, comptable, directeur, administrateur", en: "Proposed roles: secretary, accountant, director, administrator", state: "planned" }],
       updatedAt: new Date(),
     }).where(eq(projects.id, gestion.id));
+  }
+
+  const socialSeed = [
+    { platform: "github", label: "GitHub", url: "https://github.com/Lichtensteiner", displayOrder: 1 },
+    { platform: "facebook", label: "Facebook", url: "https://www.facebook.com/profile.php?id=100088480505522", displayOrder: 2 },
+    { platform: "whatsapp", label: "WhatsApp", url: "https://whatsapp.com/channel/0029Vb89zwc84OmE3NfiNV28", displayOrder: 3 },
+    { platform: "linkedin", label: "LinkedIn", url: "https://www.linkedin.com/in/ludo-consulting-97ba30334", displayOrder: 4 },
+    { platform: "tiktok", label: "TikTok", url: "https://www.tiktok.com/@martinienmvezogo", displayOrder: 5 },
+    { platform: "telegram", label: "Telegram", url: "https://t.me/Ludo_Consulting", displayOrder: 6 },
+    { platform: "discord", label: "Discord", url: "https://discord.gg/FmKw6nhDH", displayOrder: 7 },
+  ];
+  for (const row of socialSeed) {
+    const [existing] = await db.select({ id: socialLinks.id }).from(socialLinks).where(eq(socialLinks.platform, row.platform)).limit(1);
+    if (existing) {
+      await db.update(socialLinks).set({ label: row.label, url: row.url, displayOrder: row.displayOrder, isPublished: true }).where(eq(socialLinks.id, existing.id));
+    } else {
+      await db.insert(socialLinks).values({ ...row, isPublished: true });
+    }
   }
 
   await db.update(profiles).set({
