@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="ludo-mark-title">
+  <title id="ludo-mark-title">Ludo_Consulting</title>
+  <defs>
+    <linearGradient id="markNavy" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#17458c"/>
+      <stop offset=".55" stop-color="#0b1d3a"/>
+      <stop offset="1" stop-color="#06132a"/>
+    </linearGradient>
+    <linearGradient id="markGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f9efc8"/>
+      <stop offset=".45" stop-color="#dcb968"/>
+      <stop offset="1" stop-color="#a97a2e"/>
+    </linearGradient>
+    <linearGradient id="markBlue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8cc7ff"/>
+      <stop offset=".45" stop-color="#2170e6"/>
+      <stop offset="1" stop-color="#0b2b66"/>
+    </linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="62" fill="url(#markNavy)"/>
+  <circle cx="64" cy="64" r="57.5" fill="none" stroke="url(#markGold)" stroke-width="3"/>
+  <circle cx="64" cy="64" r="49" fill="#f4f8ff" stroke="url(#markGold)" stroke-width="1.6"/>
+  <g stroke="url(#markBlue)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity=".8">
+    <path d="M 28 40 H 44 M 28 50 H 40 M 28 60 H 43 M 28 70 H 40"/>
+    <path d="M 28 40 V 70"/>
+  </g>
+  <path d="M 47 30 V 83 H 73" fill="none" stroke="url(#markBlue)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 73 30 L 95 38 V 53 C 95 68 86 78 73 84 C 60 78 51 68 51 53 V 38 Z" fill="#0b1d3a" stroke="url(#markGold)" stroke-width="2.2" opacity=".96"/>
+  <rect x="66" y="51" width="14" height="11" rx="2.4" fill="#f4f8ff"/>
+  <path d="M 69 51 V 47.5 A 4 4 0 0 1 77 47.5 V 51" fill="none" stroke="#f4f8ff" stroke-width="2"/>
+  <path d="M 87 104 L 105 86" fill="none" stroke="url(#markGold)" stroke-width="5" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,43 @@
+# Dépendances
+node_modules/
+.pnpm-store/
+
+# Build Next.js
+.next/
+out/
+build/
+coverage/
+
+# Variables d'environnement et secrets — JAMAIS versionnés
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+*secret*.json
+secrets/
+
+# Vercel / déploiement
+.vercel/
+
+# Système / éditeurs
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Fichiers temporaires
+tmp/
+temp/
+*.tmp
+*.bak

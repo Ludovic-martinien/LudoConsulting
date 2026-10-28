@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Ludo_Consulting">
+  <defs>
+    <linearGradient id="lc-navy" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1d5aa8"/><stop offset=".55" stop-color="#0b1d3a"/><stop offset="1" stop-color="#06132a"/></linearGradient>
+    <linearGradient id="lc-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f9efc8"/><stop offset=".45" stop-color="#dcb968"/><stop offset="1" stop-color="#a97a2e"/></linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#lc-navy)"/>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="url(#lc-gold)" stroke-width="5"/>
+  <text x="64" y="88" text-anchor="middle" font-family="'Arial Black', Arial, sans-serif" font-size="56" font-weight="900" letter-spacing="-2" fill="#f4f8ff">LC</text>
+  <circle cx="64" cy="64" r="52" fill="none" stroke="#0b1d3a" stroke-width="1" opacity=".4"/>
+</svg>
