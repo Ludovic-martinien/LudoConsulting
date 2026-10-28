@@ -1,0 +1,1 @@
+ALTER TABLE "social_links" ADD CONSTRAINT "social_links_platform_unique" UNIQUE("platform");

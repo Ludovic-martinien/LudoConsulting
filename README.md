@@ -34,6 +34,14 @@ Les images jointes à une conversation ne sont pas accessibles comme fichiers du
 
 Les fichiers sont stockés dans la table `uploaded_images` et servis par `/api/media/[kind]` avec un en-tête `X-Content-Type-Options: nosniff`. Les SVG ne sont pas acceptés en téléversement (risque d'exécution de script) : pour un logo vectoriel, placer le fichier dans `public/brand/projects/` et référencer son chemin dans le code.
 
+**Réseaux sociaux du pied de page** : colonne « Suivez-nous » alimentée par la table
+`social_links` (GitHub, Facebook, chaîne WhatsApp, LinkedIn, TikTok, Telegram, Discord —
+URL nettoyées de tout paramètre de suivi). Chaque réseau utilise son **icône officielle**
+(tracés simple-icons, licence CC0, copiés dans `src/components/social-icons.tsx`, sans
+dépendance au runtime). Préchargement idempotent + contrainte d'unicité sur `platform`.
+Pour ajouter un réseau : insérez une ligne dans `social_links` (un réseau sans icône
+connue s'affiche en lien texte).
+
 **Logo officiel du site** : `public/brand/Ludo_Consulting.svg` — recréation vectorielle fidèle de l'emblème officiel (anneau bleu marine et or, monogramme LC en circuits, nuage, ordinateur, bouclier verrouillé, téléphone, flèche de croissance, textes circulaires et numéros de téléphone). Utilisé dans l'en-tête, le pied de page, la connexion et comme favicon. Les déclinaisons PNG (`-192`, `-512`, `-180`, `-maskable-512`) sont générées depuis ce SVG et servent aussi d'icônes PWA. Pour installer le fichier officiel exact sans changer le code, remplacez simplement ce fichier en conservant son nom, puis régénérez les PNG.
 
 ### Point de nom à confirmer

@@ -12,6 +12,7 @@ import {
   services,
   siteSettings,
   skills,
+  socialLinks,
   technologies,
 } from "@/db/schema";
 import { eq, isNull } from "drizzle-orm";
@@ -365,6 +366,7 @@ export async function ensureSeedData() {
   });
 
   await ensureEdulinkProject();
+  await ensureSocialLinks();
 }
 
 const globalForSeed = globalThis as typeof globalThis & { __ludoEdulinkSeeded?: boolean };
@@ -399,6 +401,21 @@ export async function ensureEdulinkProject() {
     profileImageUrl: "/images/responsable.webp",
   }).where(eq(profiles.id, 1));
   globalForSeed.__ludoEdulinkSeeded = true;
+}
+
+const globalForSocials = globalThis as typeof globalThis & { __ludoSocialsSeeded?: boolean };
+
+export async function ensureSocialLinks() {
+  if (globalForSocials.__ludoSocialsSeeded) return;
+  const { SOCIAL_DEFAULTS } = await import("@/lib/social");
+  await db.insert(socialLinks).values(SOCIAL_DEFAULTS.map((item) => ({
+    platform: item.platform,
+    label: item.label,
+    url: item.url,
+    displayOrder: item.displayOrder,
+    isPublished: true,
+  }))).onConflictDoNothing();
+  globalForSocials.__ludoSocialsSeeded = true;
 }
 
 export async function seedMarkerExists() {

@@ -58,7 +58,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .rail-dot { width: 5px; height: 5px; border-radius: 50%; background: #72aa61; }
 
 .site-footer { padding: 67px max(28px, calc((100vw - 1184px) / 2)) 24px; background: #0c302d; color: #ecf4ed; }
-.footer-top { display: grid; grid-template-columns: 1.55fr .7fr 1fr; gap: 70px; padding-bottom: 53px; }
+.footer-top { display: grid; grid-template-columns: 1.4fr .65fr .95fr .8fr; gap: 56px; padding-bottom: 53px; }
 .footer-brand .brand-mark { color: var(--green); background: var(--lime); }
 .footer-brand .brand-mark i { background: var(--green); }
 .footer-brand .brand-wordmark { color: #f4f7ee; }
@@ -1081,4 +1081,14 @@ picture { display: contents; }
 @media (prefers-reduced-motion: reduce) {
   .dashboard, .stat-card { animation: none; }
   .stat-bar i, .comparison-fill { transition: none; }
+}
+
+/* Réseaux sociaux du pied de page */
+.social-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+.social-button { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); color: #e5eee7; transition: background .2s ease, transform .2s ease, border-color .2s ease; }
+.social-button:hover { background: var(--social-color, #d7f56a); border-color: transparent; color: #fff; transform: translateY(-2px); }
+.social-text-link { display: block; color: #e5eee7; font-size: 12px; }
+.social-text-link:hover { color: var(--lime); }
+@media (max-width: 1100px) {
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 35px 24px; }
 }

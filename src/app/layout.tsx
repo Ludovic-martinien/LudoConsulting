@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { SiteShell } from "@/components/site-shell";
+import { getPublishedSocialLinks } from "@/lib/social";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ludoconsulting.vercel.app";
@@ -37,6 +38,7 @@ export const viewport: Viewport = {
   themeColor: "#0b483e",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
-  return <html lang="fr" suppressHydrationWarning><body><SiteShell>{children}</SiteShell></body></html>;
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const socials = await getPublishedSocialLinks();
+  return <html lang="fr" suppressHydrationWarning><body><SiteShell socials={socials}>{children}</SiteShell></body></html>;
 }

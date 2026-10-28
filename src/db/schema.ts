@@ -251,7 +251,7 @@ export const mediaAssets = pgTable("media_assets", {
 
 export const socialLinks = pgTable("social_links", {
   id: serial("id").primaryKey(),
-  platform: varchar("platform", { length: 80 }).notNull(),
+  platform: varchar("platform", { length: 80 }).notNull().unique(),
   label: varchar("label", { length: 120 }).notNull(),
   url: text("url").notNull(),
   displayOrder: integer("display_order").notNull().default(0),
