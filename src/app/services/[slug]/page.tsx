@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { ServiceDetail } from "@/components/service-detail";
 import { getPublicService } from "@/lib/public-data";
+import { requireMemberOrAdmin } from "@/lib/page-guard";
 
 type Props = { params: Promise<{ slug: string }> };
 export const dynamic = "force-dynamic";
@@ -12,6 +13,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function ServicePage({ params }: Props) {
+  await requireMemberOrAdmin();
   const { slug } = await params;
   const service = await getPublicService(slug);
   if (!service) notFound();

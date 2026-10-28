@@ -927,3 +927,20 @@ picture { display: contents; }
   .pwa-banner { bottom: 14px; padding: 11px 12px; gap: 10px; }
   .pwa-text span { font-size: 11px; }
 }
+
+/* ---------- Profil : suivi des demandes et formations ---------- */
+.profile-stats { margin: 8px 0 0; font-size: 12.5px; color: #5c7267; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.profile-stats strong { color: #16342a; font-size: 15px; }
+.profile-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.profile-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1px solid #e2eadf; border-radius: 12px; background: #fbfdfa; }
+.profile-item > div { display: grid; gap: 3px; min-width: 0; }
+.profile-ref { font-size: 13px; color: #16342a; font-variant-numeric: tabular-nums; }
+.profile-item strong:not(.profile-ref) { font-size: 13px; color: #16342a; }
+.profile-item-sub { font-size: 11.5px; color: #7d9086; }
+.status-pill { flex: 0 0 auto; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; white-space: nowrap; }
+.status-pill.is-neutral { background: #eef3ec; color: #5c7267; }
+.status-pill.is-active { background: #e3eefb; color: #1d4fa3; }
+.status-pill.is-good { background: #e9f6ec; color: #1d6b3b; }
+.status-pill.is-bad { background: #fdeeee; color: #9c2b2b; }
+.profile-empty { text-align: center; padding: 18px 10px 6px; display: grid; gap: 8px; justify-items: center; }
+.profile-empty p { margin: 0; font-size: 12.5px; color: #7d9086; }

@@ -1,10 +1,29 @@
 import { randomUUID } from "node:crypto";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db";
-import { quoteRequests, services } from "@/db/schema";
+import { quoteRequests, services, users } from "@/db/schema";
+import { MEMBER_COOKIE, verifyMemberToken } from "@/lib/member-auth";
 import { cleanText, publicRateLimit, sameOrigin, validEmail } from "@/lib/request-guard";
 
 export const dynamic = "force-dynamic";
+
+async function optionalMemberId(request: Request): Promise<number | null> {
+  try {
+    const token = request.headers
+      .get("cookie")
+      ?.split(";")
+      .map((c) => c.trim())
+      .find((c) => c.startsWith(`${MEMBER_COOKIE}=`))
+      ?.slice(MEMBER_COOKIE.length + 1);
+    const session = await verifyMemberToken(token ? decodeURIComponent(token) : undefined);
+    if (!session) return null;
+    const [user] = await db.select({ id: users.id, tokenVersion: users.tokenVersion }).from(users).where(eq(users.id, session.uid)).limit(1);
+    return user && user.tokenVersion === session.tv ? user.id : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function POST(request: Request) {
   if (!sameOrigin(request)) return Response.json({ error: "Requête refusée." }, { status: 403 });
   const limit = publicRateLimit(request, "quote", 5, 15 * 60 * 1000);
@@ -26,7 +45,8 @@ export async function POST(request: Request) {
     const [service] = await db.select({ id: services.id, slug: services.slug }).from(services).where(and(eq(services.slug, serviceSlug), eq(services.isPublished, true))).limit(1);
     if (!service) return Response.json({ error: "Le service sélectionné n’est pas disponible." }, { status: 400 });
     const referenceNumber = `LC-${new Date().getFullYear()}-${randomUUID().slice(0, 8).toUpperCase()}`;
-    const [saved] = await db.insert(quoteRequests).values({ referenceNumber, name, email, phone, company: company || null, serviceId: service.id, serviceSlug: service.slug, description, budget: budget || null, desiredDeadline: desiredDeadline || null, consent: true, status: "new" }).returning({ referenceNumber: quoteRequests.referenceNumber });
+    const userId = await optionalMemberId(request);
+    const [saved] = await db.insert(quoteRequests).values({ referenceNumber, userId, name, email, phone, company: company || null, serviceId: service.id, serviceSlug: service.slug, description, budget: budget || null, desiredDeadline: desiredDeadline || null, consent: true, status: "new" }).returning({ referenceNumber: quoteRequests.referenceNumber });
     return Response.json({ ok: true, reference: saved.referenceNumber }, { status: 201 });
   } catch {
     return Response.json({ error: "La demande n’a pas pu être enregistrée. Réessayez plus tard." }, { status: 500 });

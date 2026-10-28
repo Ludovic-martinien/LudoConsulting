@@ -197,6 +197,7 @@ export const contactMessages = pgTable("contact_messages", {
 
 export const quoteRequests = pgTable("quote_requests", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id, { onDelete: "set null" }),
   referenceNumber: varchar("reference_number", { length: 40 }).notNull().unique(),
   name: varchar("name", { length: 180 }).notNull(),
   email: varchar("email", { length: 254 }).notNull(),
@@ -216,6 +217,7 @@ export const quoteRequests = pgTable("quote_requests", {
 
 export const registrations = pgTable("registrations", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id, { onDelete: "set null" }),
   name: varchar("name", { length: 180 }).notNull(),
   email: varchar("email", { length: 254 }).notNull(),
   phone: varchar("phone", { length: 50 }),

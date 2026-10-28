@@ -89,6 +89,8 @@ Les visiteurs peuvent créer un compte depuis l'en-tête ou le bandeau « Espace
 - **E-mail + mot de passe** : fonctionne immédiatement, sans service externe. Mots de passe hachés en scrypt, sessions signées (cookie `ludo_member_session`, 30 jours), limitation des tentatives.
 - **Contenus réservés** : la navigation Services, Réalisations, Formations et Tarifs ainsi que le bouton WhatsApp ne s'affichent qu'aux visiteurs connectés (membre ou admin). Les autres pages restent publiques pour le référencement.
 - **Page profil** (`/profil`) : chaque membre y modifie son nom, son téléphone, son e-mail (avec confirmation par mot de passe actuel), son mot de passe, et peut supprimer son compte (confirmation exigée). Table `users`, colonnes `phone` et `terms_accepted_at`.
+- **Pages réservées** : Services, Réalisations, Formations et Tarifs exigent une session membre ou admin côté serveur (`requireMemberOrAdmin`) ; sinon redirection vers l'accueil avec la fenêtre de connexion. Ces liens et le bouton WhatsApp sont masqués aux visiteurs anonymes.
+- **Suivi dans le profil** : les demandes de devis et inscriptions effectuées en étant connecté sont liées au compte (`user_id`, conservées si le compte est supprimé) et listées sur `/profil` avec leur statut de suivi.
 - **Bouton Google** : nécessite des identifiants OAuth créés par le propriétaire du site (voir ci-dessous). Tant qu'ils sont absents, le bouton affiche un message l'indiquant et l'inscription e-mail reste disponible.
 
 ### Activer la connexion Google (5 minutes)

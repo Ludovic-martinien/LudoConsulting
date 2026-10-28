@@ -3,12 +3,14 @@ import { db } from "@/db";
 import { serviceItems, servicePackages, services } from "@/db/schema";
 import { ensureSeedData } from "@/lib/seed";
 import { TrainingPage } from "@/components/training-page";
+import { requireMemberOrAdmin } from "@/lib/page-guard";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Formations informatiques", description: "Formations informatiques, bureautiques et numériques de Ludo_Consulting." };
 type Props = { searchParams: Promise<{ package?: string }> };
 
 export default async function TrainingRoute({ searchParams }: Props) {
+  await requireMemberOrAdmin();
   await ensureSeedData();
   const [service] = await db.select().from(services).where(and(eq(services.slug, "formation-informatique"), eq(services.isPublished, true))).limit(1);
   const [query, packages, items] = await Promise.all([

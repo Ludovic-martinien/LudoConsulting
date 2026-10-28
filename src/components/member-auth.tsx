@@ -60,6 +60,9 @@ export function AuthButtons({ modalOwner = true }: { modalOwner?: boolean }) {
       setToast(text("La connexion Google n'est pas encore configurée sur ce site.", "Google sign-in is not configured on this site yet."));
     } else if (authFlag === "cancelled") {
       setToast(text("Connexion Google annulée.", "Google sign-in cancelled."));
+    } else if (authFlag === "required") {
+      setModal({ open: true, mode: "login" });
+      setToast(text("Connectez-vous pour accéder à cette page.", "Sign in to access this page."));
     } else if (authFlag === "error") {
       setModal({ open: true, mode: "login" });
       setToast(text("La connexion Google a échoué. Réessayez ou utilisez votre e-mail.", "Google sign-in failed. Try again or use your email."));

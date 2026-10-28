@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Loader2, Lock, LogIn, Mail, Trash2, User } from "lucide-react";
+import { FileText, GraduationCap, Loader2, Lock, LogIn, Mail, Trash2, User } from "lucide-react";
 import { useLanguage } from "@/components/language-provider";
 import { openAuth } from "@/components/member-auth";
 import { refreshMemberState, setMemberState, useMember } from "@/components/member-store";
@@ -17,9 +18,46 @@ type FullProfile = {
   createdAt: string;
 };
 
+type QuoteItem = {
+  id: number;
+  referenceNumber: string;
+  serviceSlug: string | null;
+  serviceTitleFr: string | null;
+  serviceTitleEn: string | null;
+  status: string;
+  budget: string | null;
+  desiredDeadline: string | null;
+  createdAt: string;
+};
+
+type RegistrationItem = {
+  id: number;
+  packageNameFr: string | null;
+  packageNameEn: string | null;
+  status: string;
+  createdAt: string;
+};
+
+const statusLabel: Record<string, [string, string]> = {
+  new: ["Nouvelle", "New"],
+  processing: ["En cours", "In progress"],
+  waiting: ["En attente", "Waiting"],
+  replied: ["Répondue", "Answered"],
+  accepted: ["Acceptée", "Accepted"],
+  declined: ["Refusée", "Declined"],
+  closed: ["Clôturée", "Closed"],
+};
+
+function statusTone(status: string) {
+  if (status === "accepted" || status === "replied") return "is-good";
+  if (status === "processing" || status === "waiting") return "is-active";
+  if (status === "declined") return "is-bad";
+  return "is-neutral";
+}
+
 async function api(path: string, init?: RequestInit) {
   const response = await fetch(path, { credentials: "same-origin", ...init });
-  const data = (await response.json().catch(() => ({}))) as { error?: string; user?: FullProfile; ok?: boolean };
+  const data = (await response.json().catch(() => ({}))) as { error?: string; user?: FullProfile; ok?: boolean; items?: QuoteItem[] & RegistrationItem[] };
   if (!response.ok) throw new Error(data.error || "Request failed");
   return data;
 }
@@ -29,6 +67,8 @@ export function ProfileClient() {
   const { user, loaded } = useMember();
   const [profile, setProfile] = useState<FullProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [quotes, setQuotes] = useState<QuoteItem[]>([]);
+  const [registrations, setRegistrations] = useState<RegistrationItem[]>([]);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -62,13 +102,19 @@ export function ProfileClient() {
       setProfile(null);
       return;
     }
-    api("/api/user/profile")
-      .then((data) => {
-        if (data.user) {
-          setProfile(data.user);
-          setName(data.user.name);
-          setPhone(data.user.phone || "");
+    Promise.all([
+      api("/api/user/profile"),
+      api("/api/user/quotes").catch(() => ({ items: [] as QuoteItem[] })),
+      api("/api/user/registrations").catch(() => ({ items: [] as RegistrationItem[] })),
+    ])
+      .then(([profileData, quotesData, registrationsData]) => {
+        if (profileData.user) {
+          setProfile(profileData.user);
+          setName(profileData.user.name);
+          setPhone(profileData.user.phone || "");
         }
+        setQuotes((quotesData.items as QuoteItem[] | undefined) ?? []);
+        setRegistrations((registrationsData.items as RegistrationItem[] | undefined) ?? []);
       })
       .catch(() => setProfile(null))
       .finally(() => setLoading(false));
@@ -100,11 +146,9 @@ export function ProfileClient() {
     );
   }
 
-  const memberSince = new Date(profile.createdAt).toLocaleDateString(locale === "en" ? "en-GB" : "fr-FR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const dateFormat = locale === "en" ? "en-GB" : "fr-FR";
+  const memberSince = new Date(profile.createdAt).toLocaleDateString(dateFormat, { day: "numeric", month: "long", year: "numeric" });
+  const shortDate = (iso: string) => new Date(iso).toLocaleDateString(dateFormat, { day: "numeric", month: "short", year: "numeric" });
 
   async function saveInfos(event: React.FormEvent) {
     event.preventDefault();
@@ -172,8 +216,8 @@ export function ProfileClient() {
       setNextPassword("");
       setNextConfirm("");
       refreshMemberState();
-      setPwMsg({ ok: true, text: profile.hasPassword ? text("Mot de passe modifié.", "Password changed.") : text("Mot de passe créé : vous pouvez désormais aussi vous connecter avec votre e-mail.", "Password created: you can now also sign in with your email.") });
-      setProfile({ ...profile, hasPassword: true });
+      setPwMsg({ ok: true, text: hadPassword ? text("Mot de passe modifié.", "Password changed.") : text("Mot de passe créé : vous pouvez désormais aussi vous connecter avec votre e-mail.", "Password created: you can now also sign in with your email.") });
+      setProfile((prev) => (prev ? { ...prev, hasPassword: true } : prev));
     } catch (e) {
       setPwMsg({ ok: false, text: e instanceof Error ? e.message : text("Échec de la modification.", "Update failed.") });
     } finally {
@@ -219,10 +263,67 @@ export function ProfileClient() {
             <span className="profile-dot" aria-hidden="true" />
             {text("Membre depuis le", "Member since")} {memberSince}
           </p>
+          <p className="profile-stats">
+            <strong>{quotes.length}</strong> {text("demande(s) de devis", "quote request(s)")}
+            <span className="profile-dot" aria-hidden="true" />
+            <strong>{registrations.length}</strong> {text("formation(s)", "training(s)")}
+          </p>
         </div>
       </div>
 
       <div className="profile-grid">
+        <section className="profile-card">
+          <h2><FileText size={17} /> {text("Mes demandes de devis", "My quote requests")}</h2>
+          {quotes.length === 0 ? (
+            <div className="profile-empty">
+              <p>{text("Aucune demande pour le moment.", "No requests yet.")}</p>
+              <Link href="/quote" className="text-link">{text("Demander un devis", "Request a quote")}</Link>
+            </div>
+          ) : (
+            <ul className="profile-list">
+              {quotes.map((quote) => (
+                <li key={quote.id} className="profile-item">
+                  <div>
+                    <strong className="profile-ref">{quote.referenceNumber}</strong>
+                    <span className="profile-item-sub">
+                      {locale === "en" ? quote.serviceTitleEn || quote.serviceSlug : quote.serviceTitleFr || quote.serviceSlug}
+                      {" · "}{shortDate(quote.createdAt)}
+                      {quote.budget ? ` · ${quote.budget}` : ""}
+                    </span>
+                  </div>
+                  <span className={`status-pill ${statusTone(quote.status)}`}>
+                    {text(statusLabel[quote.status]?.[0] ?? quote.status, statusLabel[quote.status]?.[1] ?? quote.status)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        <section className="profile-card">
+          <h2><GraduationCap size={17} /> {text("Mes formations", "My trainings")}</h2>
+          {registrations.length === 0 ? (
+            <div className="profile-empty">
+              <p>{text("Aucune inscription pour le moment.", "No registrations yet.")}</p>
+              <Link href="/training" className="text-link">{text("Voir les formations", "View trainings")}</Link>
+            </div>
+          ) : (
+            <ul className="profile-list">
+              {registrations.map((registration) => (
+                <li key={registration.id} className="profile-item">
+                  <div>
+                    <strong>{locale === "en" ? registration.packageNameEn || registration.packageNameFr : registration.packageNameFr || registration.packageNameEn || text("Inscription", "Registration")}</strong>
+                    <span className="profile-item-sub">{shortDate(registration.createdAt)}</span>
+                  </div>
+                  <span className={`status-pill ${statusTone(registration.status)}`}>
+                    {text(statusLabel[registration.status]?.[0] ?? registration.status, statusLabel[registration.status]?.[1] ?? registration.status)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
         <section className="profile-card">
           <h2><User size={17} /> {text("Mes informations", "My information")}</h2>
           <form onSubmit={saveInfos} className="auth-form">
