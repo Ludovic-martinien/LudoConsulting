@@ -24,11 +24,11 @@ export async function requireMemberOrAdmin(): Promise<void> {
     const session = await verifyMemberToken(store.get(MEMBER_COOKIE)?.value);
     if (session) {
       const [user] = await db
-        .select({ id: users.id, tokenVersion: users.tokenVersion })
+        .select({ id: users.id, tokenVersion: users.tokenVersion, isActive: users.isActive })
         .from(users)
         .where(eq(users.id, session.uid))
         .limit(1);
-      if (user && user.tokenVersion === session.tv) return;
+      if (user && user.tokenVersion === session.tv && user.isActive !== false) return;
     }
   } catch {
     /* session membre invalide */

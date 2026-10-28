@@ -13,6 +13,7 @@ import {
   verifyGoogleState,
 } from "@/lib/member-auth";
 import { publicRateLimit } from "@/lib/request-guard";
+import { clientIp, logEvent } from "@/lib/activity";
 
 export const dynamic = "force-dynamic";
 
@@ -32,6 +33,7 @@ export async function GET(request: Request) {
   try {
     const profile = await exchangeGoogleCode(code, googleRedirectUri(request));
     let [user] = await db.select().from(users).where(eq(users.googleId, profile.sub)).limit(1);
+    let isNewAccount = false;
     if (!user) {
       const [byEmail] = await db.select().from(users).where(eq(users.email, profile.email)).limit(1);
       if (byEmail) {
@@ -43,11 +45,14 @@ export async function GET(request: Request) {
           .values({ name: profile.name.slice(0, 180), email: profile.email, provider: "google", googleId: profile.sub, avatarUrl: profile.picture, lastLoginAt: new Date() })
           .returning();
         user = created;
+        isNewAccount = true;
       }
     } else {
       await db.update(users).set({ lastLoginAt: new Date(), avatarUrl: user.avatarUrl || profile.picture }).where(eq(users.id, user.id));
     }
     if (!user) return fail("error");
+    if (user.isActive === false) return fail("disabled");
+    await logEvent({ action: isNewAccount ? "member.google_signup" : "member.google_login", actorType: "member", actorEmail: user.email, actorId: user.id, entityType: "user", entityId: user.id, ip: clientIp(request) });
     home.searchParams.set("member", "welcome");
     const response = NextResponse.redirect(home, 302);
     response.cookies.set(MEMBER_COOKIE, await createMemberToken(user), memberCookieOptions(process.env.NODE_ENV === "production"));

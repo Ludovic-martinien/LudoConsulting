@@ -4,6 +4,7 @@ import { db } from "@/db";
 import { quoteRequests, services, users } from "@/db/schema";
 import { MEMBER_COOKIE, verifyMemberToken } from "@/lib/member-auth";
 import { cleanText, publicRateLimit, sameOrigin, validEmail } from "@/lib/request-guard";
+import { clientIp, logEvent } from "@/lib/activity";
 
 export const dynamic = "force-dynamic";
 
@@ -47,6 +48,7 @@ export async function POST(request: Request) {
     const referenceNumber = `LC-${new Date().getFullYear()}-${randomUUID().slice(0, 8).toUpperCase()}`;
     const userId = await optionalMemberId(request);
     const [saved] = await db.insert(quoteRequests).values({ referenceNumber, userId, name, email, phone, company: company || null, serviceId: service.id, serviceSlug: service.slug, description, budget: budget || null, desiredDeadline: desiredDeadline || null, consent: true, status: "new" }).returning({ referenceNumber: quoteRequests.referenceNumber });
+    await logEvent({ action: "quote.created", actorType: userId ? "member" : "anonymous", actorEmail: email, actorId: userId, entityType: "quote_request", entityId: saved.referenceNumber, details: { serviceSlug, email }, ip: clientIp(request) });
     return Response.json({ ok: true, reference: saved.referenceNumber }, { status: 201 });
   } catch {
     return Response.json({ error: "La demande n’a pas pu être enregistrée. Réessayez plus tard." }, { status: 500 });

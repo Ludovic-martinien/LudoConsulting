@@ -268,6 +268,7 @@ export const siteSettings = pgTable("site_settings", {
 
 export const adminUsers = pgTable("admin_users", {
   id: serial("id").primaryKey(),
+  name: varchar("name", { length: 180 }),
   email: varchar("email", { length: 254 }).notNull().unique(),
   role: varchar("role", { length: 40 }).notNull().default("admin"),
   isActive: boolean("is_active").notNull().default(true),
@@ -277,7 +278,11 @@ export const adminUsers = pgTable("admin_users", {
 
 export const activityLogs = pgTable("activity_logs", {
   id: serial("id").primaryKey(),
-  adminEmail: varchar("admin_email", { length: 254 }).notNull(),
+  adminEmail: varchar("admin_email", { length: 254 }),
+  actorType: varchar("actor_type", { length: 20 }).notNull().default("admin"),
+  actorId: varchar("actor_id", { length: 120 }),
+  success: boolean("success").notNull().default(true),
+  ip: varchar("ip", { length: 64 }),
   action: varchar("action", { length: 120 }).notNull(),
   entityType: varchar("entity_type", { length: 100 }),
   entityId: varchar("entity_id", { length: 120 }),
@@ -306,6 +311,7 @@ export const users = pgTable("users", {
   googleId: varchar("google_id", { length: 120 }).unique(),
   avatarUrl: text("avatar_url"),
   tokenVersion: integer("token_version").notNull().default(0),
+  isActive: boolean("is_active").notNull().default(true),
   termsAcceptedAt: timestamp("terms_accepted_at", { withTimezone: true }),
   lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),

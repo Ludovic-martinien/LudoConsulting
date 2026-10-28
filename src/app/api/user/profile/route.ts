@@ -10,6 +10,7 @@ import {
   verifyMemberToken,
 } from "@/lib/member-auth";
 import { cleanText, publicRateLimit, sameOrigin, validEmail } from "@/lib/request-guard";
+import { clientIp, logEvent } from "@/lib/activity";
 
 export const dynamic = "force-dynamic";
 
@@ -84,6 +85,7 @@ export async function PATCH(request: Request) {
     await db.update(users).set(patch).where(eq(users.id, user.id));
     const [fresh] = await db.select().from(users).where(eq(users.id, user.id)).limit(1);
     if (!fresh) return Response.json({ error: "Profil introuvable." }, { status: 404 });
+    await logEvent({ action: patch.email ? "member.email_changed" : "member.profile_updated", actorType: "member", actorEmail: fresh.email, actorId: fresh.id, entityType: "user", entityId: fresh.id, details: { fields: Object.keys(patch).join(",") }, ip: clientIp(request) });
     const response = NextResponse.json({ ok: true, user: publicProfile(fresh) });
     response.cookies.set(MEMBER_COOKIE, await createMemberToken(fresh), memberCookieOptions(process.env.NODE_ENV === "production"));
     return response;

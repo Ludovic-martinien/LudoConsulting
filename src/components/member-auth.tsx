@@ -60,6 +60,9 @@ export function AuthButtons({ modalOwner = true }: { modalOwner?: boolean }) {
       setToast(text("La connexion Google n'est pas encore configurée sur ce site.", "Google sign-in is not configured on this site yet."));
     } else if (authFlag === "cancelled") {
       setToast(text("Connexion Google annulée.", "Google sign-in cancelled."));
+    } else if (authFlag === "disabled") {
+      setModal({ open: true, mode: "login" });
+      setToast(text("Ce compte est désactivé. Contactez le support.", "This account is disabled. Contact support."));
     } else if (authFlag === "required") {
       setModal({ open: true, mode: "login" });
       setToast(text("Connectez-vous pour accéder à cette page.", "Sign in to access this page."));
@@ -262,10 +265,14 @@ function AuthModal({
         credentials: "same-origin",
         body: JSON.stringify({ name, email, phone, password, terms }),
       });
-      const data = (await response.json()) as { error?: string };
+      const data = (await response.json()) as { error?: string; redirect?: string };
       if (!response.ok) {
         setError(data.error || text("Une erreur est survenue.", "Something went wrong."));
         setBusy(false);
+        return;
+      }
+      if (data.redirect) {
+        window.location.href = data.redirect;
         return;
       }
       setName("");

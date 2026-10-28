@@ -4,6 +4,7 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import { MEMBER_COOKIE, verifyMemberPassword, verifyMemberToken } from "@/lib/member-auth";
 import { publicRateLimit, sameOrigin } from "@/lib/request-guard";
+import { clientIp, logEvent } from "@/lib/activity";
 
 export const dynamic = "force-dynamic";
 
@@ -30,6 +31,7 @@ export async function DELETE(request: Request) {
         return Response.json({ error: "Mot de passe incorrect : suppression refusée." }, { status: 401 });
       }
     }
+    await logEvent({ action: "member.account_deleted", actorType: "member", actorEmail: user.email, actorId: user.id, entityType: "user", entityId: user.id, details: { name: user.name }, ip: clientIp(request) });
     await db.delete(users).where(eq(users.id, user.id));
     const response = NextResponse.json({ ok: true });
     response.cookies.set(MEMBER_COOKIE, "", { httpOnly: true, path: "/", maxAge: 0, sameSite: "lax" });

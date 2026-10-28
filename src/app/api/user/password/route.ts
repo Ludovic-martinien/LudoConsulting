@@ -11,6 +11,7 @@ import {
   verifyMemberToken,
 } from "@/lib/member-auth";
 import { publicRateLimit, sameOrigin } from "@/lib/request-guard";
+import { clientIp, logEvent } from "@/lib/activity";
 
 export const dynamic = "force-dynamic";
 
@@ -42,6 +43,7 @@ export async function POST(request: Request) {
       .where(eq(users.id, user.id));
     const [fresh] = await db.select().from(users).where(eq(users.id, user.id)).limit(1);
     if (!fresh) return Response.json({ error: "Profil introuvable." }, { status: 404 });
+    await logEvent({ action: user.passwordHash ? "member.password_changed" : "member.password_set", actorType: "member", actorEmail: user.email, actorId: user.id, entityType: "user", entityId: user.id, ip: clientIp(request) });
     const response = NextResponse.json({ ok: true });
     response.cookies.set(MEMBER_COOKIE, await createMemberToken(fresh), memberCookieOptions(process.env.NODE_ENV === "production"));
     return response;

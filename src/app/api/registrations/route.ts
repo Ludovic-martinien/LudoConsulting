@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { registrations, servicePackages, users } from "@/db/schema";
 import { MEMBER_COOKIE, verifyMemberToken } from "@/lib/member-auth";
 import { cleanText, publicRateLimit, sameOrigin, validEmail } from "@/lib/request-guard";
+import { clientIp, logEvent } from "@/lib/activity";
 
 export const dynamic = "force-dynamic";
 
@@ -43,6 +44,7 @@ export async function POST(request: Request) {
     }
     const userId = await optionalMemberId(request);
     const [saved] = await db.insert(registrations).values({ userId, name, email, phone, packageId, message: message || null, consent: true, status: "new" }).returning({ id: registrations.id });
+    await logEvent({ action: "registration.created", actorType: userId ? "member" : "anonymous", actorEmail: email, actorId: userId, entityType: "registration", entityId: saved.id, details: { email, packageId }, ip: clientIp(request) });
     return Response.json({ ok: true, id: saved.id }, { status: 201 });
   } catch {
     return Response.json({ error: "La demande n’a pas pu être enregistrée. Réessayez plus tard." }, { status: 500 });

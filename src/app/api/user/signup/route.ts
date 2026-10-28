@@ -4,6 +4,7 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import { MEMBER_COOKIE, createMemberToken, hashMemberPassword, memberCookieOptions, memberSecretAvailable } from "@/lib/member-auth";
 import { cleanText, publicRateLimit, sameOrigin, validEmail } from "@/lib/request-guard";
+import { clientIp, logEvent } from "@/lib/activity";
 
 export const dynamic = "force-dynamic";
 
@@ -30,6 +31,7 @@ export async function POST(request: Request) {
       .values({ name, email, phone: phone || null, passwordHash: hashMemberPassword(password), provider: "email", termsAcceptedAt: new Date(), lastLoginAt: new Date() })
       .returning({ id: users.id, name: users.name, email: users.email, phone: users.phone, avatarUrl: users.avatarUrl, tokenVersion: users.tokenVersion });
     if (!created) return Response.json({ error: "L'inscription n'a pas pu être effectuée." }, { status: 500 });
+    await logEvent({ action: "member.signup", actorType: "member", actorEmail: created.email, actorId: created.id, entityType: "user", entityId: created.id, details: { provider: "email" }, ip: clientIp(request) });
     const response = NextResponse.json({
       ok: true,
       user: { id: created.id, name: created.name, email: created.email, phone: created.phone, avatar: created.avatarUrl },

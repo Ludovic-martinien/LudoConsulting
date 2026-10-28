@@ -81,7 +81,7 @@ openssl rand -base64 48
 
 Ouvrir ensuite `/admin/login`. Les tentatives de connexion sont limitées. Les sessions expirent après huit heures. Le compte administrateur doit utiliser un mot de passe long et unique.
 
-Le modèle contient les rôles `admin`, `editor` et `sales`, et les routes vérifient les rôles côté serveur. Cette version s'authentifie avec un seul compte propriétaire configuré par environnement; une interface d'invitation et d'authentification multi-utilisateur n'est pas incluse. Ne pas ajouter d'autres comptes avant d'avoir choisi un mécanisme d'identité adapté.
+Le modèle contient les rôles `admin`, `editor` et `sales`, et les routes vérifient les rôles côté serveur. L'administrateur se connecte depuis le formulaire unique du site (redirection automatique vers `/admin`), gère les membres et les rôles depuis `/admin/utilisateurs` (activation, changement de rôle avec gardes anti-blocage), consulte le journal horodaté (`/admin/activites`, avec IP et résultat) et ses statistiques (`/admin/statistiques`, périodes 7j/30j/12m, comparaisons calculées). Son profil (`/admin/profil`) permet de modifier le nom affiché et le mot de passe (ancien requis, hash scrypt persisté en base). Identifiants admin : ligne `site_settings.admin_credentials` gérée en priorité, variables d'environnement en secours ; pour revenir aux variables, supprimer cette ligne puis redémarrer. La déconnexion admin redirige vers l'accueil public et invalide la session.
 
 ## Espace membre et connexion Google
 
