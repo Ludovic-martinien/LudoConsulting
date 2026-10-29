@@ -10,8 +10,9 @@ export const metadata = { title: "Formations informatiques", description: "Forma
 type Props = { searchParams: Promise<{ package?: string }> };
 
 export default async function TrainingRoute({ searchParams }: Props) {
-  await ensureSeedData();
   await requireMemberPage();
+  try {
+  await ensureSeedData();
   const [service] = await db.select().from(services).where(and(eq(services.slug, "formation-informatique"), eq(services.isPublished, true))).limit(1);
   const [query, packages, items] = await Promise.all([
     searchParams,
@@ -21,4 +22,8 @@ export default async function TrainingRoute({ searchParams }: Props) {
   const wanted = Number(query.package);
   const selected = packages.some((plan) => plan.id === wanted) ? String(wanted) : "";
   return <main><TrainingPage items={items.map(({ titleFr, titleEn }) => ({ titleFr, titleEn }))} packages={packages} initialPackage={selected} /></main>;
+  } catch (error) {
+    console.error("Page formations indisponible:", error instanceof Error ? error.message : error);
+    return <main><TrainingPage items={[]} packages={[]} initialPackage="" /></main>;
+  }
 }

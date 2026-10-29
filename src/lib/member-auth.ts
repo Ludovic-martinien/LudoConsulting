@@ -153,7 +153,9 @@ export async function getMemberSession(): Promise<MemberSession | null> {
   const token = store.get(MEMBER_COOKIE)?.value;
   if (!token) return null;
   const tokenHash = sha256Hex(token);
-  const [row] = await db.select({
+  let row;
+  try {
+    [row] = await db.select({
     expiresAt: memberSessions.expiresAt,
     id: memberUsers.id,
     name: memberUsers.name,
@@ -164,6 +166,10 @@ export async function getMemberSession(): Promise<MemberSession | null> {
     createdAt: memberUsers.createdAt,
   }).from(memberSessions).innerJoin(memberUsers, eq(memberSessions.userId, memberUsers.id))
     .where(eq(memberSessions.tokenHash, tokenHash)).limit(1);
+  } catch {
+    // Base injoignable : considérer comme déconnecté plutôt que planter.
+    return null;
+  }
   if (!row) return null;
   if (row.expiresAt <= new Date()) {
     await db.delete(memberSessions).where(eq(memberSessions.tokenHash, tokenHash));

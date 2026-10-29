@@ -5,8 +5,12 @@ import { profiles, uploadedImages } from "@/db/schema";
 import { mediaUrl, type MediaKind } from "@/lib/media";
 
 export async function getMediaVersions() {
-  const rows = await db.select({ kind: uploadedImages.kind, updatedAt: uploadedImages.updatedAt }).from(uploadedImages);
-  return new Map(rows.map((row) => [row.kind, row.updatedAt]));
+  try {
+    const rows = await db.select({ kind: uploadedImages.kind, updatedAt: uploadedImages.updatedAt }).from(uploadedImages);
+    return new Map(rows.map((row) => [row.kind, row.updatedAt]));
+  } catch {
+    return new Map();
+  }
 }
 
 export async function getProfilePhoto() {

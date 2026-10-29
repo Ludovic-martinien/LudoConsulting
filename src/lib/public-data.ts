@@ -8,6 +8,15 @@ function money(value: number) {
 }
 
 export async function getPublicServiceCards() {
+  try {
+    return await getPublicServiceCardsInner();
+  } catch (error) {
+    console.error("Données indisponibles (getPublicServiceCards):", error instanceof Error ? error.message : error);
+    return [];
+  }
+}
+
+async function getPublicServiceCardsInner() {
   await ensureSeedData();
   const [serviceRows, prices, packages] = await Promise.all([
     db.select().from(services).where(eq(services.isPublished, true)).orderBy(asc(services.displayOrder)),
@@ -41,6 +50,15 @@ export async function getPublicServiceCards() {
 }
 
 export async function getPublicService(slug: string) {
+  try {
+    return await getPublicServiceInner(slug);
+  } catch (error) {
+    console.error("Données indisponibles (getPublicService):", error instanceof Error ? error.message : error);
+    return null;
+  }
+}
+
+async function getPublicServiceInner(slug: string) {
   await ensureSeedData();
   const [service] = await db.select().from(services).where(and(eq(services.slug, slug), eq(services.isPublished, true))).limit(1);
   if (!service) return null;
@@ -65,6 +83,15 @@ export async function getPublicService(slug: string) {
 }
 
 export async function getPublicProjects() {
+  try {
+    return await getPublicProjectsInner();
+  } catch (error) {
+    console.error("Données indisponibles (getPublicProjects):", error instanceof Error ? error.message : error);
+    return [];
+  }
+}
+
+async function getPublicProjectsInner() {
   await ensureSeedData();
   const [projectRows, categoryRows] = await Promise.all([
     db.select().from(projects).where(eq(projects.isPublished, true)).orderBy(asc(projects.displayOrder)),
@@ -96,11 +123,29 @@ export async function getPublicProjects() {
 }
 
 export async function getPublicSkills() {
+  try {
+    return await getPublicSkillsInner();
+  } catch (error) {
+    console.error("Données indisponibles (getPublicSkills):", error instanceof Error ? error.message : error);
+    return [];
+  }
+}
+
+async function getPublicSkillsInner() {
   await ensureSeedData();
   return db.select().from(skills).where(eq(skills.isPublished, true)).orderBy(asc(skills.displayOrder));
 }
 
 export async function getPublishedArticles() {
+  try {
+    return await getPublishedArticlesInner();
+  } catch (error) {
+    console.error("Données indisponibles (getPublishedArticles):", error instanceof Error ? error.message : error);
+    return [];
+  }
+}
+
+async function getPublishedArticlesInner() {
   await ensureSeedData();
   return db.select().from(articles).where(eq(articles.isPublished, true)).orderBy(asc(articles.publishedAt));
 }
