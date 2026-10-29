@@ -16,6 +16,7 @@ import {
   technologies,
 } from "@/db/schema";
 import { eq, isNull } from "drizzle-orm";
+import { ensureMigrations } from "@/lib/migrate";
 
 const serviceSeed = [
   {
@@ -199,6 +200,7 @@ const edulinkSeed = {
 };
 
 export async function ensureSeedData() {
+  await ensureMigrations();
   await db.transaction(async (tx) => {
     const [marker] = await tx.insert(siteSettings)
       .values({ key: "seed-v1", value: true })
@@ -325,6 +327,98 @@ export async function ensureSeedData() {
         isPublished: true,
       },
       { ...edulinkSeed, categoryId: categoryIds.get("plateformes-educatives") ?? null },
+      {
+        categoryId: categoryIds.get("applications-mobiles") ?? null,
+        titleFr: "Hydro-Track",
+        titleEn: "Hydro-Track",
+        slug: "hydro-track",
+        shortDescriptionFr: "Application de commande et de suivi des livraisons d'eau et de boissons au Gabon.",
+        shortDescriptionEn: "Water and beverage delivery tracking and ordering application in Gabon.",
+        descriptionFr: "Hydro-Track est une application numérique conçue pour faciliter la commande et la livraison d'eau et de boissons aux particuliers et aux entreprises. Elle permet aux clients de passer leurs commandes facilement, de suivre leur livraison et de recevoir leurs produits à domicile ou en entreprise.",
+        descriptionEn: "Hydro-Track is a digital application designed to simplify ordering and delivery of water and beverages for individuals and businesses in Gabon.",
+        objectives: [{ fr: "Simplifier l'approvisionnement en eau potable et boissons.", en: "Simplify clean water and beverage supply." }],
+        features: [
+          feature("Consultation des produits disponibles", "Catalog of available products"),
+          feature("Commande et paiement", "Ordering and payment"),
+          feature("Suivi en direct du statut de livraison", "Live delivery tracking"),
+          feature("Gestion des livreurs et affectation", "Driver management and assignment"),
+        ],
+        status: "in-development",
+        role: "Conception de l'expérience utilisateur et architecture applicative.",
+        mainImageUrl: "/images/hydro-track-preview.webp",
+        technologies: ["React Native", "Node.js", "PostgreSQL", "GPS Tracking"],
+        displayOrder: 4,
+        isPublished: true,
+      },
+      {
+        categoryId: categoryIds.get("applications-mobiles") ?? null,
+        titleFr: "SafeGabon",
+        titleEn: "SafeGabon",
+        slug: "safegabon",
+        shortDescriptionFr: "Application de gestion et de sécurisation des mots de passe avec coffre-fort chiffré.",
+        shortDescriptionEn: "Secure password manager and digital vault application.",
+        descriptionFr: "SafeGabon est une application numérique conçue pour aider les utilisateurs à organiser et retrouver facilement leurs mots de passe dans un coffre-fort numérique sécurisé (Zero Knowledge).",
+        descriptionEn: "SafeGabon is a digital password manager designed to help users securely store and manage their credentials in an encrypted vault.",
+        objectives: [{ fr: "Renforcer la cybersécurité personnelle et professionnelle.", en: "Strengthen personal and business cybersecurity." }],
+        features: [
+          feature("Coffre-fort numérique chiffré", "Encrypted digital vault"),
+          feature("Organisation par catégories", "Category organization"),
+          feature("Générateur de mots de passe robustes", "Strong password generator"),
+          feature("Authentification biométrique et 2FA", "Biometric and 2FA authentication"),
+        ],
+        status: "in-development",
+        role: "Conception UX/UI, architecture de sécurité et développement par Ludo_Consulting.",
+        mainImageUrl: "/images/safegabon-preview.webp",
+        technologies: ["TypeScript", "React Native", "AES-256", "PostgreSQL"],
+        displayOrder: 5,
+        isPublished: true,
+      },
+      {
+        categoryId: categoryIds.get("applications-web") ?? null,
+        titleFr: "TAF-GAB 2.0",
+        titleEn: "TAF-GAB 2.0",
+        slug: "taf-gab",
+        shortDescriptionFr: "Plateforme numérique dédiée à l'emploi et à l'employabilité au Gabon.",
+        shortDescriptionEn: "Digital platform dedicated to employment and employability in Gabon.",
+        descriptionFr: "TAF-GAB 2.0 est une plateforme numérique innovante portée par Ludo_Consulting, facilitant la recherche d'emploi, la création de CV et lettres, le profil numérique avec vidéo de présentation et la mise en relation avec les recruteurs.",
+        descriptionEn: "TAF-GAB 2.0 is an innovative digital platform led by Ludo_Consulting, facilitating job search, resume building, digital profiles with video presentations and recruiter matching in Gabon.",
+        objectives: [{ fr: "Favoriser l'insertion professionnelle et valoriser les compétences au Gabon.", en: "Promote professional integration and highlight skills in Gabon." }],
+        features: [
+          feature("Recherche et consultation d'offres d'emploi", "Job search and browsing"),
+          feature("Créateur de CV et lettres de motivation", "Resume and cover letter builder"),
+          feature("Profil public avec vidéo et badges professionnels", "Public profile with video and badges"),
+          feature("Espace recruteur et gestion des candidatures", "Recruiter portal and candidate tracking"),
+        ],
+        status: "in-development",
+        role: "Projet porté par Ludo_Consulting : stratégie, conception UX/UI et développement.",
+        mainImageUrl: "/images/taf-gab-preview.webp",
+        technologies: ["Next.js", "TypeScript", "Node.js", "PostgreSQL", "PWA"],
+        displayOrder: 6,
+        isPublished: true,
+      },
+      {
+        categoryId: categoryIds.get("applications-mobiles") ?? null,
+        titleFr: "LudoConnect",
+        titleEn: "LudoConnect",
+        slug: "ludoconnect",
+        shortDescriptionFr: "Application de recherche et de restitution sécurisée de documents perdus au Gabon.",
+        shortDescriptionEn: "Platform for searching and safely recovering lost documents in Gabon.",
+        descriptionFr: "LudoConnect est une application numérique conçue pour faciliter la recherche et la récupération de documents perdus (CNI, passeports, permis) en rapprochant citoyens et structures partenaires de manière sécurisée et responsable.",
+        descriptionEn: "LudoConnect is a digital application designed to assist citizens in recovering lost official documents safely and reliably.",
+        objectives: [{ fr: "Réduire les difficultés liées à la perte de documents administratifs.", en: "Reduce administrative document loss difficulties." }],
+        features: [
+          feature("Déclaration de document perdu", "Lost document declaration"),
+          feature("Signalement de document retrouvé", "Found document reporting"),
+          feature("Vérification stricte avant restitution", "Identity verification before return"),
+          feature("Protection des données personnelles (zéro donnée sensible publique)", "Privacy protection"),
+        ],
+        status: "conceptual",
+        role: "Conception produit et architecture de confidentialité.",
+        mainImageUrl: "/images/logo-ludoconnect.webp",
+        technologies: ["React", "TypeScript", "Node.js", "PostgreSQL"],
+        displayOrder: 7,
+        isPublished: true,
+      },
     ];
     await tx.insert(projects).values(projectRows).onConflictDoNothing();
 

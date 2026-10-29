@@ -16,13 +16,16 @@ Ne pas confondre avec d'autres variantes : ici, le callback Google est
 2. **New Project** → nom `ludo-consulting` → région **EU (Francfort)** → Create.
 3. Ouvrez **Connection Details** → activez **Pooled connection** → copiez l'URL
    (`postgresql://…`) : c'est votre `DATABASE_URL` de production.
-4. Ouvrez **SQL Editor → New Query** et exécutez, **dans cet ordre**, le contenu
-   complet de chaque fichier du dossier `drizzle/` du projet :
-   `0000_serious_slyde.sql`, `0001_daily_may_parker.sql`, `0002_slim_khan.sql`,
-   `0003_majestic_post.sql`, `0004_panoramic_captain_stacy.sql`.
+4. **Rien à exécuter à la main** : à la première visite du site, les tables se
+   créent toutes seules (migration automatique) puis les contenus de référence
+   (8 services, 7 projets, liens sociaux) se préchargent seuls. Première visite
+   un peu plus lente, ensuite normal.
+   *Secours (rarement nécessaire)* : si la migration automatique échouait,
+   ouvrez **SQL Editor → New Query** dans Neon et exécutez, **dans cet ordre**,
+   le contenu des fichiers `drizzle/` : `0000_serious_slyde.sql`,
+   `0001_daily_may_parker.sql`, `0002_slim_khan.sql`, `0003_majestic_post.sql`,
+   `0004_panoramic_captain_stacy.sql`.
 5. Vérifiez : `SELECT count(*) FROM services;` doit afficher **8**.
-   (Les contenus — services, projets, liens sociaux — se créent seuls à la
-   première visite grâce au préchargement automatique.)
 
 ## 2. Variables d'environnement Vercel
 
