@@ -19,7 +19,7 @@ export function ResponsibleSection({ photo, fullName, professionalTitle }: { pho
         <div className="responsible-media">
           <figure className="responsible-portrait">
             <MediaImage
-              src={photo || "/images/responsable.webp"}
+              src={photo || "/images/responsable.jpeg"}
               alt={text(`Portrait de ${fullName}, responsable de Ludo_Consulting`, `Portrait of ${fullName}, Ludo_Consulting's lead`)}
               loading="eager"
               decoding="async"
