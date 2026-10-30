@@ -1,7 +1,7 @@
 /* Ludo_Consulting — service worker PWA (sans dépendance).
    Stratégie sûre : les appels /api/* ne sont jamais mis en cache
    (sessions et données toujours fraîches). */
-const CACHE = "ludo-v1";
+const CACHE = "Ludo_Consulting";
 const CORE = ["/", "/manifest.webmanifest", "/icons/icon-192.png", "/icons/icon-512.png"];
 
 self.addEventListener("install", (event) => {
