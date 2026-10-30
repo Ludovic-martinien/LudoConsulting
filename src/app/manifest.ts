@@ -14,9 +14,9 @@ export default function manifest(): MetadataRoute.Manifest {
     lang: "fr",
     categories: ["business", "education", "utilities"],
     icons: [
-      { src: "/brand/Ludo_Consulting.jpeg", sizes: "192x192", type: "image/jpeg" },
-      { src: "/brand/Ludo_Consulting.jpeg", sizes: "512x512", type: "image/jpeg" },
-      { src: "/brand/Ludo_Consulting.jpeg", sizes: "512x512", type: "image/jpeg", purpose: "maskable" },
+      { src: "/brand/Ludo_Consulting.jpeg", sizes: "192x192", type: "images/jpeg" },
+      { src: "/brand/Ludo_Consulting.jpeg", sizes: "512x512", type: "images/jpeg" },
+      { src: "/brand/Ludo_Consulting.jpeg", sizes: "512x512", type: "images/jpeg", purpose: "maskable" },
     ],
   };
 }
