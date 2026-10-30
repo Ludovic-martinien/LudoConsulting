@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="lcTitle lcDesc">
+  <title id="lcTitle">Ludo_Consulting</title>
+  <desc id="lcDesc">Emblème circulaire bleu et or Ludo Consulting : monogramme LC, bouclier cybersécurité, cloud et code. Ingénieur logiciel et cybersécurité.</desc>
+  <defs>
+    <linearGradient id="lc-navy" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1d5aa8"/>
+      <stop offset=".5" stop-color="#0f2c5c"/>
+      <stop offset="1" stop-color="#081534"/>
+    </linearGradient>
+    <linearGradient id="lc-navy-deep" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#123a75"/>
+      <stop offset="1" stop-color="#0a1f45"/>
+    </linearGradient>
+    <linearGradient id="lc-gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7ecc9"/>
+      <stop offset=".45" stop-color="#e3c169"/>
+      <stop offset=".72" stop-color="#b98a2f"/>
+      <stop offset="1" stop-color="#8a5f1c"/>
+    </linearGradient>
+    <linearGradient id="lc-blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7db9ff"/>
+      <stop offset=".45" stop-color="#2170e6"/>
+      <stop offset="1" stop-color="#0b2b66"/>
+    </linearGradient>
+    <linearGradient id="lc-steel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".55" stop-color="#dbe7f5"/>
+      <stop offset="1" stop-color="#a9c0dd"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Anneau extérieur -->
+  <circle cx="256" cy="256" r="250" fill="url(#lc-navy)"/>
+  <circle cx="256" cy="256" r="250" fill="none" stroke="#d9b45c" stroke-width="3" opacity=".8"/>
+  <circle cx="256" cy="256" r="233" fill="url(#lc-gold)"/>
+  <circle cx="256" cy="256" r="233" fill="none" stroke="#0b1d3a" stroke-width="2" opacity=".5"/>
+  <circle cx="256" cy="256" r="195" fill="url(#lc-navy-deep)"/>
+  <circle cx="256" cy="256" r="195" fill="none" stroke="#d9b45c" stroke-width="2" opacity=".7"/>
+  <circle cx="256" cy="14" r="4" fill="#e8c766"/>
+  <circle cx="256" cy="498" r="4" fill="#e8c766"/>
+
+  <!-- Textes circulaires -->
+  <g>
+    <text x="74.3" y="146.8" transform="rotate(-59.0 74.3 146.8)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="44" font-weight="800" fill="#0b1d3a">L</text>
+    <text x="92.2" y="121.4" transform="rotate(-50.6 92.2 121.4)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="44" font-weight="800" fill="#0b1d3a">U</text>
+    <text x="113.8" y="98.8" transform="rotate(-42.1 113.8 98.8)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="44" font-weight="800" fill="#0b1d3a">D</text>
+    <text x="138.3" y="79.7" transform="rotate(-33.7 138.3 79.7)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="44" font-weight="800" fill="#0b1d3a">O</text>
+    <text x="165.4" y="64.3" transform="rotate(-25.3 165.4 64.3)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="44" font-weight="800" fill="#0b1d3a">&#160;</text>
+    <text x="194.5" y="53.1" transform="rotate(-16.9 194.5 53.1)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="44" font-weight="800" fill="#0b1d3a">C</text>
+    <text x="224.9" y="46.3" transform="rotate(-8.4 224.9 46.3)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="44" font-weight="800" fill="#0b1d3a">O</text>
+    <text x="256.0" y="44.0" transform="rotate(0.0 256.0 44.0)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="44" font-weight="800" fill="#0b1d3a">N</text>
+    <text x="287.1" y="46.3" transform="rotate(8.4 287.1 46.3)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="44" font-weight="800" fill="#0b1d3a">S</text>
+    <text x="317.5" y="53.1" transform="rotate(16.9 317.5 53.1)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="44" font-weight="800" fill="#0b1d3a">U</text>
+    <text x="346.6" y="64.3" transform="rotate(25.3 346.6 64.3)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="44" font-weight="800" fill="#0b1d3a">L</text>
+    <text x="373.7" y="79.7" transform="rotate(33.7 373.7 79.7)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="44" font-weight="800" fill="#0b1d3a">T</text>
+    <text x="398.2" y="98.8" transform="rotate(42.1 398.2 98.8)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="44" font-weight="800" fill="#0b1d3a">I</text>
+    <text x="419.8" y="121.4" transform="rotate(50.6 419.8 121.4)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="44" font-weight="800" fill="#0b1d3a">N</text>
+    <text x="437.7" y="146.8" transform="rotate(59.0 437.7 146.8)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="44" font-weight="800" fill="#0b1d3a">G</text>
+  </g>
+  <g>
+    <text x="62.3" y="342.2" transform="rotate(66.0 62.3 342.2)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">I</text>
+    <text x="68.8" y="355.5" transform="rotate(62.0 68.8 355.5)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">N</text>
+    <text x="76.2" y="368.3" transform="rotate(58.0 76.2 368.3)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">G</text>
+    <text x="84.5" y="380.6" transform="rotate(54.0 84.5 380.6)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">É</text>
+    <text x="93.6" y="392.3" transform="rotate(50.0 93.6 392.3)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">N</text>
+    <text x="103.5" y="403.3" transform="rotate(46.0 103.5 403.3)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">I</text>
+    <text x="114.1" y="413.5" transform="rotate(42.0 114.1 413.5)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">E</text>
+    <text x="125.5" y="423.1" transform="rotate(38.0 125.5 423.1)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">U</text>
+    <text x="137.5" y="431.8" transform="rotate(34.0 137.5 431.8)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">R</text>
+    <text x="150.0" y="439.6" transform="rotate(30.0 150.0 439.6)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">&#160;</text>
+    <text x="163.1" y="446.5" transform="rotate(26.0 163.1 446.5)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">L</text>
+    <text x="176.6" y="452.6" transform="rotate(22.0 176.6 452.6)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">O</text>
+    <text x="190.5" y="457.6" transform="rotate(18.0 190.5 457.6)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">G</text>
+    <text x="204.7" y="461.7" transform="rotate(14.0 204.7 461.7)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">I</text>
+    <text x="219.2" y="464.8" transform="rotate(10.0 219.2 464.8)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">C</text>
+    <text x="233.8" y="466.8" transform="rotate(6.0 233.8 466.8)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">I</text>
+    <text x="248.6" y="467.9" transform="rotate(2.0 248.6 467.9)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">E</text>
+    <text x="263.4" y="467.9" transform="rotate(-2.0 263.4 467.9)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">L</text>
+    <text x="278.2" y="466.8" transform="rotate(-6.0 278.2 466.8)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">&#160;</text>
+    <text x="292.8" y="464.8" transform="rotate(-10.0 292.8 464.8)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">&amp;</text>
+    <text x="307.3" y="461.7" transform="rotate(-14.0 307.3 461.7)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">&#160;</text>
+    <text x="321.5" y="457.6" transform="rotate(-18.0 321.5 457.6)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">C</text>
+    <text x="335.4" y="452.6" transform="rotate(-22.0 335.4 452.6)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">Y</text>
+    <text x="348.9" y="446.5" transform="rotate(-26.0 348.9 446.5)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">B</text>
+    <text x="362.0" y="439.6" transform="rotate(-30.0 362.0 439.6)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">E</text>
+    <text x="374.5" y="431.8" transform="rotate(-34.0 374.5 431.8)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">R</text>
+    <text x="386.5" y="423.1" transform="rotate(-38.0 386.5 423.1)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">S</text>
+    <text x="397.9" y="413.5" transform="rotate(-42.0 397.9 413.5)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">É</text>
+    <text x="408.5" y="403.3" transform="rotate(-46.0 408.5 403.3)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">C</text>
+    <text x="418.4" y="392.3" transform="rotate(-50.0 418.4 392.3)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">U</text>
+    <text x="427.5" y="380.6" transform="rotate(-54.0 427.5 380.6)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">R</text>
+    <text x="435.8" y="368.3" transform="rotate(-58.0 435.8 368.3)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">I</text>
+    <text x="443.2" y="355.5" transform="rotate(-62.0 443.2 355.5)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">T</text>
+    <text x="449.7" y="342.2" transform="rotate(-66.0 449.7 342.2)" text-anchor="middle" dominant-baseline="central" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="23" font-weight="800" fill="#0b1d3a">É</text>
+  </g>
+  <text x="44" y="256" text-anchor="middle" dominant-baseline="central" font-size="26" fill="#0b1d3a">★</text>
+  <text x="468" y="256" text-anchor="middle" dominant-baseline="central" font-size="26" fill="#0b1d3a">★</text>
+
+  <!-- Médaillon central -->
+  <circle cx="256" cy="256" r="186" fill="#f7fafc"/>
+  <circle cx="256" cy="256" r="186" fill="none" stroke="#c9d9ef" stroke-width="2"/>
+
+  <!-- Circuits imprimés (gauche) -->
+  <g stroke="#2170e6" stroke-width="5" fill="none" stroke-linecap="round" opacity=".9">
+    <path d="M 92,205 H 150 V 235 H 178"/>
+    <path d="M 88,250 H 140 V 285 H 172"/>
+    <path d="M 92,295 H 150 V 320 H 168"/>
+  </g>
+  <g fill="#e8c766" stroke="#0b2b66" stroke-width="2">
+    <circle cx="92" cy="205" r="7"/>
+    <circle cx="178" cy="235" r="7"/>
+    <circle cx="88" cy="250" r="7"/>
+    <circle cx="172" cy="285" r="7"/>
+    <circle cx="92" cy="295" r="7"/>
+    <circle cx="168" cy="320" r="7"/>
+  </g>
+
+  <!-- Monogramme LC -->
+  <text x="252" y="312" text-anchor="middle" font-family="'Arial Black', Arial, sans-serif" font-size="158" font-weight="900" letter-spacing="-6" fill="url(#lc-blue)" stroke="#0b1d3a" stroke-width="2">LC</text>
+  <text x="252" y="312" text-anchor="middle" font-family="'Arial Black', Arial, sans-serif" font-size="158" font-weight="900" letter-spacing="-6" fill="none" stroke="#ffffff" stroke-width=".8" opacity=".55">LC</text>
+
+  <!-- Bouclier cybersécurité -->
+  <g>
+    <path d="M 318,228 L 356,242 V 272 C 356,296 339,312 318,320 C 297,312 280,296 280,272 V 242 Z" fill="#0f2c5c" stroke="url(#lc-gold)" stroke-width="4"/>
+    <rect x="308" y="264" width="20" height="17" rx="3.5" fill="#f4f8ff"/>
+    <path d="M 312,264 V 259 a 6,6 0 0 1 12,0 V 264" fill="none" stroke="#f4f8ff" stroke-width="3"/>
+    <circle cx="318" cy="272" r="2.4" fill="#0f2c5c"/>
+  </g>
+
+  <!-- Cloud -->
+  <g>
+    <ellipse cx="196" cy="128" rx="34" ry="20" fill="url(#lc-blue)"/>
+    <ellipse cx="222" cy="120" rx="24" ry="18" fill="url(#lc-blue)"/>
+    <ellipse cx="172" cy="122" rx="18" ry="14" fill="url(#lc-blue)"/>
+    <rect x="156" y="126" width="88" height="16" rx="8" fill="#2170e6"/>
+    <path d="M 200,124 V 106 M 193,112 L 200,104 L 207,112" stroke="#fff" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Badge code -->
+  <g>
+    <rect x="330" y="106" width="66" height="44" rx="8" fill="#0b1d3a" stroke="url(#lc-gold)" stroke-width="2.5"/>
+    <text x="363" y="136" text-anchor="middle" font-family="monospace" font-size="21" font-weight="700" fill="#dcebff">&lt;/&gt;</text>
+  </g>
+
+  <!-- Téléphone -->
+  <g>
+    <rect x="368" y="296" width="30" height="56" rx="7" fill="#0b1d3a" stroke="url(#lc-gold)" stroke-width="2.5"/>
+    <text x="383" y="330" text-anchor="middle" font-family="monospace" font-size="12" font-weight="700" fill="#dcebff">&lt;/&gt;</text>
+    <circle cx="383" cy="345" r="2" fill="#dcebff"/>
+  </g>
+
+  <!-- Flèche de croissance -->
+  <path d="M 372,214 L 402,184 M 372,214 L 372,196 M 372,214 L 390,214" stroke="url(#lc-blue)" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 388,178 L 410,176 L 406,198 Z" fill="#2170e6"/>
+
+  <!-- Téléphones -->
+  <text x="256" y="372" text-anchor="middle" font-family="Arial, sans-serif" font-size="13.5" font-weight="700" letter-spacing=".5" fill="#17458c">Tél : +241 62 641 120 / +241 77 022 306</text>
+</svg>
