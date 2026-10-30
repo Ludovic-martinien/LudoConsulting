@@ -14,7 +14,7 @@ export function MediaImage({ src, fallbackSrc, ...props }: Props) {
   const canUseWebp = src.includes(".webp");
   return (
     <picture>
-      {canUseWebp ? <source srcSet={src} type="image/webp" /> : null}
+      {canUseWebp ? <source srcSet={src} type="image/png" /> : null}
       <img src={canUseWebp ? fallback : src} {...props} />
     </picture>
   );
