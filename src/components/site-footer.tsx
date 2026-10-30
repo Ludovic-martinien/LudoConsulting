@@ -12,7 +12,7 @@ import type { SocialLink } from "@/lib/social";
 
 const MEMBER_ONLY_PATHS = ["/services", "/portfolio", "/pricing", "/training"];
 
-export function SiteFooter({ socials = [] }: { socials?: SocialLink[] }) {
+export function SiteFooter({ socials = [], siteLogo }: { socials?: SocialLink[]; siteLogo?: string | null }) {
   const pathname = usePathname();
   const { text } = useLanguage();
   const { member } = useMember();
@@ -22,7 +22,7 @@ export function SiteFooter({ socials = [] }: { socials?: SocialLink[] }) {
     <footer className="site-footer">
       <div className="footer-top">
         <div className="footer-brand">
-          <BrandLockup href="/" className="footer-brand-lockup" />
+          <BrandLockup href="/" className="footer-brand-lockup" src={siteLogo} />
           <p>{text(siteInfo.motto.fr, siteInfo.motto.en)}</p>
           <span className="footer-slogan">{text(siteInfo.slogan.fr, siteInfo.slogan.en)}</span>
         </div>

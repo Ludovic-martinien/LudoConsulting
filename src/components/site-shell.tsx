@@ -9,6 +9,6 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import type { SocialLink } from "@/lib/social";
 
-export function SiteShell({ children, socials }: { children: ReactNode; socials?: SocialLink[] }) {
-  return <LanguageProvider><MemberProvider><PwaRegister /><SiteHeader />{children}<SiteFooter socials={socials} /><MemberModal /><InstallPrompt /></MemberProvider></LanguageProvider>;
+export function SiteShell({ children, socials, siteLogo }: { children: ReactNode; socials?: SocialLink[]; siteLogo?: string | null }) {
+  return <LanguageProvider><MemberProvider><PwaRegister /><SiteHeader siteLogo={siteLogo} />{children}<SiteFooter socials={socials} siteLogo={siteLogo} /><MemberModal /><InstallPrompt /></MemberProvider></LanguageProvider>;
 }

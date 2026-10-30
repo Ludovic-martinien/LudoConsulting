@@ -27,6 +27,17 @@ export async function getProfilePhoto() {
   return "/images/responsable.webp";
 }
 
+export async function getSiteLogoUrl(): Promise<string | null> {
+  try {
+    const [uploaded] = await db.select({ updatedAt: uploadedImages.updatedAt }).from(uploadedImages)
+      .where(eq(uploadedImages.kind, "logo-site")).orderBy(desc(uploadedImages.updatedAt)).limit(1);
+    if (uploaded) return mediaUrl("logo-site", uploaded.updatedAt);
+  } catch {
+    /* Base injoignable : repli statique ci-dessous. */
+  }
+  return null;
+}
+
 export async function getProjectLogoUrls(): Promise<Partial<Record<MediaKind, string>>> {
   const versions = await getMediaVersions();
   const result: Partial<Record<MediaKind, string>> = {

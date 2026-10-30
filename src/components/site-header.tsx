@@ -37,7 +37,7 @@ function MemberChip() {
   );
 }
 
-export function SiteHeader() {
+export function SiteHeader({ siteLogo }: { siteLogo?: string | null }) {
   const pathname = usePathname();
   const { text } = useLanguage();
   const { member, openModal } = useMember();
@@ -49,7 +49,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="nav-wrap">
-        <BrandLockup motto onClick={() => setMenuOpen(false)} />
+        <BrandLockup motto onClick={() => setMenuOpen(false)} src={siteLogo} />
         <nav className={`primary-nav${menuOpen ? " is-open" : ""}`} aria-label={text("Navigation principale", "Main navigation")}>
           {visibleNav.map((item) => (
             <Link key={item.href} href={item.href} className={pathname === item.href ? "nav-link is-current" : "nav-link"} onClick={() => setMenuOpen(false)}>

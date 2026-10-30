@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-export function BrandLockup({ href = "/", motto = false, className = "", onClick }: { href?: string; motto?: boolean; className?: string; onClick?: () => void }) {
+export function BrandLockup({ href = "/", motto = false, className = "", onClick, src }: { href?: string; motto?: boolean; className?: string; onClick?: () => void; src?: string | null }) {
   return (
     <Link href={href} className={`brand-lockup ${className}`} aria-label="Ludo_Consulting — accueil" onClick={onClick}>
-      <img src="/brand/Ludo_Consulting.svg" alt="" width={44} height={44} className="brand-emblem" />
+      <img src={src || "/brand/Ludo_Consulting.svg"} alt="" width={44} height={44} className="brand-emblem" />
       <span className="brand-words">
         <span className="brand-name">LUDO<span>_</span>CONSULTING</span>
         {motto ? <span className="brand-motto">Innover · Développer · Réussir.</span> : null}
