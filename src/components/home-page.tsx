@@ -56,7 +56,7 @@ export function HomePage({ services, projects, skills, profilePhoto, profileName
             <div className="orbit orbit-two" /><div className="orbit" /><div className="orbit orbit-three" />
             <div className="hero-portrait-card">
               <MediaImage
-                src={profilePhoto || "/images/responsable.webp"}
+                src={profilePhoto || "/images/responsable.jpeg"}
                 alt={text(`Portrait de ${profileName}, responsable de Ludo_Consulting`, `Portrait of ${profileName}, Ludo_Consulting's lead`)}
                 className="hero-portrait-img"
                 loading="eager"
