@@ -45,7 +45,7 @@ export function AdminMedia({ versions }: { versions: MediaState }) {
     return <article className="media-card" key={definition.kind}>
       <h2>{definition.labelFr}</h2>
       <div className={`media-preview${definition.group === "profile" ? " is-portrait" : ""}`}>
-        {version ? <MediaImage src={mediaUrl(definition.kind, version)} fallbackSrc={definition.group === "profile" ? "/images/responsable.jpg" : undefined} alt={definition.labelFr} /> : <span>Emplacement réservé<br /><small>Aucun fichier officiel déposé</small></span>}
+        {version ? <MediaImage src={mediaUrl(definition.kind, version)} fallbackSrc={definition.group === "profile" ? "/images/profil/responsable.jpg" : undefined} alt={definition.labelFr} /> : <span>Emplacement réservé<br /><small>Aucun fichier officiel déposé</small></span>}
       </div>
       <p>{version ? `Version du ${new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(version))}` : "Le contenu public restera explicitement marqué « logo officiel à intégrer »."}</p>
       <input ref={(element) => { inputs.current[definition.kind] = element; }} type="file" accept="image/jpeg,image/png,image/webp" className="hidden-field" id={`file-${definition.kind}`} onChange={(event) => { const file = event.target.files?.[0]; if (file) void upload(definition.kind, file); event.target.value = ""; }} />

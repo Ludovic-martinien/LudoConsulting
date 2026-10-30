@@ -45,9 +45,8 @@ export async function POST(request: Request, context: { params: Promise<{ kind: 
           .resize({ width: 1400, withoutEnlargement: true })
           .jpeg({ quality: 86, mozjpeg: true })
           .toBuffer();
-        await fs.writeFile("public/images/responsable.webp", optimized);
-        await fs.writeFile("public/images/responsable.jpg", fallback);
-        await fs.writeFile("public/images/portrait.jpg", fallback);
+        await fs.writeFile("public/images/profil/responsable.webp", optimized);
+        await fs.writeFile("public/images/profil/responsable.jpg", fallback);
       } catch {
         // environnement en lecture seule : la base reste la source de vérité
       }

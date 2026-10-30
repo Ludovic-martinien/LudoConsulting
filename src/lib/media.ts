@@ -4,11 +4,18 @@ export type MediaKind =
   | "logo-ludoconnect"
   | "logo-safegabon"
   | "logo-taf-gab"
-  | "logo-edu-nify";
+  | "logo-edu-nify"
+  | "logo-edulink"
+  | "logo-dis-school"
+  | "app-edu-nify"
+  | "app-edulink"
+  | "app-ludoconnect"
+  | "app-dis-school"
+  | "visual-gestion";
 
 export type MediaDefinition = {
   kind: MediaKind;
-  group: "profile" | "logo";
+  group: "profile" | "logo" | "screenshot";
   labelFr: string;
   labelEn: string;
   maxBytes: number;
@@ -21,6 +28,13 @@ export const mediaKinds: MediaDefinition[] = [
   { kind: "logo-safegabon", group: "logo", labelFr: "Logo officiel — SafeGabon", labelEn: "Official logo — SafeGabon", maxBytes: 2 * 1024 * 1024 },
   { kind: "logo-taf-gab", group: "logo", labelFr: "Logo officiel — TAF-GAB 2.0", labelEn: "Official logo — TAF-GAB 2.0", maxBytes: 2 * 1024 * 1024 },
   { kind: "logo-edu-nify", group: "logo", labelFr: "Logo officiel — Edu-Nify", labelEn: "Official logo — Edu-Nify", maxBytes: 2 * 1024 * 1024 },
+  { kind: "logo-edulink", group: "logo", labelFr: "Logo officiel — EduLink", labelEn: "Official logo — EduLink", maxBytes: 2 * 1024 * 1024 },
+  { kind: "logo-dis-school", group: "logo", labelFr: "Logo officiel — Dis'School", labelEn: "Official logo — Dis'School", maxBytes: 2 * 1024 * 1024 },
+  { kind: "app-edu-nify", group: "screenshot", labelFr: "Capture — application Edu-Nify", labelEn: "Screenshot — Edu-Nify app", maxBytes: 5 * 1024 * 1024 },
+  { kind: "app-edulink", group: "screenshot", labelFr: "Capture — application EduLink", labelEn: "Screenshot — EduLink app", maxBytes: 5 * 1024 * 1024 },
+  { kind: "app-ludoconnect", group: "screenshot", labelFr: "Capture — application LudoConnect", labelEn: "Screenshot — LudoConnect app", maxBytes: 5 * 1024 * 1024 },
+  { kind: "app-dis-school", group: "screenshot", labelFr: "Capture — application Dis'School", labelEn: "Screenshot — Dis'School app", maxBytes: 5 * 1024 * 1024 },
+  { kind: "visual-gestion", group: "screenshot", labelFr: "Visuel — Gestion commerciale", labelEn: "Visual — Business management", maxBytes: 5 * 1024 * 1024 },
 ];
 
 export const mediaKindValues = mediaKinds.map((item) => item.kind);

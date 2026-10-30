@@ -295,6 +295,7 @@ export async function ensureSeedData() {
         status: "to-confirm",
         role: "",
         technologies: ["React", "TypeScript", "Vite", "Tailwind CSS", "Supabase", "PWA", "Vercel"],
+        mainImageUrl: "/brand/projects/edu-nify.webp",
         displayOrder: 1,
         isPublished: true,
       },
@@ -415,7 +416,7 @@ export async function ensureEdulinkProject() {
 
   await db.update(profiles).set({
     logoUrl: "/brand/ludo-consulting.svg",
-    profileImageUrl: "/images/responsable.webp",
+    profileImageUrl: "/images/profil/responsable.webp",
   }).where(eq(profiles.id, 1));
   globalForSeed.__ludoEdulinkSeeded = true;
 }
