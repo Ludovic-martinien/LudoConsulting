@@ -1,14 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Bot, Code2, GraduationCap, Lock, MessageCircle } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Bot, Code2, GraduationCap, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/components/language-provider";
-import { useMember } from "@/components/member-provider";
 import { siteInfo, serviceQuoteMessage } from "@/lib/site";
 import { ProjectCard, ServiceCard } from "@/components/content-cards";
-import { MemberSection } from "@/components/member-section";
 import { ResponsibleSection } from "@/components/responsible-section";
 import { MediaImage } from "@/components/media-image";
+import { MemberOnly, openAuth } from "@/components/member-auth";
 
 type HomeService = { titleFr: string; titleEn: string; descriptionFr: string; descriptionEn: string; slug: string; icon: string; priceLabelFr: string; priceLabelEn: string };
 type HomeProject = { titleFr: string; titleEn: string; slug: string; shortDescriptionFr: string; shortDescriptionEn: string; status: string; technologies: string[]; categoryFr: string; categoryEn: string; coverImageUrl: string | null };
@@ -24,23 +23,8 @@ const processSteps = [
   { fr: "Assistance & évolution", en: "Support & evolution", copyFr: "Selon le contrat, nous pouvons vous accompagner dans la suite.", copyEn: "Further support can be arranged according to the agreement." },
 ];
 
-function LockedContent({ titleFr, titleEn, copyFr, copyEn, highlight }: { titleFr: string; titleEn: string; copyFr: string; copyEn: string; highlight: string }) {
-  const { text } = useLanguage();
-  const { openModal } = useMember();
-  return (
-    <div className="locked-teaser">
-      <span className="locked-icon"><Lock size={22} /></span>
-      <h3>{text(titleFr, titleEn)}</h3>
-      <p>{text(copyFr, copyEn)}</p>
-      <span className="locked-count">{highlight}</span>
-      <button type="button" className="button button-primary" onClick={openModal}>{text("Se connecter pour découvrir", "Sign in to explore")} <ArrowUpRight size={15} /></button>
-    </div>
-  );
-}
-
 export function HomePage({ services, projects, skills, profilePhoto, profileName, profileTitle }: { services: HomeService[]; projects: HomeProject[]; skills: HomeSkill[]; profilePhoto: string | null; profileName: string; profileTitle: string }) {
   const { text, locale } = useLanguage();
-  const { member } = useMember();
   return (
     <main>
       <section className="hero">
@@ -56,7 +40,7 @@ export function HomePage({ services, projects, skills, profilePhoto, profileName
             <div className="orbit orbit-two" /><div className="orbit" /><div className="orbit orbit-three" />
             <div className="hero-portrait-card">
               <MediaImage
-                src={profilePhoto || "/images/responsable.jpeg"}
+                src={profilePhoto || "/images/profil/responsable.webp"}
                 alt={text(`Portrait de ${profileName}, responsable de Ludo_Consulting`, `Portrait of ${profileName}, Ludo_Consulting's lead`)}
                 className="hero-portrait-img"
                 loading="eager"
@@ -82,18 +66,18 @@ export function HomePage({ services, projects, skills, profilePhoto, profileName
 
       <ResponsibleSection photo={profilePhoto} fullName={profileName} professionalTitle={profileTitle} />
 
-      <MemberSection />
+      <section className="section services-section"><div className="section-inner"><div className="section-heading"><span className="eyebrow">{text("Ce que nous faisons", "What we do")}</span><h2 className="section-title">{text("Des services concrets pour avancer dans le numérique.", "Practical services to move forward with digital.")}</h2><p className="section-copy">{text("Du développement à la formation, nous vous aidons à choisir la bonne prochaine étape.", "From development to training, we help you choose the right next step.")}</p></div><div className="services-grid">{services.map((service) => <ServiceCard key={service.slug} service={service} />)}</div><div className="services-bottom"><p className="price-disclaimer">{text(serviceQuoteMessage.fr, serviceQuoteMessage.en)}</p><Link href="/pricing" className="text-link">{text("Consulter les tarifs", "See pricing")} <ArrowRight size={15} /></Link></div></div></section>
 
-      <section className="section services-section"><div className="section-inner"><div className="section-heading"><span className="eyebrow">{text("Ce que nous faisons", "What we do")}</span><h2 className="section-title">{text("Des services concrets pour avancer dans le numérique.", "Practical services to move forward with digital.")}</h2><p className="section-copy">{text("Du développement à la formation, nous vous aidons à choisir la bonne prochaine étape.", "From development to training, we help you choose the right next step.")}</p></div>{member ? (<><div className="services-grid">{services.map((service) => <ServiceCard key={service.slug} service={service} />)}</div><div className="services-bottom"><p className="price-disclaimer">{text(serviceQuoteMessage.fr, serviceQuoteMessage.en)}</p><Link href="/pricing" className="text-link">{text("Consulter les tarifs", "See pricing")} <ArrowRight size={15} /></Link></div></>) : (<LockedContent titleFr="Nos 8 domaines réservés aux membres" titleEn="Our 8 member-only areas" copyFr="Connectez-vous pour découvrir nos services, leurs prestations et leurs tarifs." copyEn="Sign in to explore our services, their deliverables and pricing." highlight={`08 ${text("domaines", "areas")}`} />)}</div></section>
-
-      <section className="section project-section"><div className="section-inner"><div className="section-heading"><span className="eyebrow">{text("Projets & réalisations", "Projects & work")}</span><h2 className="section-title">{text("Des idées numériques, présentées avec transparence.", "Digital ideas, presented transparently.")}</h2><p className="section-copy">{text("Les statuts affichés reflètent les informations disponibles. Les fonctionnalités dont la disponibilité n'est pas confirmée sont signalées comme envisagées.", "Statuses reflect the information currently available. Features whose availability is unconfirmed are labelled as planned.")}</p></div>{member ? (<><div className="projects-grid projects-grid-three">{projects.map((project) => <ProjectCard key={project.slug} project={project} />)}</div><div style={{ marginTop: 27 }}><Link className="text-link" href="/portfolio">{text("Voir le portfolio", "View portfolio")} <ArrowRight size={15} /></Link></div></>) : (<LockedContent titleFr="Nos réalisations réservées aux membres" titleEn="Our member-only work" copyFr="Connectez-vous pour explorer nos projets, leurs technologies et leurs statuts." copyEn="Sign in to explore our projects, their technologies and statuses." highlight={`${projects.length.toString().padStart(2, "0")} ${text("projets", "projects")}`} />)}</div></section>
+      <section className="section project-section"><div className="section-inner"><div className="section-heading"><span className="eyebrow">{text("Projets & réalisations", "Projects & work")}</span><h2 className="section-title">{text("Des idées numériques, présentées avec transparence.", "Digital ideas, presented transparently.")}</h2><p className="section-copy">{text("Les statuts affichés reflètent les informations disponibles. Les fonctionnalités dont la disponibilité n'est pas confirmée sont signalées comme envisagées.", "Statuses reflect the information currently available. Features whose availability is unconfirmed are labelled as planned.")}</p></div><div className="projects-grid projects-grid-three">{projects.map((project) => <ProjectCard key={project.slug} project={project} />)}</div><div style={{ marginTop: 27 }}><Link className="text-link" href="/portfolio">{text("Voir le portfolio", "View portfolio")} <ArrowRight size={15} /></Link></div></div></section>
 
       <section className="section process-section"><div className="section-inner"><div className="section-heading"><span className="eyebrow">{text("Une collaboration claire", "A clear collaboration")}</span><h2 className="section-title">{text("Du besoin à la solution, avec méthode.", "From need to solution, with a clear process.")}</h2><p className="section-copy">{text("Chaque collaboration est définie selon le projet et les modalités convenues.", "Every collaboration is shaped around the project and agreed terms.")}</p></div><div className="process-grid">{processSteps.map((step) => <article className="process-step" key={step.fr}><h3>{text(step.fr, step.en)}</h3><p>{text(step.copyFr, step.copyEn)}</p></article>)}</div></div></section>
 
       <section className="section" style={{ paddingBottom: 80 }}><div className="section-inner"><div className="section-heading"><span className="eyebrow">{text("Expertises", "Expertise")}</span><h2 className="section-title">{text("Des savoir-faire au croisement des outils et des usages.", "Skills where tools meet real-world use.")}</h2></div><div className="skills-strip">{skills.map((skill) => <span className="skill-chip" key={skill.nameFr}>{text(skill.nameFr, skill.nameEn)}</span>)}</div><div style={{ marginTop: 24 }}><Link className="text-link" href="/skills">{text("Découvrir les compétences", "Explore skills")} <ArrowRight size={15} /></Link></div></div></section>
 
+      <section className="member-band"><div className="member-inner"><div><span className="eyebrow">{text("Espace membre", "Member area")}</span><h2>{text("Créez votre compte en une minute.", "Create your account in one minute.")}</h2><p>{text("Inscrivez-vous avec Google ou votre e-mail pour suivre vos demandes de devis et rester en contact avec Ludo_Consulting.", "Sign up with Google or your email to track your quote requests and stay in touch with Ludo_Consulting.")}</p></div><div className="member-actions"><button type="button" className="button button-primary" onClick={() => openAuth("signup")}>{text("Créer un compte", "Create an account")} <ArrowUpRight size={16} /></button><button type="button" className="button button-outline" onClick={() => openAuth("login")}>{text("Se connecter", "Sign in")}</button></div></div></section>
+
       <section className="cta-band"><div className="cta-inner"><div><span className="eyebrow">{text("Parlons de votre projet", "Let's talk about your project")}</span><h2>{text("Vous avez une idée ? Construisons la suite ensemble.", "Have an idea? Let's build what comes next.")}</h2><p>{text("Présentez-nous votre besoin. Nous prendrons le temps d'en discuter et de proposer une approche adaptée.", "Tell us what you need. We will take time to discuss it and suggest an approach that fits.")}</p></div><Link href="/quote" className="button">{text("Démarrer un projet", "Start a project")} <ArrowUpRight size={16} /></Link></div></section>
-      {member && <a className="floating-whatsapp" href={siteInfo.whatsappCatalog} aria-label={text("Ouvrir le catalogue WhatsApp de Ludo_Consulting", "Open the Ludo_Consulting WhatsApp catalogue")} target="_blank" rel="noreferrer"><MessageCircle size={21} /><span>{text("Catalogue WhatsApp", "WhatsApp catalogue")}</span></a>}
+      <MemberOnly><a className="floating-whatsapp" href={siteInfo.whatsappCatalog} aria-label={text("Ouvrir le catalogue WhatsApp de Ludo_Consulting", "Open the Ludo_Consulting WhatsApp catalogue")} target="_blank" rel="noreferrer"><MessageCircle size={21} /><span>{text("Catalogue WhatsApp", "WhatsApp catalogue")}</span></a></MemberOnly>
     </main>
   );
 }
