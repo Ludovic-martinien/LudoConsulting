@@ -10,17 +10,17 @@ export async function getMediaVersions() {
 }
 
 export async function getProfilePhoto() {
-  return "/images/responsable.webp";
+  return "/images/profil/responsable.webp";
 }
 
 export async function getProjectLogoUrls(): Promise<Partial<Record<MediaKind, string>>> {
   const versions = await getMediaVersions();
   const result: Partial<Record<MediaKind, string>> = {
-    "logo-hydro-track": "/images/logo-hydro-track.webp",
-    "logo-taf-gab": "/images/logo-taf-gab.webp",
-    "logo-safegabon": "/images/logo-safegabon.webp",
-    "logo-edu-nify": "/images/logo-edunify.webp",
-    "logo-ludoconnect": "/images/logo-ludoconnect.webp",
+    "logo-hydro-track": "/brand/projects/hydro-track.webp",
+    "logo-taf-gab": "/brand/projects/taf-gab-2.0.webp",
+    "logo-safegabon": "/brand/projects/safegabon.webp",
+    "logo-edu-nify": "/brand/projects/edu-nify.webp",
+    "logo-ludoconnect": "/brand/projects/ludoconnect.webp",
   };
   for (const [kind, updatedAt] of versions) {
     if (kind.startsWith("logo-")) result[kind as MediaKind] = mediaUrl(kind as MediaKind, updatedAt);
