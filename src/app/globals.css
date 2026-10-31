@@ -1092,3 +1092,14 @@ picture { display: contents; }
 @media (max-width: 1100px) {
   .footer-top { grid-template-columns: 1fr 1fr; gap: 35px 24px; }
 }
+
+/* Cahiers des charges : visionneuse */
+.document-viewer { display: grid; gap: 14px; }
+.document-meta { display: flex; flex-wrap: wrap; gap: 8px 22px; padding: 15px 18px; border: 1px solid var(--line); border-radius: 14px; background: #fff; font-size: 12px; color: #64746a; }
+.document-meta strong { color: var(--green-dark); }
+.document-frame { width: 100%; height: min(78vh, 860px); min-height: 420px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+.switch-label { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 12px; color: #53645a; }
+.switch-label input { width: 18px; height: 18px; accent-color: var(--green); cursor: pointer; }
+@media (max-width: 680px) {
+  .document-frame { min-height: 360px; }
+}

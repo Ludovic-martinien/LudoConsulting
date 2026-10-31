@@ -312,6 +312,21 @@ export const memberLoginEvents = pgTable("member_login_events", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 }, (table) => [index("member_login_events_user_idx").on(table.userId, table.createdAt)]);
 
+export const projectDocuments = pgTable("project_documents", {
+  id: serial("id").primaryKey(),
+  titleFr: varchar("title_fr", { length: 240 }).notNull(),
+  titleEn: varchar("title_en", { length: 240 }).notNull().default(""),
+  projectSlug: varchar("project_slug", { length: 180 }),
+  fileName: varchar("file_name", { length: 240 }).notNull(),
+  mimeType: varchar("mime_type", { length: 80 }).notNull(),
+  dataBase64: text("data_base64").notNull(),
+  sizeBytes: integer("size_bytes").notNull(),
+  displayOrder: integer("display_order").notNull().default(0),
+  isPublished: boolean("is_published").notNull().default(true),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [index("project_documents_published_idx").on(table.isPublished, table.displayOrder)]);
+
 export const testimonials = pgTable("testimonials", {
   id: serial("id").primaryKey(),
   author: varchar("author", { length: 180 }).notNull(),

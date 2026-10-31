@@ -26,7 +26,7 @@ export function SiteFooter({ socials = [], siteLogo }: { socials?: SocialLink[];
           <p>{text(siteInfo.motto.fr, siteInfo.motto.en)}</p>
           <span className="footer-slogan">{text(siteInfo.slogan.fr, siteInfo.slogan.en)}</span>
         </div>
-        <div className="footer-links-col"><h3>{text("Explorer", "Explore")}</h3>{visibleNav.map((item) => <Link key={item.href} href={item.href}>{text(item.fr, item.en)}</Link>)}<Link href="/presentation">{text("Présentation des projets", "Project presentation")}</Link></div>
+        <div className="footer-links-col"><h3>{text("Explorer", "Explore")}</h3>{visibleNav.map((item) => <Link key={item.href} href={item.href}>{text(item.fr, item.en)}</Link>)}<Link href="/presentation">{text("Présentation des projets", "Project presentation")}</Link>{member && <Link href="/cahiers-des-charges">{text("Cahiers des charges", "Specifications")}</Link>}</div>
         <div className="footer-links-col"><h3>{text("Contact", "Contact")}</h3><a href={`mailto:${siteInfo.email}`}><Mail size={15} /> {siteInfo.email}</a>{siteInfo.phones.map((phone, index) => <a key={phone} href={`tel:${siteInfo.phoneLinks[index]}`}><Phone size={15} /> {phone}</a>)}<a href={siteInfo.whatsappCatalog} target="_blank" rel="noreferrer">{text("Catalogue WhatsApp", "WhatsApp catalogue")} <ArrowUpRight size={14} /></a></div>
         {socials.length > 0 && (
           <div className="footer-links-col footer-social-col">

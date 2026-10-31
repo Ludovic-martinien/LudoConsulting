@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  ArrowUpRight, BarChart3, Bell, Inbox, LayoutDashboard, LogOut, Menu,
+  ArrowUpRight, BarChart3, Bell, FileText, Inbox, LayoutDashboard, LogOut, Menu,
   Search, ShieldCheck, Activity, UserRound, Users, X,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
@@ -13,6 +13,7 @@ import { BrandLockup } from "@/components/brand";
 const links = [
   { href: "/admin", label: "Tableau de bord", icon: LayoutDashboard, roles: ["admin", "editor", "sales"] },
   { href: "/admin/members", label: "Utilisateurs", icon: Users, roles: ["admin"] },
+  { href: "/admin/documents", label: "Cahiers des charges", icon: FileText, roles: ["admin", "editor"] },
   { href: "/admin/roles", label: "Rôles", icon: ShieldCheck, roles: ["admin"] },
   { href: "/admin/activity", label: "Activités", icon: Activity, roles: ["admin", "editor", "sales"] },
   { href: "/admin/stats", label: "Statistiques", icon: BarChart3, roles: ["admin", "editor", "sales"] },

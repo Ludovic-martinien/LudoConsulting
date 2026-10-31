@@ -28,6 +28,9 @@ export const ACTION_LABELS: Record<string, { fr: string; en: string }> = {
   "article.delete": { fr: "Suppression d'un article", en: "Article deleted" },
   "media.upload": { fr: "Téléversement d'un média", en: "Media uploaded" },
   "media.delete": { fr: "Suppression d'un média", en: "Media deleted" },
+  "document.upload": { fr: "Téléversement d'un cahier des charges", en: "Specification uploaded" },
+  "document.update": { fr: "Modification d'un cahier des charges", en: "Specification updated" },
+  "document.delete": { fr: "Suppression d'un cahier des charges", en: "Specification deleted" },
 };
 
 export function actionLabel(action: string, locale: "fr" | "en") {

@@ -34,6 +34,12 @@ Les images jointes à une conversation ne sont pas accessibles comme fichiers du
 
 Les fichiers sont stockés dans la table `uploaded_images` et servis par `/api/media/[kind]` avec un en-tête `X-Content-Type-Options: nosniff`. Les SVG ne sont pas acceptés en téléversement (risque d'exécution de script) : pour un logo vectoriel, placer le fichier dans `public/brand/projects/` et référencer son chemin dans le code.
 
+**Cahiers des charges** (`/cahiers-des-charges`, réservé aux membres) : l'admin téléverse
+des PDF depuis son appareil (`/admin/documents`, 4 Mo max, signature `%PDF-` vérifiée,
+table `project_documents`). Les membres consultent en ligne (visionneuse intégrée) ou
+téléchargent. Le fichier lui-même exige une session membre ou staff (`401` sinon) et
+les brouillons restent invisibles aux membres.
+
 **Réseaux sociaux du pied de page** : colonne « Suivez-nous » alimentée par la table
 `social_links` (GitHub, Facebook, chaîne WhatsApp, LinkedIn, TikTok, Telegram, Discord —
 URL nettoyées de tout paramètre de suivi). Chaque réseau utilise son **icône officielle**
