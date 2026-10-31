@@ -31,7 +31,8 @@ export function SiteFooter({ socials = [], siteLogo }: { socials?: SocialLink[];
         {socials.length > 0 && (
           <div className="footer-links-col footer-social-col">
             <h3>{text("Suivez-nous", "Follow us")}</h3>
-            <div className="social-buttons">
+            <p className="footer-social-note">{text("Nos réseaux officiels", "Our official channels")}</p>
+            <div className="social-buttons" role="list">
               {socials.map((item) => isSocialPlatform(item.platform) ? (
                 <a
                   key={item.platform}

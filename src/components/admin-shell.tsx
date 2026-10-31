@@ -9,6 +9,7 @@ import {
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import type { AdminRole } from "@/lib/auth";
 import { BrandLockup } from "@/components/brand";
+import { AutoRefresh } from "@/lib/auto-refresh";
 
 const links = [
   { href: "/admin", label: "Tableau de bord", icon: LayoutDashboard, roles: ["admin", "editor", "sales"] },
@@ -206,6 +207,7 @@ export function AdminShell({ children, email, role }: { children: ReactNode; ema
           </div>
         </header>
         <div className="admin-content-wrap">{children}</div>
+        <AutoRefresh intervalMs={60_000} />
       </div>
     </div>
   );
