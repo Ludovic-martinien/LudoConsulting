@@ -5,6 +5,7 @@ import { memberUsers } from "@/db/schema";
 import { cleanText, publicRateLimit, sameOrigin, validEmail } from "@/lib/request-guard";
 import { createMemberSession, hashPassword, isSecureRequest, logMemberEvent, memberCookieOptions } from "@/lib/member-auth";
 import { logEvent } from "@/lib/activity";
+import { ensureMigrations } from "@/lib/migrate";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +14,8 @@ export async function POST(request: Request) {
   const limit = publicRateLimit(request, "member-register", 5);
   if (!limit.allowed) return Response.json({ error: "Trop de tentatives. Réessayez dans quelques minutes." }, { status: 429, headers: { "Retry-After": String(limit.retryAfter) } });
   try {
+    // Crée les tables si la base est neuve (Neon/Vercel) : idempotent.
+    await ensureMigrations();
     const body = await request.json() as Record<string, unknown>;
     if (cleanText(body.website, 180)) return Response.json({ error: "Impossible de traiter ce formulaire." }, { status: 400 });
     const name = cleanText(body.name, 180);
@@ -32,8 +35,13 @@ export async function POST(request: Request) {
         name, email, passwordHash: hashPassword(password), consent: true, emailVerified: false,
       }).returning({ id: memberUsers.id });
       userId = created.id;
-    } catch {
-      return Response.json({ error: "Un compte existe déjà avec cette adresse e-mail. Connectez-vous plutôt." }, { status: 409 });
+    } catch (insertError) {
+      const code = (insertError as { code?: string } | null)?.code;
+      if (code === "23505") {
+        return Response.json({ error: "Un compte existe déjà avec cette adresse e-mail. Connectez-vous plutôt." }, { status: 409 });
+      }
+      console.error("Inscription : écriture impossible —", insertError instanceof Error ? insertError.message : insertError);
+      return Response.json({ error: "Le service d'inscription est momentanément indisponible. Réessayez dans quelques minutes." }, { status: 503 });
     }
     const { token } = await createMemberSession(userId);
     await logMemberEvent(userId, "register", request);
@@ -41,7 +49,8 @@ export async function POST(request: Request) {
     const response = NextResponse.json({ ok: true, member: { id: userId, name, email, image: null } }, { status: 201 });
     response.cookies.set("ludo_member_session", token, memberCookieOptions(isSecureRequest(request)));
     return response;
-  } catch {
-    return Response.json({ error: "L'inscription n'a pas pu être enregistrée. Réessayez plus tard." }, { status: 500 });
+  } catch (error) {
+    console.error("Inscription : erreur serveur —", error instanceof Error ? error.message : error);
+    return Response.json({ error: "Le service d'inscription est momentanément indisponible. Réessayez dans quelques minutes." }, { status: 503 });
   }
 }

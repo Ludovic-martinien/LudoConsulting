@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { logEvent } from "@/lib/activity";
+import { ensureMigrations } from "@/lib/migrate";
 import { quoteRequests, services } from "@/db/schema";
 import { cleanText, publicRateLimit, sameOrigin, validEmail } from "@/lib/request-guard";
 
@@ -13,6 +14,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json() as Record<string, unknown>;
     if (cleanText(body.website, 180)) return Response.json({ error: "Impossible de traiter ce formulaire." }, { status: 400 });
+    await ensureMigrations();
     const name = cleanText(body.name, 180);
     const email = cleanText(body.email, 254).toLowerCase();
     const phone = cleanText(body.phone, 50);
